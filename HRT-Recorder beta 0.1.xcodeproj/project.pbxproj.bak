@@ -6,16 +6,7 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		550EBB5E2ECEE3B500D3C38A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 550EBB4C2ECEE3B500D3C38A /* README.md */; };
-		550EBB5F2ECEE3B500D3C38A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 550EBB4E2ECEE3B500D3C38A /* Assets.xcassets */; };
-		550EBB602ECEE3B500D3C38A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 550EBB4F2ECEE3B500D3C38A /* Localizable.xcstrings */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
-		550EBB4C2ECEE3B500D3C38A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		550EBB4E2ECEE3B500D3C38A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		550EBB4F2ECEE3B500D3C38A /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		BC8CFC772E89683D009EE2B1 /* HRT-Recorder beta 0.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HRT-Recorder beta 0.1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -43,9 +34,6 @@
 			children = (
 				BC8CFC792E89683D009EE2B1 /* HRT-Recorder beta 0.1 */,
 				BC8CFC782E89683D009EE2B1 /* Products */,
-				550EBB4E2ECEE3B500D3C38A /* Assets.xcassets */,
-				550EBB4F2ECEE3B500D3C38A /* Localizable.xcstrings */,
-				550EBB4C2ECEE3B500D3C38A /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,9 +110,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				550EBB5E2ECEE3B500D3C38A /* README.md in Resources */,
-				550EBB5F2ECEE3B500D3C38A /* Assets.xcassets in Resources */,
-				550EBB602ECEE3B500D3C38A /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

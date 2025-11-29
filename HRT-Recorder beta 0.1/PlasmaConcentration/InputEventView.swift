@@ -293,6 +293,21 @@ struct InputEventView: View {
                 }
             }
         }
+        // When the sheet/view appears, set focus to the most relevant field so the keyboard shows automatically.
+        .onAppear {
+            // Only auto-focus when creating a new event (draft.id == nil). When editing, avoid forcing focus.
+            guard draft.id == nil else { return }
+            DispatchQueue.main.async {
+                if draft.route == .patchApply {
+                    focusedField = (draft.patchMode == .totalDose) ? .patchTotal : .patchRelease
+                } else if draft.ester != .E2 {
+                    // Prefer focusing raw ester input when it's available
+                    focusedField = .raw
+                } else {
+                    focusedField = .e2
+                }
+            }
+        }
     }
 
     // MARK: - Conversion Logic

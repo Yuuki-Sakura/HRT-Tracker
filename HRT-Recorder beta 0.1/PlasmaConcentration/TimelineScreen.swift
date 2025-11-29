@@ -248,8 +248,8 @@ private func groupEventsByDay(_ events: [DoseEvent]) -> [DayGroup] {
 // New: dedicated weight editor view used by the sheet above
 struct WeightEditorView: View {
     @State private var tempWeight: Double
-    @FocusState private var fieldFocused: Bool
     @State private var weightText: String
+    @FocusState private var fieldFocused: Bool
 
     // keep original for change detection
     private let originalWeight: Double
@@ -269,9 +269,6 @@ struct WeightEditorView: View {
     private var isDirty: Bool { roundedTemp != originalWeight }
 
     var body: some View {
-        // High-level layout: centered big number with minus/plus at left/right,
-        // helper text under the number, editable text field for precise entry,
-        // and a Save button pinned to the bottom of the sheet.
         VStack(spacing: 16) {
             Spacer(minLength: 20)
 
@@ -288,28 +285,37 @@ struct WeightEditorView: View {
                         .accessibilityLabel(Text("common.decrease"))
                 }
 
-                // Large number + unit
-                VStack(spacing: 4) {
-                    Text(String(format: "%.1f", roundedTemp))
-                        .font(.system(size: 56, weight: .bold, design: .default))
-                        .minimumScaleFactor(0.5)
-                        .accessibilityLabel(Text("timeline.bodyWeight.accessibility.value"))
-                        .onTapGesture { fieldFocused = true }
+                // Number + unit
+                VStack(spacing: 6) {
+                    ZStack {
+                        Text(String(format: "%.1f", roundedTemp))
+                            .font(.system(size: 56, weight: .bold, design: .default))
+                            .minimumScaleFactor(0.5)
+                            .accessibilityLabel(Text("timeline.bodyWeight.accessibility.value"))
+                            .onTapGesture { fieldFocused = true }
+                            .offset(y: 2)
 
-                    TextField("", text: $weightText)
-                        .keyboardType(.decimalPad)
-                        .submitLabel(.done)
-                        .focused($fieldFocused)
-                        .onChange(of: weightText) { newValue in
-                            let sanitized = newValue.replacingOccurrences(of: ",", with: ".")
-                            if let value = Double(sanitized) {
-                                tempWeight = min(max(value, 30.0), 200.0)
+                        // Invisible TextField to receive input
+                        TextField("", text: $weightText)
+                            .keyboardType(.decimalPad)
+                            .submitLabel(.done)
+                            .focused($fieldFocused)
+                            .onSubmit { fieldFocused = false }
+                            .onChange(of: weightText) { _old, newValue in
+                                let sanitized = newValue.replacingOccurrences(of: ",", with: ".")
+                                if sanitized.isEmpty {
+                                    tempWeight = 0.0
+                                } else if let value = Double(sanitized) {
+                                    tempWeight = value
+                                }
                             }
-                        }
-                        .opacity(0.01)
-                        .frame(width: 1, height: 1)
-                        .accessibilityHidden(true)
+                            .opacity(0.01)
+                            .frame(width: 140, height: 44)
+                            .accessibilityHidden(true)
+                    }
+                    .frame(height: 56)
 
+                    // Unit placed under the number (previous helper area)
                     Text("timeline.bodyWeight.unit")
                         .font(.title3)
                         .foregroundColor(.secondary)
@@ -329,13 +335,6 @@ struct WeightEditorView: View {
             }
             .padding(.horizontal)
 
-            // Helper text
-            Text("timeline.bodyWeight.help")
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-
             Spacer()
         }
         .padding()
@@ -346,35 +345,52 @@ struct WeightEditorView: View {
                 Button("common.cancel") { onCancel() }
             }
 
+            // Save in navigation bar trailing
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    let clamped = min(max(roundedTemp, 30.0), 200.0)
+                    onSave(clamped)
+                }) {
+                    Text("common.save")
+                }
+                .disabled(!isDirty)
+                .buttonStyle(.borderedProminent)
+                .tint(.pink)
+            }
+
             // Keep keyboard Done button
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
                 Button("common.done") { fieldFocused = false }
             }
         }
-        // Pin Save button to the bottom using safeAreaInset so it stays visually separated
+        // Helper text moved to bottom safe area
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 8) {
                 Divider()
-                Button(action: {
-                    onSave(roundedTemp)
-                }) {
-                    Text("common.save")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                }
-                .disabled(!isDirty)
-                .buttonStyle(.borderedProminent)
-                .tint(.pink)
-                .controlSize(.large)
-                .padding(.horizontal)
-                // add a little bottom padding to account for home indicator
-                .padding(.bottom, 8)
+                Text("timeline.bodyWeight.help")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                    .padding(.bottom, 6)
             }
             .background(Color(UIColor.systemBackground))
         }
-        .onChange(of: tempWeight) { _ in
-            weightText = String(format: "%.1f", locale: Locale.current, roundedTemp)
+        // Sync textual representation when not editing
+        .onChange(of: tempWeight) { _old, _new in
+            if !fieldFocused {
+                weightText = String(format: "%.1f", locale: Locale.current, roundedTemp)
+            }
+        }
+        // When editing finishes, clamp and format
+        .onChange(of: fieldFocused) { _old, focused in
+            if !focused {
+                let clamped = min(max(tempWeight, 30.0), 200.0)
+                tempWeight = clamped
+                let rounded = (clamped * 10).rounded() / 10
+                weightText = String(format: "%.1f", locale: Locale.current, rounded)
+            }
         }
     }
 }

@@ -1,11 +1,11 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%lld" : {
-      "shouldTranslate" : false
+    "" : {
+
     },
-    "00" : {
-      "shouldTranslate" : false
+    "chart.accessibility" : {
+
     },
     "chart.axis.conc" : {
       "comment" : "Y-axis label",
@@ -569,6 +569,22 @@
         }
       }
     },
+    "input.sublingual.instructions" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "While holding the tablet for the suggested time, try to swallow as little saliva as possible and continue holding the dissolved saliva even after the tablet fully melts until you reach your target time."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按照建议的含服时间尽量少吞咽口水，并且在药物完全溶解后也继续含着溶解药物的唾液直至达到自己的目标时间。"
+          }
+        }
+      }
+    },
     "input.sublingual.quick" : {
       "localizations" : {
         "en" : {
@@ -630,22 +646,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "建议含服约 %.0f 分钟，θ≈%.2f"
-          }
-        }
-      }
-    },
-    "input.sublingual.instructions" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "While holding the tablet for the suggested time, try to swallow as little saliva as possible and continue holding the dissolved saliva even after the tablet fully melts until you reach your target time."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按照建议的含服时间尽量少吞咽口水，并且在药物完全溶解后也继续含着溶解药物的唾液直至达到自己的目标时间。"
           }
         }
       }

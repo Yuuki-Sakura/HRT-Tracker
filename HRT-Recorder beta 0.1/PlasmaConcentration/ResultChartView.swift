@@ -16,14 +16,14 @@ struct ResultChartView: View {
     @State private var visibleDomainLength: Double = 48
     @Environment(\.horizontalSizeClass) var sizeClass
     @State private var now: Date = Date()
-    @State private var scrollPosition: Date?
+    @State private var scrollPosition: Date = Date()
     private let timer = Timer.publish(every: 60, tolerance: 5, on: .main, in: .common).autoconnect()
 
     private var currentConcentrationText: String {
         let currentHour = now.timeIntervalSince1970 / 3600.0
         if let value = sim.concentration(at: currentHour) {
             let formatted = value.formatted(.number.precision(.fractionLength(1)))
-            return String(format: NSLocalizedString("chart.currentConc.value", comment: "Current concentration label"), locale: Locale.current, formatted)
+            return String.localizedStringWithFormat(NSLocalizedString("chart.currentConc.value", comment: "Current concentration label"), formatted)
         } else {
             return NSLocalizedString("chart.currentConc.missing", comment: "Current concentration unavailable")
         }
@@ -45,53 +45,41 @@ struct ResultChartView: View {
         let topBoundary = max(maxConcentration, 50) * 1.1
         return 0.0...topBoundary    // use Double literal to avoid type‑inference cost
     }
-    
-    // A separate sub‑view for the chart itself to keep `body` small and compiler‑friendly
-    @ViewBuilder
-    private var concentrationChart: some View {
-        // Anchor the X‑axis grid to midnight of the first event’s day
-        let axisStart = Calendar.current.startOfDay(for: datedPoints.first?.date ?? Date())
-        let axisEnd   = datedPoints.last?.date ?? Date()
 
+    // Precomputed axis label strings to avoid long inline expressions
+    private var xAxisLabel: String { NSLocalizedString("chart.axis.time", comment: "X-axis label") }
+    private var yAxisLabel: String { NSLocalizedString("chart.axis.conc", comment: "Y-axis label") }
+
+    // Current concentration + date used by helper subviews
+    private var currentPoint: (conc: Double, date: Date)? {
+        let currentHour = now.timeIntervalSince1970 / 3600.0
+        if let c = sim.concentration(at: currentHour) {
+            return (c, Date(timeIntervalSince1970: currentHour * 3600))
+        }
+        return nil
+    }
+
+    // A separate sub‑view for the chart itself to keep `body` small and compiler‑friendly
+    private var concentrationChart: some View {
         Chart {
-            ForEach(datedPoints, id: \.date) { pt in
-                LineMark(
-                    x: .value(NSLocalizedString("chart.axis.time", comment: "X-axis label"), pt.date),
-                    y: .value(NSLocalizedString("chart.axis.conc", comment: "Y-axis label"), pt.conc)
-                )
-                .interpolationMethod(.catmullRom)
-                .foregroundStyle(.pink)
-            }
+            areaMarksView
+            lineMarksView
+            currentMarksView
         }
         .chartXAxis {
-            // Major grid: one per calendar day at 00:00
+            // Show a tick per day and allow labels to wrap up to two lines so month names don't get clipped
             AxisMarks(values: .stride(by: .day)) { value in
                 AxisGridLine()
-                AxisTick(length: 5)
-                AxisValueLabel(anchor: .bottom) {
+                AxisTick()
+                AxisValueLabel {
                     if let date = value.as(Date.self) {
                         Text(date, format: dayLabelFormat)
                             .font(.caption)
                             .lineLimit(2)
-                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
                             .minimumScaleFactor(0.7)
-                            .allowsTightening(true)
-                    }
-                }
-                AxisValueLabel(anchor: .top) {
-                    Text("00")                                   // fixed label at midnight
-                }
-            }
-            // Minor grid: every 6 h
-            AxisMarks(values: .stride(by: .hour, count: 6)) { value in
-                AxisTick()
-                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.4, dash: [2, 2]))
-                AxisValueLabel(anchor: .top) {
-                    if let date = value.as(Date.self) {
-                        let h = Calendar.current.component(.hour, from: date)
-                        Text(String(format: "%02d", locale: Locale.current, h))          // “06” “12” “18”
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
+                    } else {
+                        EmptyView()
                     }
                 }
             }
@@ -101,21 +89,85 @@ struct ResultChartView: View {
             AxisMarks(position: .leading, values: .automatic(desiredCount: 6)) { value in
                 AxisGridLine()
                 AxisValueLabel {
-                    if let conc = value.as(Int.self) {
-                        Text("\(conc)")
+                    if let conc = value.as(Double.self) {
+                        Text((conc >= 10 ? String(format: "%.0f", conc) : String(format: "%.1f", conc)) + " pg/mL")
+                    } else {
+                        EmptyView()
                     }
                 }
-            }
-        }
+             }
+         }
         .chartXVisibleDomain(length: visibleDomainLength * 3600)   // hours -> seconds
         .chartScrollableAxes(.horizontal)
         .chartScrollPosition(x: $scrollPosition)
+        .chartYScale(domain: yAxisDomain)
+        .frame(minHeight: 220)
+    }
+
+    // MARK: - Chart subviews (small, focused helpers to reduce type-checker work)
+    @ChartContentBuilder
+    private var areaMarksView: some ChartContent {
+        ForEach(Array(datedPoints.enumerated()), id: \.offset) { pair in
+            let pt = pair.element
+            AreaMark(
+                x: .value(xAxisLabel, pt.date),
+                y: .value(yAxisLabel, pt.conc)
+            )
+            .foregroundStyle(
+                LinearGradient(colors: [Color.pink.opacity(0.28), Color.pink.opacity(0.06)], startPoint: .top, endPoint: .bottom)
+            )
+            .interpolationMethod(.catmullRom)
+        }
+    }
+
+    @ChartContentBuilder
+    private var lineMarksView: some ChartContent {
+        ForEach(Array(datedPoints.enumerated()), id: \.offset) { pair in
+            let pt = pair.element
+            LineMark(
+                x: .value(xAxisLabel, pt.date),
+                y: .value(yAxisLabel, pt.conc)
+            )
+            .interpolationMethod(.catmullRom)
+            .foregroundStyle(LinearGradient(colors: [Color.pink, Color.purple], startPoint: .leading, endPoint: .trailing))
+            .lineStyle(StrokeStyle(lineWidth: 2))
+        }
+    }
+
+    @ChartContentBuilder
+    private var currentMarksView: some ChartContent {
+        if let cp = currentPoint {
+            RuleMark(x: .value(xAxisLabel, cp.date))
+                .lineStyle(StrokeStyle(lineWidth: 1, dash: [4,4]))
+                .foregroundStyle(Color.primary.opacity(0.7))
+
+            PointMark(
+                x: .value(xAxisLabel, cp.date),
+                y: .value(yAxisLabel, cp.conc)
+            )
+            .symbolSize(80)
+            .symbol {
+                ZStack {
+                    Circle().fill(Color.pink).frame(width: 12, height: 12)
+                    Circle().fill(Color.white).frame(width: 6, height: 6)
+                }
+            }
+            .annotation(position: .top) {
+                VStack(spacing: 2) {
+                    Text(String(format: "%.1f pg/mL", cp.conc))
+                        .font(.caption2).bold()
+                        .padding(6)
+                        .background(RoundedRectangle(cornerRadius: 6).fill(Color(.systemBackground)).shadow(radius: 1))
+                }
+                .fixedSize()
+            }
+        }
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(alignment: .firstTextBaseline) {
-                Text("chart.title")
+                Text(LocalizedStringKey("chart.title"))
                     .font(.headline)
                 Spacer()
                 Text(currentConcentrationText)
@@ -126,6 +178,8 @@ struct ResultChartView: View {
             .padding(.horizontal)
 
             concentrationChart
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(Text(LocalizedStringKey("chart.accessibility")))
         }
         .animation(.easeInOut, value: sim.concPGmL)
         .onAppear {
@@ -135,7 +189,7 @@ struct ResultChartView: View {
         .onReceive(timer) { date in
             now = date
         }
-        .onChange(of: sim.timeH.first) { _ in
+        .onChange(of: sim.timeH.first) {
             scrollPosition = Date()
         }
     }
