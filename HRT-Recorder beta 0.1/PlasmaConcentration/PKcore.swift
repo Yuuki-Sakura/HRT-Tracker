@@ -188,6 +188,17 @@ fileprivate struct PrecomputedEventModel {
         let params = ParameterResolver.resolve(event: event, bodyWeightKG: bodyWeightKG)
         let startTime = event.timeH
         let dose = event.doseMG
+        let oneCompParams = PKParams(
+            Frac_fast: 1.0,
+            k1_fast: params.k1_fast,
+            k1_slow: 0,
+            k2: params.k2,
+            k3: params.k3,
+            F: params.F,
+            rateMGh: params.rateMGh,
+            F_fast: params.F,
+            F_slow: params.F
+        )
 
         switch event.route {
         case .injection:
@@ -200,8 +211,6 @@ fileprivate struct PrecomputedEventModel {
             self.model = { timeH in
                 let tau = timeH - startTime
                 guard tau >= 0 else { return 0 }
-                // MODIFIED: Use k1_fast as the single absorption rate for these models.
-                let oneCompParams = PKParams(Frac_fast: 1.0, k1_fast: params.k1_fast, k1_slow: 0, k2: params.k2, k3: params.k3, F: params.F, rateMGh: params.rateMGh, F_fast: params.F, F_slow: params.F)
                 return ThreeCompartmentModel.oneCompAmount(tau: tau, doseMG: dose, p: oneCompParams)
             }
         case .sublingual:
@@ -421,7 +430,11 @@ struct SimulationEngine {
         let stepSize = (endTimeH - startTimeH) / Double(numberOfSteps - 1)
         var timeArr = [Double]()
         var concArr = [Double]()
+        timeArr.reserveCapacity(numberOfSteps)
+        concArr.reserveCapacity(numberOfSteps)
         var auc = 0.0
+        let concentrationScale = 1e9 / plasmaVolumeML
+        var previousConc = 0.0
 
         for i in 0..<numberOfSteps {
             let t = startTimeH + Double(i) * stepSize
@@ -431,14 +444,15 @@ struct SimulationEngine {
                 totalAmountMG += model.amount(at: t)
             }
             
-            let currentConc = totalAmountMG * 1e9 / plasmaVolumeML
+            let currentConc = totalAmountMG * concentrationScale
             
             timeArr.append(t)
             concArr.append(currentConc)
             
             if i > 0 {
-                auc += 0.5 * (currentConc + concArr[i-1]) * stepSize
+                auc += 0.5 * (currentConc + previousConc) * stepSize
             }
+            previousConc = currentConc
         }
         
         return SimulationResult(timeH: timeArr, concPGmL: concArr, auc: auc)

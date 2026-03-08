@@ -72,11 +72,17 @@ final class DoseTimelineVM: ObservableObject {
         events.remove(atOffsets: offsets)
         runSimulation()
     }
+
+    func replaceAllEvents(_ newEvents: [DoseEvent]) {
+        events = newEvents.sorted { $0.timeH < $1.timeH }
+        runSimulation()
+    }
     
     func runSimulation() {
         simulationTask?.cancel()
         guard !events.isEmpty else {
             result = nil
+            isSimulating = false
             return
         }
         
@@ -99,11 +105,31 @@ final class DoseTimelineVM: ObservableObject {
             
             if Task.isCancelled { return }
             
-            await MainActor.run {
-                self.result = simulationResult
-                self.isSimulating = false
-            }
+            self.result = simulationResult
+            self.isSimulating = false
         }
+    }
+
+    func requestHealthKitAuthorization() async throws {
+        try await HealthKitService.shared.requestAuthorizationIfNeeded()
+    }
+
+    func importLatestBodyWeightFromHealthKit() async throws -> Double {
+        let weightKG = try await HealthKitService.shared.fetchLatestBodyMassKG()
+        bodyWeightKG = weightKG
+        return weightKG
+    }
+
+    func refreshLatestBodyWeightSilently() async {
+        guard let weightKG = try? await HealthKitService.shared.fetchLatestBodyMassKG() else {
+            return
+        }
+        bodyWeightKG = weightKG
+    }
+
+    func updateBodyWeightAndSyncToHealthKit(_ newWeightKG: Double) async throws {
+        bodyWeightKG = newWeightKG
+        try await HealthKitService.shared.saveBodyMassKG(newWeightKG)
     }
 
     func concentration(at date: Date) -> Double? {

@@ -10,8 +10,10 @@ import SwiftUI
 @main
 struct HRTRecorderBetaApp: App {
     @Environment(\.scenePhase) private var phase
+    @AppStorage("healthkit.weight.authorization.requested") private var didRequestHealthKitWeightAuthorization = false
     @StateObject private var store: PersistedStore<[DoseEvent]>
     @StateObject private var timelineVM: DoseTimelineVM
+    @StateObject private var watchDoseReceiver = WatchDoseReceiver()
     
     init() {
         let persistedStore = PersistedStore<[DoseEvent]>(
@@ -27,9 +29,40 @@ struct HRTRecorderBetaApp: App {
     var body: some Scene {
         WindowGroup {
             TimelineScreen(vm: timelineVM)
+                .task {
+                    watchDoseReceiver.start(
+                        onReceiveDoseEvent: { event in
+                            timelineVM.save(event)
+                        },
+                        onReplaceAllEvents: { events in
+                            timelineVM.replaceAllEvents(events)
+                        },
+                        currentStateProvider: {
+                            (events: timelineVM.events, result: timelineVM.result, bodyWeightKG: timelineVM.bodyWeightKG)
+                        }
+                    )
+                    watchDoseReceiver.syncToWatch(events: timelineVM.events, result: timelineVM.result, bodyWeightKG: timelineVM.bodyWeightKG)
+                }
+                .onReceive(timelineVM.$events) { events in
+                    watchDoseReceiver.syncToWatch(events: events, result: timelineVM.result, bodyWeightKG: timelineVM.bodyWeightKG)
+                }
+                .onReceive(timelineVM.$result) { result in
+                    watchDoseReceiver.syncToWatch(events: timelineVM.events, result: result, bodyWeightKG: timelineVM.bodyWeightKG)
+                }
+                .onReceive(timelineVM.$bodyWeightKG) { bodyWeightKG in
+                    watchDoseReceiver.syncToWatch(events: timelineVM.events, result: timelineVM.result, bodyWeightKG: bodyWeightKG)
+                }
         }
-        .onChange(of: phase) { newPhase in
-            if newPhase == .inactive || newPhase == .background {
+        .onChange(of: phase) { _, newPhase in
+            if newPhase == .active {
+                Task {
+                    if !didRequestHealthKitWeightAuthorization {
+                        try? await timelineVM.requestHealthKitAuthorization()
+                        didRequestHealthKitWeightAuthorization = true
+                    }
+                    await timelineVM.refreshLatestBodyWeightSilently()
+                }
+            } else if newPhase == .inactive || newPhase == .background {
                 store.saveSync()
             }
         }

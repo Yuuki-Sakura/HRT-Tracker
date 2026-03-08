@@ -10,16 +10,47 @@
 		550EBB5E2ECEE3B500D3C38A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 550EBB4C2ECEE3B500D3C38A /* README.md */; };
 		550EBB5F2ECEE3B500D3C38A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 550EBB4E2ECEE3B500D3C38A /* Assets.xcassets */; };
 		550EBB602ECEE3B500D3C38A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 550EBB4F2ECEE3B500D3C38A /* Localizable.xcstrings */; };
+		557D83D22F5D33B300CDF791 /* HRT-Recorder Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 557D83C82F5D33B100CDF791 /* HRT-Recorder Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		557D83D02F5D33B300CDF791 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC8CFC6F2E89683D009EE2B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 557D83C72F5D33B100CDF791;
+			remoteInfo = "HRT-Recorder Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		557D83D32F5D33B300CDF791 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				557D83D22F5D33B300CDF791 /* HRT-Recorder Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		550EBB4C2ECEE3B500D3C38A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		550EBB4E2ECEE3B500D3C38A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		550EBB4F2ECEE3B500D3C38A /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		557D83C82F5D33B100CDF791 /* HRT-Recorder Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HRT-Recorder Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC8CFC772E89683D009EE2B1 /* HRT-Recorder beta 0.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HRT-Recorder beta 0.1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		557D83C92F5D33B100CDF791 /* HRT-Recorder Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "HRT-Recorder Watch App";
+			sourceTree = "<group>";
+		};
 		BC8CFC792E89683D009EE2B1 /* HRT-Recorder beta 0.1 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "HRT-Recorder beta 0.1";
@@ -28,6 +59,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		557D83C52F5D33B100CDF791 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC8CFC742E89683D009EE2B1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -42,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				BC8CFC792E89683D009EE2B1 /* HRT-Recorder beta 0.1 */,
+				557D83C92F5D33B100CDF791 /* HRT-Recorder Watch App */,
 				BC8CFC782E89683D009EE2B1 /* Products */,
 				550EBB4E2ECEE3B500D3C38A /* Assets.xcassets */,
 				550EBB4F2ECEE3B500D3C38A /* Localizable.xcstrings */,
@@ -53,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				BC8CFC772E89683D009EE2B1 /* HRT-Recorder beta 0.1.app */,
+				557D83C82F5D33B100CDF791 /* HRT-Recorder Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,6 +100,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		557D83C72F5D33B100CDF791 /* HRT-Recorder Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 557D83D62F5D33B300CDF791 /* Build configuration list for PBXNativeTarget "HRT-Recorder Watch App" */;
+			buildPhases = (
+				557D83C42F5D33B100CDF791 /* Sources */,
+				557D83C52F5D33B100CDF791 /* Frameworks */,
+				557D83C62F5D33B100CDF791 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				557D83C92F5D33B100CDF791 /* HRT-Recorder Watch App */,
+			);
+			name = "HRT-Recorder Watch App";
+			packageProductDependencies = (
+			);
+			productName = "HRT-Recorder Watch App";
+			productReference = 557D83C82F5D33B100CDF791 /* HRT-Recorder Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 		BC8CFC762E89683D009EE2B1 /* HRT-Recorder beta 0.1 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BC8CFC822E89683F009EE2B1 /* Build configuration list for PBXNativeTarget "HRT-Recorder beta 0.1" */;
@@ -67,10 +129,12 @@
 				BC8CFC732E89683D009EE2B1 /* Sources */,
 				BC8CFC742E89683D009EE2B1 /* Frameworks */,
 				BC8CFC752E89683D009EE2B1 /* Resources */,
+				557D83D32F5D33B300CDF791 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				557D83D12F5D33B300CDF791 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				BC8CFC792E89683D009EE2B1 /* HRT-Recorder beta 0.1 */,
@@ -89,9 +153,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2600;
+				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2610;
 				TargetAttributes = {
+					557D83C72F5D33B100CDF791 = {
+						CreatedOnToolsVersion = 26.3;
+					};
 					BC8CFC762E89683D009EE2B1 = {
 						CreatedOnToolsVersion = 26.0;
 					};
@@ -113,11 +180,19 @@
 			projectRoot = "";
 			targets = (
 				BC8CFC762E89683D009EE2B1 /* HRT-Recorder beta 0.1 */,
+				557D83C72F5D33B100CDF791 /* HRT-Recorder Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		557D83C62F5D33B100CDF791 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC8CFC752E89683D009EE2B1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -131,6 +206,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		557D83C42F5D33B100CDF791 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC8CFC732E89683D009EE2B1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -140,7 +222,83 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		557D83D12F5D33B300CDF791 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 557D83C72F5D33B100CDF791 /* HRT-Recorder Watch App */;
+			targetProxy = 557D83D02F5D33B300CDF791 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		557D83D42F5D33B300CDF791 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3A977T7MMU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "HRT-Recorder";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "mihari.HRT-Recorder-beta";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "mihari.HRT-Recorder-beta.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		557D83D52F5D33B300CDF791 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = C9X96C3N8A;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "HRT-Recorder";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "mihari.HRT-Recorder-beta";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "mihari.HRT-Recorder-beta.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
 		BC8CFC802E89683F009EE2B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -271,13 +429,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "HRT-Recorder beta 0.1/HRTRecorder.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3A977T7MMU;
+				DEVELOPMENT_TEAM = P94FB57G3A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "HRT-Recorder beta";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Read and write body weight in HealthKit to keep your weight in sync.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Read and write body weight in HealthKit to keep your weight in sync.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -291,6 +453,7 @@
 				MARKETING_VERSION = 0.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "mihari.HRT-Recorder-beta";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -306,13 +469,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "HRT-Recorder beta 0.1/HRTRecorder.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3A977T7MMU;
+				DEVELOPMENT_TEAM = P94FB57G3A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "HRT-Recorder beta";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Read and write body weight in HealthKit to keep your weight in sync.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Read and write body weight in HealthKit to keep your weight in sync.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -326,6 +493,7 @@
 				MARKETING_VERSION = 0.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "mihari.HRT-Recorder-beta";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -339,6 +507,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		557D83D62F5D33B300CDF791 /* Build configuration list for PBXNativeTarget "HRT-Recorder Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				557D83D42F5D33B300CDF791 /* Debug */,
+				557D83D52F5D33B300CDF791 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BC8CFC722E89683D009EE2B1 /* Build configuration list for PBXProject "HRT-Recorder beta 0.1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

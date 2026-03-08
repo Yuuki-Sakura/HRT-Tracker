@@ -16,12 +16,14 @@ private enum TimelineSheet: Identifiable {
     case add(UUID)
     case edit(DoseEvent)
     case weight
+    case settings
 
     var id: UUID {
         switch self {
         case .add(let token): return token
         case .edit(let event): return event.id
         case .weight: return UUID(uuidString: "00000000-0000-0000-0000-000000000001")!
+        case .settings: return UUID(uuidString: "00000000-0000-0000-0000-000000000002")!
         }
     }
 }
@@ -35,7 +37,8 @@ struct TimelineScreen: View {
 
     // **NEW**: State to manage which event is being edited.
     @State private var activeSheet: TimelineSheet?
-    @FocusState private var weightFieldFocused: Bool
+    @State private var healthMessage: String?
+    @State private var isHealthActionRunning = false
 
     var body: some View {
         NavigationStack {
@@ -78,14 +81,19 @@ struct TimelineScreen: View {
             }
             .navigationTitle("timeline.title")
             .toolbar {
-                // Left: explicit leading item for weight editor
+                // Left: settings entry page
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        activeSheet = .weight
+                        activeSheet = .settings
                     } label: {
-                        Image(systemName: "ellipsis.circle.fill")
-                            .font(.title2)
-                            .accessibilityLabel(Text("timeline.toolbar.weightEdit"))
+                        if isHealthActionRunning {
+                            ProgressView()
+                                .controlSize(.small)
+                        } else {
+                            Label("设置", systemImage: "ellipsis.circle.fill")
+                                .font(.body)
+                                .accessibilityLabel(Text("timeline.toolbar.weightEdit"))
+                        }
                     }
                 }
 
@@ -116,11 +124,25 @@ struct TimelineScreen: View {
                     // Present a dedicated WeightEditorView which keeps a temporary value until saved.
                     NavigationStack {
                         WeightEditorView(initialWeight: vm.bodyWeightKG) { newWeight in
-                            vm.bodyWeightKG = newWeight
-                            activeSheet = nil
+                            Task { await saveEditedWeightAndSync(newWeight) }
                         } onCancel: {
                             activeSheet = nil
                         }
+                    }
+
+                case .settings:
+                    NavigationStack {
+                        HealthSettingsView(
+                            onEditWeight: { activeSheet = .weight },
+                            onImportWeight: {
+                                activeSheet = nil
+                                Task { await importBodyWeight() }
+                            },
+                            onMedicationInfo: {
+                                activeSheet = nil
+                                showMedicationNotSupportedMessage()
+                            }
+                        )
                     }
 
                 case .edit(let event):
@@ -133,6 +155,44 @@ struct TimelineScreen: View {
                     }
                 }
             }
+            .alert("HealthKit", isPresented: Binding(
+                get: { healthMessage != nil },
+                set: { if !$0 { healthMessage = nil } }
+            )) {
+                Button("确定", role: .cancel) { healthMessage = nil }
+            } message: {
+                Text(healthMessage ?? "")
+            }
+        }
+    }
+
+    private func importBodyWeight() async {
+        guard !isHealthActionRunning else { return }
+        isHealthActionRunning = true
+        defer { isHealthActionRunning = false }
+
+        do {
+            try await vm.requestHealthKitAuthorization()
+            let weight = try await vm.importLatestBodyWeightFromHealthKit()
+            healthMessage = "已导入体重：\(String(format: "%.1f", locale: Locale.current, weight)) kg"
+        } catch {
+            healthMessage = "HealthKit 操作失败：\(error.localizedDescription)"
+        }
+    }
+
+    private func showMedicationNotSupportedMessage() {
+        healthMessage = "当前版本仅支持从 HealthKit 导入体重数据；用药（Medication）导入已关闭。"
+    }
+
+    private func saveEditedWeightAndSync(_ newWeight: Double) async {
+        do {
+            try await vm.requestHealthKitAuthorization()
+            try await vm.updateBodyWeightAndSyncToHealthKit(newWeight)
+            activeSheet = nil
+        } catch {
+            vm.bodyWeightKG = newWeight
+            activeSheet = nil
+            healthMessage = "体重已在 App 内更新，但同步到 Apple Health 失败：\(error.localizedDescription)"
         }
     }
 
@@ -145,6 +205,62 @@ struct TimelineScreen: View {
         return IndexSet(originalIndices)
     }
 
+}
+
+private struct HealthSettingsView: View {
+    let onEditWeight: () -> Void
+    let onImportWeight: () -> Void
+    let onMedicationInfo: () -> Void
+
+    var body: some View {
+        Form {
+            Section("体重") {
+                Button(action: onEditWeight) {
+                    SettingsRow(
+                        title: "手动编辑体重",
+                        subtitle: "在 App 内调整体重，并同步到 Apple Health"
+                    )
+                }
+                .buttonStyle(.plain)
+
+                Button(action: onImportWeight) {
+                    SettingsRow(
+                        title: "从 HealthKit 导入体重",
+                        subtitle: "拉取 Apple Health 最新体重记录"
+                    )
+                }
+                .buttonStyle(.plain)
+            }
+
+            Section("用药") {
+                Button(action: onMedicationInfo) {
+                    SettingsRow(
+                        title: "用药导入",
+                        subtitle: "当前版本不支持从 HealthKit 导入用药数据"
+                    )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .navigationTitle("设置")
+    }
+}
+
+private struct SettingsRow: View {
+    let title: String
+    let subtitle: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .foregroundStyle(.primary)
+            Text(subtitle)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+    }
 }
 
 // MARK: - Timeline Row View

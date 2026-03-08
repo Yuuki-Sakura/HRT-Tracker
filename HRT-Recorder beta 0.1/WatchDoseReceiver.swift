@@ -1,0 +1,196 @@
+import Foundation
+import Combine
+import WatchConnectivity
+
+@MainActor
+final class WatchDoseReceiver: NSObject, ObservableObject {
+    private let decoder = JSONDecoder()
+    private let encoder = JSONEncoder()
+
+    private var onReceiveDoseEvent: ((DoseEvent) -> Void)?
+    private var onReplaceAllEvents: (([DoseEvent]) -> Void)?
+    private var currentStateProvider: (() -> (events: [DoseEvent], result: SimulationResult?, bodyWeightKG: Double))?
+
+    func start(
+        onReceiveDoseEvent: @escaping (DoseEvent) -> Void,
+        onReplaceAllEvents: @escaping ([DoseEvent]) -> Void,
+        currentStateProvider: @escaping () -> (events: [DoseEvent], result: SimulationResult?, bodyWeightKG: Double)
+    ) {
+        self.onReceiveDoseEvent = onReceiveDoseEvent
+        self.onReplaceAllEvents = onReplaceAllEvents
+        self.currentStateProvider = currentStateProvider
+
+        guard WCSession.isSupported() else { return }
+        let session = WCSession.default
+        session.delegate = self
+        session.activate()
+    }
+
+    func syncToWatch(events: [DoseEvent], result: SimulationResult?, bodyWeightKG: Double) {
+        guard WCSession.isSupported() else { return }
+        let session = WCSession.default
+        guard session.activationState == .activated else { return }
+
+        let bridgeEvents = events.map(WatchDoseBridgeEvent.init)
+        let chartPoints = buildChartPoints(from: result)
+        let payload = WatchDoseSnapshot(events: bridgeEvents, chartPoints: chartPoints, bodyWeightKG: bodyWeightKG)
+
+        guard let data = try? encoder.encode(payload) else { return }
+        try? session.updateApplicationContext(["doseSnapshot": data])
+    }
+
+    private func buildChartPoints(from result: SimulationResult?) -> [WatchChartPoint] {
+        guard let result else { return [] }
+
+        return Array(zip(result.timeH, result.concPGmL)).map {
+            WatchChartPoint(timeH: $0.0, concentration: $0.1)
+        }
+    }
+
+    private func decodeDoseEvent(from payload: Data) -> DoseEvent? {
+        guard let watchEvent = try? decoder.decode(WatchDoseBridgeEvent.self, from: payload),
+              let route = DoseEvent.Route(rawValue: watchEvent.routeRawValue),
+              let ester = Ester(rawValue: watchEvent.esterRawValue) else {
+            return nil
+        }
+
+        let extras = watchEvent.extras.compactMapKeys { DoseEvent.ExtraKey(rawValue: $0) }
+        return DoseEvent(
+            id: watchEvent.id,
+            route: route,
+            timeH: watchEvent.timeH,
+            doseMG: watchEvent.doseMG,
+            ester: ester,
+            extras: extras
+        )
+    }
+
+    private func decodeEventList(from payload: Data) -> [DoseEvent]? {
+        guard let watchEvents = try? decoder.decode([WatchDoseBridgeEvent].self, from: payload) else {
+            return nil
+        }
+
+        return watchEvents.compactMap { bridge in
+            guard let route = DoseEvent.Route(rawValue: bridge.routeRawValue),
+                  let ester = Ester(rawValue: bridge.esterRawValue) else {
+                return nil
+            }
+            let extras = bridge.extras.compactMapKeys { DoseEvent.ExtraKey(rawValue: $0) }
+            return DoseEvent(
+                id: bridge.id,
+                route: route,
+                timeH: bridge.timeH,
+                doseMG: bridge.doseMG,
+                ester: ester,
+                extras: extras
+            )
+        }
+    }
+
+    private func pushCurrentSnapshotToWatch() {
+        guard let state = currentStateProvider?() else { return }
+        syncToWatch(events: state.events, result: state.result, bodyWeightKG: state.bodyWeightKG)
+    }
+}
+
+extension WatchDoseReceiver: WCSessionDelegate {
+    private func handleIncomingUserInfo(_ userInfo: [String: Any]) {
+        if let payload = userInfo["watchDoseEvent"] as? Data,
+           let event = self.decodeDoseEvent(from: payload) {
+            self.onReceiveDoseEvent?(event)
+            self.pushCurrentSnapshotToWatch()
+            return
+        }
+
+        if let payload = userInfo["watchDoseReplace"] as? Data,
+           let events = self.decodeEventList(from: payload) {
+            self.onReplaceAllEvents?(events)
+            self.pushCurrentSnapshotToWatch()
+            return
+        }
+
+        if (userInfo["watchRequestSnapshot"] as? Bool) == true {
+            self.pushCurrentSnapshotToWatch()
+        }
+    }
+
+    nonisolated func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        Task { @MainActor in
+            self.handleIncomingUserInfo(userInfo)
+        }
+    }
+
+    nonisolated func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        Task { @MainActor in
+            self.handleIncomingUserInfo(message)
+        }
+    }
+
+    nonisolated func sessionDidBecomeInactive(_ session: WCSession) {}
+
+    nonisolated func sessionDidDeactivate(_ session: WCSession) {
+        WCSession.default.activate()
+    }
+
+    nonisolated func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {}
+}
+
+private extension Dictionary {
+    func compactMapKeys<NewKey: Hashable>(_ transform: (Key) -> NewKey?) -> [NewKey: Value] {
+        var result: [NewKey: Value] = [:]
+        for (key, value) in self {
+            guard let newKey = transform(key) else { continue }
+            result[newKey] = value
+        }
+        return result
+    }
+}
+
+struct WatchDoseBridgeEvent: Codable {
+    let id: UUID
+    let routeRawValue: String
+    let timeH: Double
+    let doseMG: Double
+    let esterRawValue: String
+    let extras: [String: Double]
+
+    init(id: UUID, routeRawValue: String, timeH: Double, doseMG: Double, esterRawValue: String, extras: [String: Double]) {
+        self.id = id
+        self.routeRawValue = routeRawValue
+        self.timeH = timeH
+        self.doseMG = doseMG
+        self.esterRawValue = esterRawValue
+        self.extras = extras
+    }
+
+    init(event: DoseEvent) {
+        self.id = event.id
+        self.routeRawValue = event.route.rawValue
+        self.timeH = event.timeH
+        self.doseMG = event.doseMG
+        self.esterRawValue = event.ester.rawValue
+        self.extras = event.extras.reduce(into: [:]) { partialResult, pair in
+            partialResult[pair.key.rawValue] = pair.value
+        }
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case routeRawValue = "route"
+        case timeH
+        case doseMG
+        case esterRawValue = "ester"
+        case extras
+    }
+}
+
+struct WatchChartPoint: Codable {
+    let timeH: Double
+    let concentration: Double
+}
+
+struct WatchDoseSnapshot: Codable {
+    let events: [WatchDoseBridgeEvent]
+    let chartPoints: [WatchChartPoint]
+    let bodyWeightKG: Double
+}
