@@ -105,6 +105,28 @@ final class DoseTimelineVM: ObservableObject {
         }
     }
 
+    func requestHealthKitAuthorization() async throws {
+        try await HealthKitService.shared.requestAuthorizationIfNeeded()
+    }
+
+    func importLatestBodyWeightFromHealthKit() async throws -> Double {
+        let weightKG = try await HealthKitService.shared.fetchLatestBodyMassKG()
+        bodyWeightKG = weightKG
+        return weightKG
+    }
+
+    func refreshLatestBodyWeightSilently() async {
+        guard let weightKG = try? await HealthKitService.shared.fetchLatestBodyMassKG() else {
+            return
+        }
+        bodyWeightKG = weightKG
+    }
+
+    func updateBodyWeightAndSyncToHealthKit(_ newWeightKG: Double) async throws {
+        bodyWeightKG = newWeightKG
+        try await HealthKitService.shared.saveBodyMassKG(newWeightKG)
+    }
+
     func concentration(at date: Date) -> Double? {
         guard let result else { return nil }
         let hourValue = date.timeIntervalSince1970 / 3600.0
