@@ -14,7 +14,7 @@ This README explains the algorithms used for each drug/route, key parameters and
 - **ThreeCompartmentModel**：解析解工具箱：
   - 三室模型（首过吸收 k₁ → 酯水解 k₂ → 游离 E2 清除 k₃）的解析式。
   - 单室 Bateman 形式（口服/凝胶简化）。
-  - 双通路舌下模型（快：口腔黏膜；慢：吞咽 = 口服；**E2: dualAbsAmount；EV: dualAbs3CAmount**）。
+  - 双通路舌下模型（快：口腔黏膜；慢：吞咽 = 口服；**E2: dualAbsAmount；EV: dualAbsMixedAmount（快 3C + 慢 1C）**）。
   - 贴片：零阶输入在佩戴窗口内，移除后按 k₃ 衰减；或旧版一阶“假库”。
 - **SimulationEngine**：把一堆 `DoseEvent` 预编译为时间→量的函数，遍历时间点，线性叠加各事件的中心室药量，再以体分布换算为浓度，AUC 用梯形法则积分。
 
@@ -161,7 +161,7 @@ This README explains the algorithms used for each drug/route, key parameters and
   - **慢通路（吞咽→胃肠）**：$k_{1,\text{slow}} = k_{\text{Abs,E2/EV}}$，**进入首过**，**$F_{\text{slow}}=F_{\text{oral}}=0.03$**。
 - **EV 与 E2 的差异**：
   - **舌下 E2**：无水解步（$k_2=0$），用单室 Bateman 对两支路叠加（`dualAbsAmount`）。
-  - **舌下 EV**：**进血后仍需水解为 E2**（$k_2=k_{2,\text{EV}}$），两支路均走「吸收 ($k_1$) → 水解 ($k_2$) → 清除 ($k_3$)」的三室解析式（`dualAbs3CAmount`）。
+  - **舌下 EV**：快通路（黏膜）进血后仍需水解为 E2（$k_2=k_{2,\text{EV}}$）；慢通路（吞咽→胃肠）按 oral 一室 Bateman 计算（`kAbsEV` 已折叠“吸收+水解”），不再额外施加一次 $k_2$。实现为 `dualAbsMixedAmount`（快 3C + 慢 1C）。
   - **清除**：中心室游离 E2 的清除常数 $k_3 = 0.41\ \mathrm{h}^{-1}$（见§1），与贴片移除后回落节奏一致。
 
 ### 6.2 黏膜分流 θ 的**行为建模**（取代早期 RF 反推法）
@@ -212,7 +212,7 @@ $$
 - UI 选择的档位直接映射为 \(\theta\) 并写入 `DoseEvent.extras[.sublingualTheta]`；**不再读取/依赖 `theta_default`**。
 
 **一致性校验（慢支=口服）**  
-当 $\theta=0$ 时，舌下模型**严格退化为口服**：慢支的 $k_{1,\text{slow}}$、$F_{\text{slow}}$、$k_2$、$k_3$ 与对应口服路由完全一致。在回归测试中对比了 “SL，$\theta=0$” 与 “Oral” 的整轨迹，差异 0。
+当 $\theta=0$ 时，舌下模型**严格退化为口服**：慢支的 $k_{1,\text{slow}}$、$F_{\text{slow}}$、$k_3$ 与对应口服路由完全一致；EV 的慢支不再额外套用 $k_2$（避免对 oral 已折叠参数重复水解）。在回归测试中对比了 “SL，$\theta=0$” 与 “Oral” 的整轨迹，差异 0。
 
 ### 6.3 数学形式（实现对照）
 - **舌下 E2（无水解）**：两支路的一室 Bateman 叠加  
@@ -220,10 +220,15 @@ $$
   A(t)=A_{\text{fast}}(t)+A_{\text{slow}}(t),\quad
   A_{\text{branch}}(t)=\frac{F\,k_1}{k_1-k_3}\,\text{Dose}_{\text{branch}}\bigl(e^{-k_3 t}-e^{-k_1 t}\bigr)
   $$
-- **舌下 EV（含水解）**：两支路的三室解析叠加  
+- **舌下 EV（混合）**：快支三室 + 慢支一室（oral 等价）  
   $$
-  A(t)=A^{(3C)}_{\text{fast}}(t)+A^{(3C)}_{\text{slow}}(t),\quad
-  A^{(3C)}_{\text{branch}}(t)=\texttt{\_analytic3C}\bigl(t;\ \text{Dose}_{\text{branch}},F,k_1,k_{2,\text{EV}},k_3\bigr)
+  A(t)=A^{(3C)}_{\text{fast}}(t)+A^{(1C)}_{\text{slow}}(t)
+  $$
+  $$
+  A^{(3C)}_{\text{fast}}(t)=\texttt{\_analytic3C}\bigl(t;\ \text{Dose}_{\text{fast}},F_{\text{fast}},k_{1,\text{fast}},k_{2,\text{EV}},k_3\bigr)
+  $$
+  $$
+  A^{(1C)}_{\text{slow}}(t)=\frac{F_{\text{slow}}\,k_{1,\text{slow}}}{k_{1,\text{slow}}-k_3}\,\text{Dose}_{\text{slow}}\bigl(e^{-k_3 t}-e^{-k_{1,\text{slow}} t}\bigr)
   $$
   其中 $\text{Dose}_{\text{fast}}=\theta\cdot\text{Dose},\ \text{Dose}_{\text{slow}}=(1-\theta)\cdot\text{Dose}$，且 $F_{\text{fast}}=1,\ F_{\text{slow}}=F_{\text{oral}}$。
 
@@ -255,7 +260,7 @@ $$
 - **2025‑09‑22**：
   - 舌下：**废弃 RF→θ 的反推与固定 θ**；引入**行为驱动**的 θ 计算（显式建模溶解 $k_{\text{diss}}$ 与吞咽清除 $k_{\text{sw}}$），按 $T_{\text{hold}}$ 数值积分得到 \(\theta\)。
   - UI：移除 `theta_default`，改为**四档可选**（Quick/Casual/Standard/Strict），默认显示建议含服时长与推荐 θ。
-  - 舌下 EV：两支路均加入水解 \(k_2\)，实现切换为 `dualAbs3CAmount`；舌下 E2 继续用 `dualAbsAmount`。
+  - 舌下 EV：改为快支加入水解 \(k_2\)、慢支与 oral 一致不再额外水解，实现为 `dualAbsMixedAmount`；舌下 E2 继续用 `dualAbsAmount`。
   - 一致性单元测试：验证 $\theta=0$ 时舌下与口服整轨迹重合（慢支参数与 Oral 路由完全一致）。
 
 ---
@@ -311,7 +316,7 @@ $$
 | 凝胶 | 解析 | mg（+面积 cm²） | 单室 Bateman（临时常量版） | `k1 = 0.022, F = 0.05, k3` | 常量 0.05 |
 | 口服 E2 | 解析 | mg | 单室 Bateman | `kAbsE2 = 0.08, F = 0.03, k3` | 常量 0.03 |
 | 口服 EV | 解析 | mg | 单室 Bateman | `kAbsEV = 0.05, F = 0.03, k3` | 常量 0.03 |
-| 舌下 E2/EV | 解析 | mg（等效 E2） | 双通路：快 = 黏膜、慢 = 吞咽→口服；**E2 用一室（dualAbsAmount），EV 用三室（dualAbs3CAmount）** | `θ` 来自 UI 档位（Quick/5/10/15 分钟映射）；`kAbsSL=1.8`，`kAbsE2/EV`，`k2(EV)`，`k3` | 快 1.0；慢 `F_oral=0.03` |
+| 舌下 E2/EV | 解析 | mg（等效 E2） | 双通路：快 = 黏膜、慢 = 吞咽→口服；**E2 用一室（dualAbsAmount），EV 用混合（dualAbsMixedAmount：快 3C、慢 1C）** | `θ` 来自 UI 档位（Quick/5/10/15 分钟映射）；`kAbsSL=1.8`，`kAbsE2/EV`，`k2(EV, 仅快支)`，`k3` | 快 1.0；慢 `F_oral=0.03` |
 
 ---
 

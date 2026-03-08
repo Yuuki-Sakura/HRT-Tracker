@@ -160,7 +160,8 @@ struct ParameterResolver {
             let F_fast = 1.0
             let F_slow = OralPK.bioavailability
 
-            // 若为 EV，则进入体循环后仍需水解为 E2，使用已标定的 k2；E2 则 k2 = 0
+            // 若为 EV，保留已标定的 k2（供舌下快支路/其他 3C 路径使用）；E2 则 k2 = 0。
+            // 舌下慢支路（吞咽→胃肠）会按 oral 一室模型计算，不再额外水解。
             let k2Value = (event.ester == .EV) ? (EsterPK.k2[.EV] ?? 0) : 0
 
             return PKParams(
@@ -217,8 +218,10 @@ fileprivate struct PrecomputedEventModel {
                 let tau = timeH - startTime
                 guard tau >= 0 else { return 0 }
                 if params.k2 > 0 {
-                    // EV 舌下：吸收→水解→清除（两支路都走 3C）
-                    return ThreeCompartmentModel.dualAbs3CAmount(tau: tau, doseMG: dose, p: params)
+                    // EV 舌下：
+                    //   快支路（黏膜）走 3C：吸收→水解→清除
+                    //   慢支路（吞咽/胃肠）与 oral 完全一致：一室 Bateman（不再额外水解）
+                    return ThreeCompartmentModel.dualAbsMixedAmount(tau: tau, doseMG: dose, p: params)
                 } else {
                     // E2 舌下：无水解，沿用一室解析式
                     return ThreeCompartmentModel.dualAbsAmount(tau: tau, doseMG: dose, p: params)
@@ -249,7 +252,7 @@ fileprivate struct PrecomputedEventModel {
 
 struct ThreeCompartmentModel {
 
-    /// Dual‑path with hydrolysis (EV sublingual): each branch follows 3‑comp chain (k1 → k2 → k3).
+    /// Dual‑path with hydrolysis on both branches: each branch follows 3‑comp chain (k1 → k2 → k3).
     static func dualAbs3CAmount(tau: Double, doseMG: Double, p: PKParams) -> Double {
         guard doseMG > 0 else { return 0 }
         let f  = max(0.0, min(1.0, p.Frac_fast))
@@ -260,26 +263,28 @@ struct ThreeCompartmentModel {
         return amtF + amtS
     }
 
+    /// Dual‑path mixed model (EV sublingual):
+    /// fast branch keeps hydrolysis (3C), slow swallowed branch follows oral one‑compartment directly.
+    static func dualAbsMixedAmount(tau: Double, doseMG: Double, p: PKParams) -> Double {
+        guard doseMG > 0 else { return 0 }
+        let f  = max(0.0, min(1.0, p.Frac_fast))
+        let doseF = doseMG * f
+        let doseS = doseMG * (1.0 - f)
+
+        let amtF = _analytic3C(tau: tau, doseMG: doseF, F: p.F_fast, k1: p.k1_fast, k2: p.k2, k3: p.k3)
+        let amtS = _batemanAmount(doseMG: doseS, F: p.F_slow, ka: p.k1_slow, ke: p.k3, t: tau)
+        return amtF + amtS
+    }
+
     /// Dual‑path first‑order absorption WITHOUT hydrolysis (use for E2 sublingual).
     /// Fast branch: Frac_fast, k1_fast, F_fast; Slow branch: (1-Frac_fast), k1_slow, F_slow
     static func dualAbsAmount(tau: Double, doseMG: Double, p: PKParams) -> Double {
         guard doseMG > 0 else { return 0 }
         let f  = max(0.0, min(1.0, p.Frac_fast))
-        let kaF = p.k1_fast
-        let kaS = p.k1_slow
-        let ke  = p.k3
-
-        func branch(d: Double, F: Double, ka: Double, ke: Double, t: Double) -> Double {
-            if abs(ka - ke) < 1e-9 {
-                return d * F * ka * t * exp(-ke * t)
-            }
-            return d * F * ka / (ka - ke) * (exp(-ke * t) - exp(-ka * t))
-        }
-
         let doseF = doseMG * f
         let doseS = doseMG * (1.0 - f)
-        let amtF = branch(d: doseF, F: p.F_fast, ka: kaF, ke: ke, t: tau)
-        let amtS = branch(d: doseS, F: p.F_slow, ka: kaS, ke: ke, t: tau)
+        let amtF = _batemanAmount(doseMG: doseF, F: p.F_fast, ka: p.k1_fast, ke: p.k3, t: tau)
+        let amtS = _batemanAmount(doseMG: doseS, F: p.F_slow, ka: p.k1_slow, ke: p.k3, t: tau)
         return amtF + amtS
     }
     
@@ -324,11 +329,7 @@ struct ThreeCompartmentModel {
 
     static func oneCompAmount(tau: Double, doseMG: Double, p: PKParams) -> Double {
         // This model is for oral/gel, which uses a single absorption rate, now mapped to k1_fast.
-        let k1 = p.k1_fast
-        if abs(k1 - p.k3) < 1e-9 {
-            return doseMG * p.F * k1 * tau * exp(-p.k3 * tau)
-        }
-        return doseMG * p.F * k1 / (k1 - p.k3) * (exp(-p.k3 * tau) - exp(-k1 * tau))
+        return _batemanAmount(doseMG: doseMG, F: p.F, ka: p.k1_fast, ke: p.k3, t: tau)
     }
     
     static func patchAmount(tau: Double, doseMG: Double, wearH: Double, p: PKParams) -> Double {
@@ -352,6 +353,14 @@ struct ThreeCompartmentModel {
             return amountAtRemoval * exp(-p.k3 * dt)
         }
         return amountUnderPatch
+    }
+
+    private static func _batemanAmount(doseMG: Double, F: Double, ka: Double, ke: Double, t: Double) -> Double {
+        guard doseMG > 0, ka > 0 else { return 0 }
+        if abs(ka - ke) < 1e-9 {
+            return doseMG * F * ka * t * exp(-ke * t)
+        }
+        return doseMG * F * ka / (ka - ke) * (exp(-ke * t) - exp(-ka * t))
     }
 }
 
