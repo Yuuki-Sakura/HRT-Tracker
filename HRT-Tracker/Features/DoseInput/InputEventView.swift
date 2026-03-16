@@ -48,7 +48,6 @@ struct InputEventView: View {
                     draft.e2EquivalentDoseText = ""
                     draft.patchMode = .totalDose
                     draft.releaseRateText = ""
-                    draft.slTierIndex = 2
                     draft.useCustomTheta = false
                     draft.customThetaText = ""
                     draft.applicationSite = nil

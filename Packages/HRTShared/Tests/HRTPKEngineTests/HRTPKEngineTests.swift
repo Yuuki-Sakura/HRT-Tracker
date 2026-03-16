@@ -106,9 +106,9 @@ struct PKEngineTests {
         }
     }
 
-    @Test("Sublingual E2 dualAbsAmount: theta tiers produce different peaks")
+    @Test("Sublingual E2 dualAbsAmount: different custom θ values produce different peaks")
     func testSublingualE2_dualAbsAmount() {
-        let events = [0.01, 0.04, 0.11, 0.18].map { theta in
+        let events = [0.005, 0.025, 0.10, 0.20].map { theta in
             DoseEvent(route: .sublingual, timestamp: 0, doseMG: 2.0, ester: .E2, extras: [.sublingualTheta: theta])
         }
 
@@ -132,6 +132,18 @@ struct PKEngineTests {
 
         let peak = result.concPGmL.max() ?? 0
         #expect(peak > 0, "Sublingual EV should produce non-zero concentration")
+    }
+
+    @Test("Sublingual E2 default θ=0.025: 1mg/100kg → Cmax ≈ 100-140 pg/mL (Doll et al. 2021)")
+    func testSublingualE2_DollValidation() {
+        // Doll et al. (2021, PMID 34781041): n=10, BMI 33±13 (~100kg),
+        // 1 mg SL E2, LC-MS/MS Cmax = 144±90 pg/mL (net ~120 pg/mL after baseline 24 pg/mL)
+        let event = DoseEvent(route: .sublingual, timestamp: 0, doseMG: 1.0, ester: .E2)
+        let engine = SimulationEngine(events: [event], bodyWeightKG: 100, startTimestamp: 0, endTimestamp: 24 * 3600, numberOfSteps: 1000)
+        let result = engine.run()
+
+        let peak = result.concPGmL.max() ?? 0
+        #expect(peak > 100 && peak < 140, "1mg SL E2 / 100kg should give Cmax ≈ 100-140 pg/mL (Doll data), got \(peak)")
     }
 
     // MARK: - Patch Tests

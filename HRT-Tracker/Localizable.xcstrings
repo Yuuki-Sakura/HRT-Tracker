@@ -3238,34 +3238,6 @@
         }
       }
     },
-    "input.sublingual.casual" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Casual"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "カジュアル"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "随意"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隨意"
-          }
-        }
-      }
-    },
     "input.sublingual.customTheta" : {
       "localizations" : {
         "en" : {
@@ -3322,30 +3294,30 @@
         }
       }
     },
-    "input.sublingual.hold" : {
+    "input.sublingual.thetaReference" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hold Duration"
+            "value" : "Reference θ by hold duration:\n~2 min (quick): 0.01\n~5 min (casual): 0.04\n~10 min (standard): 0.11\n~15 min (strict): 0.18\nDefault (calibrated): 0.025"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保持時間"
+            "value" : "保持時間別の参考θ値：\n約2分（クイック）：0.01\n約5分（カジュアル）：0.04\n約10分（標準）：0.11\n約15分（厳格）：0.18\nデフォルト（校正値）：0.025"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "含服时长"
+            "value" : "各含服时长参考 θ 值：\n~2 分钟（快速）：0.01\n~5 分钟（随意）：0.04\n~10 分钟（标准）：0.11\n~15 分钟（严格）：0.18\n默认（校准值）：0.025"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "含服時長"
+            "value" : "各含服時長參考 θ 值：\n~2 分鐘（快速）：0.01\n~5 分鐘（隨意）：0.04\n~10 分鐘（標準）：0.11\n~15 分鐘（嚴格）：0.18\n預設（校準值）：0.025"
           }
         }
       }
@@ -3355,165 +3327,25 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Place the tablet under your tongue and hold without swallowing. A higher tier means more mucosal absorption."
+            "value" : "θ = 0.025 (mucosal absorption fraction). Calibrated from Doll et al. (2021, PMID 34781041): 1 mg SL E2 in 10 trans women, LC-MS/MS Cmax = 144 pg/mL. The tablet fully dissolves within approximately 2 minutes; dissolved drug remaining in saliva is subsequently swallowed and enters the gastrointestinal tract, where it undergoes first-pass hepatic metabolism (F = 0.03). Toggle Custom θ to override."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "錠剤を舌下に置き、飲み込まないでください。高い段階ほど粘膜吸収が多くなります。"
+            "value" : "θ = 0.025（粘膜吸収率）。Doll et al. (2021, PMID 34781041) より校正：トランス女性10名の1mg舌下E2、LC-MS/MS Cmax = 144 pg/mL。錠剤は約2分で完全に溶解し、唾液中の残留薬物は嚥下後に消化管へ移行、肝初回通過代謝を受ける（F = 0.03）。カスタムθで上書き可能。"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "将药片置于舌下，不要吞咽。档位越高，黏膜吸收比例越大。"
+            "value" : "θ = 0.025（黏膜吸收比例）。校准自 Doll et al. (2021, PMID 34781041)：10 名跨性别女性舌下含服 1mg E2，LC-MS/MS 峰值 144 pg/mL。药片约 2 分钟内完全溶解；溶解后残留于唾液中的药物经吞咽进入消化道，受肝脏首过效应代谢（F = 0.03）。开启自定义 θ 可覆盖。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "將藥片置於舌下，不要吞嚥。檔位越高，黏膜吸收比例越大。"
-          }
-        }
-      }
-    },
-    "input.sublingual.quick" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quick"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "クイック"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "快速"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "快速"
-          }
-        }
-      }
-    },
-    "input.sublingual.standard" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Standard"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "標準"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "标准"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "標準"
-          }
-        }
-      }
-    },
-    "input.sublingual.strict" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Strict"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "厳格"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "严格"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "嚴格"
-          }
-        }
-      }
-    },
-    "input.sublingual.suggestion %.0f %.2f" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hold ~%1$.0f min, θ ≈ %2$.2f"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "約%1$.0f分保持、θ ≈ %2$.2f"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "含服约 %1$.0f 分钟，θ ≈ %2$.2f"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "含服約 %1$.0f 分鐘，θ ≈ %2$.2f"
-          }
-        }
-      }
-    },
-    "input.sublingual.suggestion %@ %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hold ~%@ min, θ ≈ %@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "約%@分保持、θ ≈ %@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "含服约 %@ 分钟，θ ≈ %@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "含服約 %@ 分鐘，θ ≈ %@"
+            "value" : "θ = 0.025（黏膜吸收比例）。校準自 Doll et al. (2021, PMID 34781041)：10 名跨性別女性舌下含服 1mg E2，LC-MS/MS 峰值 144 pg/mL。藥片約 2 分鐘內完全溶解；溶解後殘留於唾液中的藥物經吞嚥進入消化道，受肝臟首過效應代謝（F = 0.03）。開啟自訂 θ 可覆蓋。"
           }
         }
       }

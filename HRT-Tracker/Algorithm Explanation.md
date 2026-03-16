@@ -294,6 +294,8 @@ $$A(t) = A^{(3C)}_{\text{fast}}(t) + A^{(\text{Bat})}_{\text{slow}}(t)$$
 
 #### 黏膜分流 $\theta$ 的行为建模
 
+默认 $\theta = 0.025$，校准自 Doll et al. (2021, PMID 34781041) [^25]：n=10 跨性别女性（BMI 33±13），1mg 微粉化 17β-E2 舌下含服（含到完全溶解，约 2 分钟），LC-MS/MS Cmax = 144 ± 90 pg/mL（基线 24 ± 8 pg/mL），Tmax = 1h，AUC(0-8h) 为口服的 1.8 倍。用户可通过自定义 $\theta$ 覆盖此默认值。
+
 显式建模溶解与吞咽清除，将口腔视为最小系统：固体剂量 $S$ 以速率 $k_{\text{diss}}$ 溶入口腔液相 $D$；$D$ 面临黏膜吸收 $k_{\text{SL}}$ 与吞咽清除 $k_{\text{sw}}$ 的竞争。
 
 $$\begin{aligned}\frac{dS}{dt} &= -k_{\text{diss}} \, S \\\frac{dD}{dt} &= k_{\text{diss}} \, S - (k_{\text{SL}} + k_{\text{sw}}) \, D\end{aligned}$$
@@ -306,9 +308,9 @@ $$\theta(T_{\text{hold}}) = \frac{1}{\text{Dose}} \int_0^{T_{\text{hold}}} k_{\t
 
 **参数锚点**：$k_{\text{SL}} = 1.8$ h⁻¹（由舌下 E2 实测 $T_{\max} \approx 1$ h 反推 [^3]）。
 
-#### UI 档位
+#### 自定义 $\theta$ 参考档位
 
-| 档位 | 建议含服时长 | $\theta$ 推荐 | 范围 |
+| 档位 | 建议含服时长 | $\theta$ 参考 | 范围 |
 |---|---:|---:|---|
 | Quick | 2 min | 0.01 | 0.004–0.012 |
 | Casual | 5 min | 0.04 | 0.021–0.057 |
@@ -468,3 +470,4 @@ $$C_{\text{cal}}(t) = C_{\text{sim}}(t) \times r(t)$$
 [^22]: Vivelle-Dot (estradiol transdermal system) FDA label (2014, NDA 020538). Post-removal t½ = 5.9–7.7 h; Tmax ≈ 24–36 h; Cmax (0.1 mg/day) ≈ 117 pg/mL. [https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/020538s032lbl.pdf](https://www.accessdata.fda.gov/drugsatfda_docs/label/2014/020538s032lbl.pdf)
 [^23]: Climara Pro (estradiol/levonorgestrel transdermal system) FDA label (2005, NDA 021885). Dose-proportional PK; steady-state by 2nd application cycle. [https://www.accessdata.fda.gov/drugsatfda_docs/label/2005/021885lbl.pdf](https://www.accessdata.fda.gov/drugsatfda_docs/label/2005/021885lbl.pdf)
 [^24]: Dose proportionality of Estradot. *Maturitas* 2003. Inter-individual variability 20–44%. [https://doi.org/10.1016/S0378-5122(03)00189-0](https://doi.org/10.1016/S0378-5122(03)00189-0)
+[^25]: Doll EE et al. Pharmacokinetics of sublingual versus oral estradiol in transgender women. *Transgend Health*. 2021. PMID 34781041.

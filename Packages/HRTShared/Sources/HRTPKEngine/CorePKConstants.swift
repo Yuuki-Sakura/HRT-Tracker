@@ -95,34 +95,12 @@ public enum CPAPK: Sendable {
     public static let bioavailability: Double = 0.88
 }
 
-public enum SublingualTier: String, CaseIterable, Identifiable, Sendable {
-    case quick, casual, standard, strict
-    public var id: Self { self }
-}
-
-public enum SublingualTheta: Sendable {
-    public static let recommended: [SublingualTier: Double] = [
-        .quick: 0.01,
-        .casual: 0.04,
-        .standard: 0.11,
-        .strict: 0.18
-    ]
-    public static let holdMinutes: [SublingualTier: Double] = [
-        .quick: 2,
-        .casual: 5,
-        .standard: 10,
-        .strict: 15
-    ]
-    public static let thetaRangeLow: [SublingualTier: Double] = [
-        .quick: 0.004,
-        .casual: 0.021,
-        .standard: 0.064,
-        .strict: 0.115
-    ]
-    public static let thetaRangeHigh: [SublingualTier: Double] = [
-        .quick: 0.012,
-        .casual: 0.057,
-        .standard: 0.156,
-        .strict: 0.253
-    ]
+public enum SublingualPK: Sendable {
+    /// Mucosal absorption fraction.
+    /// Calibrated from Doll et al. (2021, PMID 34781041):
+    /// 1 mg SL E2, hold-until-dissolved (~2 min), n=10 trans women (BMI 33±13),
+    /// LC-MS/MS Cmax 144±90 pg/mL (net ~120 pg/mL) → θ ≈ 0.025.
+    /// The tablet fully dissolves within ~2 min; residual drug in saliva is swallowed
+    /// and enters GI tract with first-pass metabolism (F = 0.03).
+    public static let theta: Double = 0.025
 }

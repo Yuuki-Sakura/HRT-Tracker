@@ -88,19 +88,7 @@ public struct ParameterResolver: Sendable {
                 if let th = event.extras[.sublingualTheta] {
                     return max(0.0, min(1.0, th))
                 }
-                if let code = event.extras[.sublingualTier] {
-                    let idx = Int(code.rounded())
-                    let tier: SublingualTier
-                    switch idx {
-                    case 0: tier = .quick
-                    case 1: tier = .casual
-                    case 2: tier = .standard
-                    case 3: tier = .strict
-                    default: tier = .standard
-                    }
-                    return max(0.0, min(1.0, SublingualTheta.recommended[tier] ?? 0.11))
-                }
-                return 0.11
+                return SublingualPK.theta
             }()
             let k1_fast = OralPK.kAbsSL
             let k1_slow = (event.ester == .EV) ? OralPK.kAbsEV : OralPK.kAbsE2

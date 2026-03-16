@@ -29,7 +29,6 @@ struct DraftDoseEvent {
     var releaseRateText: String = ""
     var patchWearDays: Int = 3
 
-    var slTierIndex: Int = 2
     var useCustomTheta: Bool = false
     var customThetaText: String = ""
 
@@ -85,8 +84,6 @@ struct DraftDoseEvent {
         if route == .sublingual {
             if useCustomTheta, let th = parsedDouble(customThetaText) {
                 extras[.sublingualTheta] = max(0.0, min(1.0, th))
-            } else {
-                extras[.sublingualTier] = Double(min(max(slTierIndex, 0), 3))
             }
         }
 
@@ -134,9 +131,6 @@ struct DraftDoseEvent {
                 draft.useCustomTheta = true
                 draft.customThetaText = String(format: "%.2f", theta)
             }
-            if let tierCode = template.extras[.sublingualTier] {
-                draft.slTierIndex = min(max(Int(tierCode.rounded()), 0), 3)
-            }
         }
 
         if let siteCode = template.extras[.applicationSite] {
@@ -176,9 +170,6 @@ struct DraftDoseEvent {
             if let theta = event.extras[.sublingualTheta] {
                 draft.useCustomTheta = true
                 draft.customThetaText = String(format: "%.2f", theta)
-            }
-            if let tierCode = event.extras[.sublingualTier] {
-                draft.slTierIndex = min(max(Int(tierCode.rounded()), 0), 3)
             }
         }
 
