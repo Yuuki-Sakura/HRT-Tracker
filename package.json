@@ -1,0 +1,16 @@
+{
+  "name": "hrt-tracker",
+  "private": true,
+  "devDependencies": {
+    "git-commit-msg-linter": "^5.0.8",
+    "lint-staged": "^16.4.0",
+    "simple-git-hooks": "^2.13.1"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "preserveUnused": true
+  },
+  "lint-staged": {
+    "*.swift": "swiftlint lint --strict"
+  }
+}

@@ -1,0 +1,20 @@
+excluded:
+  - Packages/HRTShared/.build
+  - .build
+
+opt_in_rules:
+  - empty_count
+  - closure_spacing
+
+disabled_rules:
+  - trailing_whitespace
+  - line_length
+  - identifier_name
+  - trailing_comma
+  - type_name
+  - type_body_length
+  - file_length
+  - large_tuple
+  - function_parameter_count
+  - cyclomatic_complexity
+  - function_body_length

@@ -1,0 +1,40 @@
+# Xcode
+build/
+DerivedData/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+xcuserdata/
+*.xcscmblueprint
+
+# SPM
+.build/
+Packages/*/. build/
+
+# macOS
+.DS_Store
+*.swp
+*~
+
+# CocoaPods (if ever used)
+Pods/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
+
+# Archives & exports
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.xcarchive
+
+# Secrets & credentials
+*.p12
+*.mobileprovision
+*.provisionprofile
+.env
+
+# Node.js (git hooks tooling)
+node_modules/

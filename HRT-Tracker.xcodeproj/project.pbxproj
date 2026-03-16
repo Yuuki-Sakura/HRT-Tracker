@@ -1,0 +1,842 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		21CC5DA32F660002005FC55E /* HRTModels in Frameworks */ = {isa = PBXBuildFile; productRef = 21CC5DA02F660001005FC55E /* HRTModels */; };
+		21CC5DA42F660002005FC55E /* HRTPKEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 21CC5DA12F660001005FC55E /* HRTPKEngine */; };
+		21CC5DA52F660002005FC55E /* HRTServices in Frameworks */ = {isa = PBXBuildFile; productRef = 21CC5DA22F660001005FC55E /* HRTServices */; };
+		21CC5DBC2F660015005FC55E /* HRTModels in Frameworks */ = {isa = PBXBuildFile; productRef = 21CC5DB92F660014005FC55E /* HRTModels */; };
+		21CC5DBD2F660015005FC55E /* HRTPKEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 21CC5DBA2F660014005FC55E /* HRTPKEngine */; };
+		21CC5DBE2F660015005FC55E /* HRTServices in Frameworks */ = {isa = PBXBuildFile; productRef = 21CC5DBB2F660014005FC55E /* HRTServices */; };
+		21CC5DC32F660021005FC55E /* HRT-Tracker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 21CC5DB12F660010005FC55E /* HRT-Tracker Watch App.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		21CC5C802F652AE3005FC55E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21CC5C662F652ADF005FC55E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21CC5C6D2F652ADF005FC55E;
+			remoteInfo = "HRT-Tracker";
+		};
+		21CC5C8A2F652AE3005FC55E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21CC5C662F652ADF005FC55E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21CC5C6D2F652ADF005FC55E;
+			remoteInfo = "HRT-Tracker";
+		};
+		21CC5DC02F660020005FC55E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21CC5C662F652ADF005FC55E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21CC5DB02F660010005FC55E;
+			remoteInfo = "HRT-Tracker Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		21CC5DC22F660021005FC55E /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				21CC5DC32F660021005FC55E /* HRT-Tracker Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		21CC5C6E2F652ADF005FC55E /* HRT-Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HRT-Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21CC5C7F2F652AE3005FC55E /* HRT-TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HRT-TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21CC5C892F652AE3005FC55E /* HRT-TrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HRT-TrackerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21CC5DB12F660010005FC55E /* HRT-Tracker Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HRT-Tracker Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		21CC5C912F652AE3005FC55E /* Exceptions for "HRT-Tracker" folder in "HRT-Tracker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 21CC5C6D2F652ADF005FC55E /* HRT-Tracker */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		21CC5C702F652ADF005FC55E /* HRT-Tracker */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				21CC5C912F652AE3005FC55E /* Exceptions for "HRT-Tracker" folder in "HRT-Tracker" target */,
+			);
+			path = "HRT-Tracker";
+			sourceTree = "<group>";
+		};
+		21CC5C822F652AE3005FC55E /* HRT-TrackerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "HRT-TrackerTests";
+			sourceTree = "<group>";
+		};
+		21CC5C8C2F652AE3005FC55E /* HRT-TrackerUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "HRT-TrackerUITests";
+			sourceTree = "<group>";
+		};
+		21CC5DB82F660013005FC55E /* HRT-Tracker Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "HRT-Tracker Watch App";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		21CC5C6B2F652ADF005FC55E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21CC5DA32F660002005FC55E /* HRTModels in Frameworks */,
+				21CC5DA42F660002005FC55E /* HRTPKEngine in Frameworks */,
+				21CC5DA52F660002005FC55E /* HRTServices in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21CC5C7C2F652AE3005FC55E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21CC5C862F652AE3005FC55E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21CC5DB32F660011005FC55E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21CC5DBC2F660015005FC55E /* HRTModels in Frameworks */,
+				21CC5DBD2F660015005FC55E /* HRTPKEngine in Frameworks */,
+				21CC5DBE2F660015005FC55E /* HRTServices in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		21CC5C652F652ADF005FC55E = {
+			isa = PBXGroup;
+			children = (
+				21CC5C702F652ADF005FC55E /* HRT-Tracker */,
+				21CC5DB82F660013005FC55E /* HRT-Tracker Watch App */,
+				21CC5C822F652AE3005FC55E /* HRT-TrackerTests */,
+				21CC5C8C2F652AE3005FC55E /* HRT-TrackerUITests */,
+				21CC5C6F2F652ADF005FC55E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		21CC5C6F2F652ADF005FC55E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				21CC5C6E2F652ADF005FC55E /* HRT-Tracker.app */,
+				21CC5C7F2F652AE3005FC55E /* HRT-TrackerTests.xctest */,
+				21CC5C892F652AE3005FC55E /* HRT-TrackerUITests.xctest */,
+				21CC5DB12F660010005FC55E /* HRT-Tracker Watch App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		21CC5C6D2F652ADF005FC55E /* HRT-Tracker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21CC5C922F652AE3005FC55E /* Build configuration list for PBXNativeTarget "HRT-Tracker" */;
+			buildPhases = (
+				21CC5C6A2F652ADF005FC55E /* Sources */,
+				21CC5C6B2F652ADF005FC55E /* Frameworks */,
+				21CC5C6C2F652ADF005FC55E /* Resources */,
+				21CC5DC22F660021005FC55E /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				21CC5DC12F660020005FC55E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				21CC5C702F652ADF005FC55E /* HRT-Tracker */,
+			);
+			name = "HRT-Tracker";
+			packageProductDependencies = (
+				21CC5DA02F660001005FC55E /* HRTModels */,
+				21CC5DA12F660001005FC55E /* HRTPKEngine */,
+				21CC5DA22F660001005FC55E /* HRTServices */,
+			);
+			productName = "HRT-Tracker";
+			productReference = 21CC5C6E2F652ADF005FC55E /* HRT-Tracker.app */;
+			productType = "com.apple.product-type.application";
+		};
+		21CC5C7E2F652AE3005FC55E /* HRT-TrackerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21CC5C972F652AE3005FC55E /* Build configuration list for PBXNativeTarget "HRT-TrackerTests" */;
+			buildPhases = (
+				21CC5C7B2F652AE3005FC55E /* Sources */,
+				21CC5C7C2F652AE3005FC55E /* Frameworks */,
+				21CC5C7D2F652AE3005FC55E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				21CC5C812F652AE3005FC55E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				21CC5C822F652AE3005FC55E /* HRT-TrackerTests */,
+			);
+			name = "HRT-TrackerTests";
+			packageProductDependencies = (
+			);
+			productName = "HRT-TrackerTests";
+			productReference = 21CC5C7F2F652AE3005FC55E /* HRT-TrackerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		21CC5C882F652AE3005FC55E /* HRT-TrackerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21CC5C9A2F652AE3005FC55E /* Build configuration list for PBXNativeTarget "HRT-TrackerUITests" */;
+			buildPhases = (
+				21CC5C852F652AE3005FC55E /* Sources */,
+				21CC5C862F652AE3005FC55E /* Frameworks */,
+				21CC5C872F652AE3005FC55E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				21CC5C8B2F652AE3005FC55E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				21CC5C8C2F652AE3005FC55E /* HRT-TrackerUITests */,
+			);
+			name = "HRT-TrackerUITests";
+			packageProductDependencies = (
+			);
+			productName = "HRT-TrackerUITests";
+			productReference = 21CC5C892F652AE3005FC55E /* HRT-TrackerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		21CC5DB02F660010005FC55E /* HRT-Tracker Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21CC5DB72F660012005FC55E /* Build configuration list for PBXNativeTarget "HRT-Tracker Watch App" */;
+			buildPhases = (
+				21CC5DB22F660011005FC55E /* Sources */,
+				21CC5DB32F660011005FC55E /* Frameworks */,
+				21CC5DB42F660011005FC55E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				21CC5DB82F660013005FC55E /* HRT-Tracker Watch App */,
+			);
+			name = "HRT-Tracker Watch App";
+			packageProductDependencies = (
+				21CC5DB92F660014005FC55E /* HRTModels */,
+				21CC5DBA2F660014005FC55E /* HRTPKEngine */,
+				21CC5DBB2F660014005FC55E /* HRTServices */,
+			);
+			productName = "HRT-Tracker Watch App";
+			productReference = 21CC5DB12F660010005FC55E /* HRT-Tracker Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		21CC5C662F652ADF005FC55E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					21CC5C6D2F652ADF005FC55E = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					21CC5C7E2F652AE3005FC55E = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = 21CC5C6D2F652ADF005FC55E;
+					};
+					21CC5C882F652AE3005FC55E = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = 21CC5C6D2F652ADF005FC55E;
+					};
+					21CC5DB02F660010005FC55E = {
+						CreatedOnToolsVersion = 26.3;
+					};
+				};
+			};
+			buildConfigurationList = 21CC5C692F652ADF005FC55E /* Build configuration list for PBXProject "HRT-Tracker" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+				"zh-Hant",
+				ja,
+			);
+			mainGroup = 21CC5C652F652ADF005FC55E;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				21CC5D6A2F653459005FC55E /* XCLocalSwiftPackageReference "Packages/HRTShared" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 21CC5C6F2F652ADF005FC55E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				21CC5C6D2F652ADF005FC55E /* HRT-Tracker */,
+				21CC5DB02F660010005FC55E /* HRT-Tracker Watch App */,
+				21CC5C7E2F652AE3005FC55E /* HRT-TrackerTests */,
+				21CC5C882F652AE3005FC55E /* HRT-TrackerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		21CC5C6C2F652ADF005FC55E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21CC5C7D2F652AE3005FC55E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21CC5C872F652AE3005FC55E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21CC5DB42F660011005FC55E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		21CC5C6A2F652ADF005FC55E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21CC5C7B2F652AE3005FC55E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21CC5C852F652AE3005FC55E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21CC5DB22F660011005FC55E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		21CC5C812F652AE3005FC55E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21CC5C6D2F652ADF005FC55E /* HRT-Tracker */;
+			targetProxy = 21CC5C802F652AE3005FC55E /* PBXContainerItemProxy */;
+		};
+		21CC5C8B2F652AE3005FC55E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21CC5C6D2F652ADF005FC55E /* HRT-Tracker */;
+			targetProxy = 21CC5C8A2F652AE3005FC55E /* PBXContainerItemProxy */;
+		};
+		21CC5DC12F660020005FC55E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilter = ios;
+			target = 21CC5DB02F660010005FC55E /* HRT-Tracker Watch App */;
+			targetProxy = 21CC5DC02F660020005FC55E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		21CC5C932F652AE3005FC55E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "HRT-Tracker/HRT_Tracker.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S8Q2676763;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "HRT-Tracker/Info.plist";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "sakura.HRT-Tracker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		21CC5C942F652AE3005FC55E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "HRT-Tracker/HRT_Tracker.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S8Q2676763;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "HRT-Tracker/Info.plist";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "sakura.HRT-Tracker";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
+		21CC5C952F652AE3005FC55E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		21CC5C962F652AE3005FC55E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		21CC5C982F652AE3005FC55E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "sakura.HRT-TrackerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HRT-Tracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HRT-Tracker";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		21CC5C992F652AE3005FC55E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "sakura.HRT-TrackerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HRT-Tracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/HRT-Tracker";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
+		21CC5C9B2F652AE3005FC55E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "sakura.HRT-TrackerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_TARGET_NAME = "HRT-Tracker";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		21CC5C9C2F652AE3005FC55E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "sakura.HRT-TrackerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_TARGET_NAME = "HRT-Tracker";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
+		21CC5DB52F660012005FC55E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S8Q2676763;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "HRT Tracker";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "sakura.HRT-Tracker";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "sakura.HRT-Tracker.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		21CC5DB62F660012005FC55E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S8Q2676763;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "HRT Tracker";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "sakura.HRT-Tracker";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "sakura.HRT-Tracker.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		21CC5C692F652ADF005FC55E /* Build configuration list for PBXProject "HRT-Tracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21CC5C952F652AE3005FC55E /* Debug */,
+				21CC5C962F652AE3005FC55E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21CC5C922F652AE3005FC55E /* Build configuration list for PBXNativeTarget "HRT-Tracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21CC5C932F652AE3005FC55E /* Debug */,
+				21CC5C942F652AE3005FC55E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21CC5C972F652AE3005FC55E /* Build configuration list for PBXNativeTarget "HRT-TrackerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21CC5C982F652AE3005FC55E /* Debug */,
+				21CC5C992F652AE3005FC55E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21CC5C9A2F652AE3005FC55E /* Build configuration list for PBXNativeTarget "HRT-TrackerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21CC5C9B2F652AE3005FC55E /* Debug */,
+				21CC5C9C2F652AE3005FC55E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21CC5DB72F660012005FC55E /* Build configuration list for PBXNativeTarget "HRT-Tracker Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21CC5DB52F660012005FC55E /* Debug */,
+				21CC5DB62F660012005FC55E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		21CC5D6A2F653459005FC55E /* XCLocalSwiftPackageReference "Packages/HRTShared" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/HRTShared;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		21CC5DA02F660001005FC55E /* HRTModels */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HRTModels;
+		};
+		21CC5DA12F660001005FC55E /* HRTPKEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HRTPKEngine;
+		};
+		21CC5DA22F660001005FC55E /* HRTServices */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HRTServices;
+		};
+		21CC5DB92F660014005FC55E /* HRTModels */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HRTModels;
+		};
+		21CC5DBA2F660014005FC55E /* HRTPKEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HRTPKEngine;
+		};
+		21CC5DBB2F660014005FC55E /* HRTServices */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HRTServices;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 21CC5C662F652ADF005FC55E /* Project object */;
+}

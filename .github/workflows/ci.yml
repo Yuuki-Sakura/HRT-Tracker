@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache SPM packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            Packages/HRTShared/.build
+            ~/Library/Developer/Xcode/DerivedData
+          key: spm-${{ runner.os }}-${{ hashFiles('Packages/HRTShared/Package.resolved', 'Packages/HRTShared/Package.swift') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      - name: Build iOS
+        run: >
+          xcodebuild build
+          -scheme "HRT-Tracker"
+          -destination 'generic/platform=iOS Simulator'
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS='$(inherited) OPENSOURCE'
+          CODE_SIGN_ENTITLEMENTS=HRT-Tracker/HRT_Tracker_OSS.entitlements
+
+      - name: Build watchOS
+        run: >
+          xcodebuild build
+          -scheme "HRT-Tracker Watch App"
+          -destination 'generic/platform=watchOS Simulator'
+
+      - name: Build macOS
+        run: >
+          xcodebuild build
+          -scheme "HRT-Tracker"
+          -destination 'generic/platform=macOS'
+          CODE_SIGNING_ALLOWED=NO
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS='$(inherited) OPENSOURCE'
+          CODE_SIGN_ENTITLEMENTS=HRT-Tracker/HRT_Tracker_OSS.entitlements
+
+  test:
+    name: Test
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache SPM packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            Packages/HRTShared/.build
+            ~/Library/Developer/Xcode/DerivedData
+          key: spm-${{ runner.os }}-${{ hashFiles('Packages/HRTShared/Package.resolved', 'Packages/HRTShared/Package.swift') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      - name: Test SPM packages
+        run: swift test --package-path Packages/HRTShared
+
+      - name: Test HRT-Tracker
+        run: >
+          xcodebuild test
+          -scheme "HRT-Tracker"
+          -destination 'platform=iOS Simulator,name=iPhone 17'
+          -only-testing:HRT-TrackerTests
+
+  lint:
+    name: SwiftLint
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Homebrew
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Caches/Homebrew
+            /opt/homebrew/Cellar/swiftlint
+          key: brew-swiftlint-${{ runner.os }}
+
+      - name: Install SwiftLint
+        run: brew install swiftlint && brew link swiftlint --overwrite
+
+      - name: Run SwiftLint
+        run: swiftlint

@@ -1,0 +1,77 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Archive & Release
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Derive version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "BUILD_NUMBER=${{ github.run_number }}" >> "$GITHUB_ENV"
+          echo "Version: $VERSION  Build: ${{ github.run_number }}"
+
+      - name: Cache SPM packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            Packages/HRTShared/.build
+            ~/Library/Developer/Xcode/DerivedData
+          key: spm-${{ runner.os }}-${{ hashFiles('Packages/HRTShared/Package.resolved', 'Packages/HRTShared/Package.swift') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      - name: Archive iOS
+        run: >
+          xcodebuild archive
+          -scheme "HRT-Tracker"
+          -archivePath build/HRT-Tracker-iOS.xcarchive
+          -destination 'generic/platform=iOS'
+          CODE_SIGNING_ALLOWED=NO
+          CODE_SIGN_ENTITLEMENTS=HRT-Tracker/HRT_Tracker_OSS.entitlements
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS='$(inherited) OPENSOURCE'
+          MARKETING_VERSION=$VERSION
+          CURRENT_PROJECT_VERSION=$BUILD_NUMBER
+
+      - name: Package iOS IPA
+        run: |
+          mkdir -p build/ios/Payload
+          cp -R build/HRT-Tracker-iOS.xcarchive/Products/Applications/HRT-Tracker.app build/ios/Payload/
+          cd build/ios
+          zip -r -9 HRT-Tracker.ipa Payload
+          rm -rf Payload
+
+      - name: Archive macOS
+        run: >
+          xcodebuild archive
+          -scheme "HRT-Tracker"
+          -archivePath build/HRT-Tracker-macOS.xcarchive
+          -destination 'generic/platform=macOS'
+          CODE_SIGNING_ALLOWED=NO
+          CODE_SIGN_ENTITLEMENTS=HRT-Tracker/HRT_Tracker_OSS.entitlements
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS='$(inherited) OPENSOURCE'
+          MARKETING_VERSION=$VERSION
+          CURRENT_PROJECT_VERSION=$BUILD_NUMBER
+
+      - name: Create macOS DMG
+        run: |
+          cp -R build/HRT-Tracker-macOS.xcarchive/Products/Applications/HRT-Tracker.app build/
+          hdiutil create -volname "HRT-Tracker" -srcfolder build/HRT-Tracker.app -ov -format UDZO build/HRT-Tracker.dmg
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          gh release create ${{ github.ref_name }}
+          --generate-notes
+          build/ios/HRT-Tracker.ipa
+          build/HRT-Tracker.dmg
