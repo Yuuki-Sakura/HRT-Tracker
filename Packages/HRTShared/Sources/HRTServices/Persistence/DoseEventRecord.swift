@@ -4,11 +4,11 @@ import HRTModels
 
 @Model
 public final class DoseEventRecord {
-    @Attribute(.unique) public var eventID: UUID
-    public var routeRaw: String
-    public var timestamp: Int64
-    public var doseMG: Double
-    public var esterRaw: String
+    public var eventID: UUID = UUID()
+    public var routeRaw: String = ""
+    public var timestamp: Int64 = 0
+    public var doseMG: Double = 0
+    public var esterRaw: String = ""
     public var extrasData: Data?
 
     public init(eventID: UUID, routeRaw: String, timestamp: Int64, doseMG: Double, esterRaw: String, extrasData: Data?) {

@@ -4,10 +4,10 @@ import HRTModels
 
 @Model
 public final class LabResultRecord {
-    @Attribute(.unique) public var resultID: UUID
-    public var timestamp: Int64
-    public var concValue: Double
-    public var unitRaw: String
+    public var resultID: UUID = UUID()
+    public var timestamp: Int64 = 0
+    public var concValue: Double = 0
+    public var unitRaw: String = ""
 
     public init(resultID: UUID, timestamp: Int64, concValue: Double, unitRaw: String) {
         self.resultID = resultID

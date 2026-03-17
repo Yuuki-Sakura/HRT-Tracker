@@ -4,7 +4,7 @@ import HRTModels
 
 @Model
 public final class DoseTemplateRecord {
-    @Attribute(.unique) public var templateID: UUID = UUID()
+    public var templateID: UUID = UUID()
     public var name: String = ""
     public var routeRaw: String = ""
     public var esterRaw: String = ""

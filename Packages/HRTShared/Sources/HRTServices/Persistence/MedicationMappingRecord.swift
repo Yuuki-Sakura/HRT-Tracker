@@ -4,7 +4,7 @@ import HRTModels
 
 @Model
 public final class MedicationMappingRecord {
-    @Attribute(.unique) public var medicationConceptID: String = ""
+    public var medicationConceptID: String = ""
     public var displayName: String = ""
     public var routeRaw: String = ""
     public var esterRaw: String = ""
