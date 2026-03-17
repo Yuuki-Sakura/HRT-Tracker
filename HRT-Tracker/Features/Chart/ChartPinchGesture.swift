@@ -81,6 +81,21 @@ struct ChartGestureOverlay: UIViewRepresentable {
 /// Custom UIView that uses raw touchesBegan/Moved/Ended for zero-delay tooltip.
 class ChartTouchView: UIView {
     weak var coordinator: ChartGestureOverlay.Coordinator?
+    private weak var parentScrollView: UIScrollView?
+
+    private func findParentScrollView() -> UIScrollView? {
+        var view: UIView? = superview
+        while let v = view {
+            if let sv = v as? UIScrollView { return sv }
+            view = v.superview
+        }
+        return nil
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        parentScrollView = findParentScrollView()
+    }
 
     private func clampedLocation(_ touches: Set<UITouch>) -> CGPoint? {
         guard let touch = touches.first else { return nil }
@@ -95,6 +110,7 @@ class ChartTouchView: UIView {
         super.touchesBegan(touches, with: event)
         guard let coord = coordinator, !coord.isPinching,
               let loc = clampedLocation(touches) else { return }
+        parentScrollView?.canCancelContentTouches = false
         coord.onDrag?(loc)
     }
 
@@ -107,12 +123,14 @@ class ChartTouchView: UIView {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
+        parentScrollView?.canCancelContentTouches = true
         guard let coord = coordinator, !coord.isPinching else { return }
         coord.onDragEnd?()
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
+        parentScrollView?.canCancelContentTouches = true
         guard let coord = coordinator, !coord.isPinching else { return }
         coord.onDragEnd?()
     }

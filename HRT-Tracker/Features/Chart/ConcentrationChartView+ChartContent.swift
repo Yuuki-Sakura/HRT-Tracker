@@ -40,7 +40,7 @@ extension ConcentrationChartView {
                     PointMark(x: .value("Time", event.date), y: .value("Conc", conc))
                         .symbolSize(80).foregroundStyle(Color.pink)
                     PointMark(x: .value("Time", event.date), y: .value("Conc", conc))
-                        .symbolSize(45).foregroundStyle(Color.white)
+                        .symbolSize(45).foregroundStyle(Color(.systemBackground))
                     PointMark(x: .value("Time", event.date), y: .value("Conc", conc))
                         .symbolSize(18).foregroundStyle(Color.pink)
                 }
@@ -49,7 +49,7 @@ extension ConcentrationChartView {
                     PointMark(x: .value("Time", event.date), y: .value("Conc", scaledConc))
                         .symbolSize(80).foregroundStyle(Color.indigo)
                     PointMark(x: .value("Time", event.date), y: .value("Conc", scaledConc))
-                        .symbolSize(45).foregroundStyle(Color.white)
+                        .symbolSize(45).foregroundStyle(Color(.systemBackground))
                     PointMark(x: .value("Time", event.date), y: .value("Conc", scaledConc))
                         .symbolSize(18).foregroundStyle(Color.indigo)
                 }
@@ -190,57 +190,55 @@ extension ConcentrationChartView {
                 .frame(width: plotFrame.width, height: plotFrame.height)
                 .position(x: plotFrame.midX, y: plotFrame.midY)
 
-                // Current time indicator (overlay, not in Chart)
-                if let cp = currentPoint, hasE2,
-                   let xPos = proxy.position(forX: cp.date),
-                   let yPos = proxy.position(forY: cp.conc) {
-                    let x = plotFrame.origin.x + xPos
-                    let y = plotFrame.origin.y + yPos
-                    Circle().fill(Color.white).frame(width: 10, height: 10).position(x: x, y: y)
-                    Circle().fill(Color(red: 1.0, green: 0.6, blue: 0.7)).frame(width: 6, height: 6).position(x: x, y: y)
-                }
-                if let cpa = currentCPAPoint {
-                    let scaledConc = cpa.conc * (maxE2 / maxCPA)
-                    if let xPos = proxy.position(forX: cpa.date),
-                       let yPos = proxy.position(forY: scaledConc) {
-                        let x = plotFrame.origin.x + xPos
-                        let y = plotFrame.origin.y + yPos
-                        Circle().fill(Color.white).frame(width: 10, height: 10).position(x: x, y: y)
-                        Circle().fill(Color(red: 0.6, green: 0.6, blue: 0.9)).frame(width: 6, height: 6).position(x: x, y: y)
+                // Point indicators clipped to plot area
+                ZStack {
+                    // Current time indicator
+                    if let cp = currentPoint, hasE2,
+                       let xPos = proxy.position(forX: cp.date),
+                       let yPos = proxy.position(forY: cp.conc) {
+                        let x = xPos
+                        let y = yPos
+                        Circle().fill(Color(.systemBackground)).frame(width: 10, height: 10).position(x: x, y: y)
+                        Circle().fill(Color(red: 1.0, green: 0.6, blue: 0.7)).frame(width: 6, height: 6).position(x: x, y: y)
                     }
-                }
-
-                // Selected point indicator (overlay, not in Chart)
-                if let sp = selectedPoint {
-                    if let xPos = proxy.position(forX: sp.date) {
-                        let x = plotFrame.origin.x + xPos
-                        // Dashed vertical line
-                        DashedLine()
-                            .stroke(Color.pink.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
-                            .frame(width: 1, height: plotFrame.height)
-                            .position(x: x, y: plotFrame.midY)
-                    }
-                    // E2 selected dot
-                    if hasE2,
-                       let xPos = proxy.position(forX: sp.date),
-                       let yPos = proxy.position(forY: sp.conc) {
-                        let x = plotFrame.origin.x + xPos
-                        let y = plotFrame.origin.y + yPos
-                        Circle().fill(Color.white).frame(width: 10, height: 10).position(x: x, y: y)
-                        Circle().fill(Color.pink).frame(width: 6, height: 6).position(x: x, y: y)
-                    }
-                    // CPA selected dot
-                    if let cpa = selectedCPAPoint {
+                    if let cpa = currentCPAPoint {
                         let scaledConc = cpa.conc * (maxE2 / maxCPA)
                         if let xPos = proxy.position(forX: cpa.date),
                            let yPos = proxy.position(forY: scaledConc) {
-                            let x = plotFrame.origin.x + xPos
-                            let y = plotFrame.origin.y + yPos
-                            Circle().fill(Color.white).frame(width: 10, height: 10).position(x: x, y: y)
-                            Circle().fill(Color.indigo).frame(width: 6, height: 6).position(x: x, y: y)
+                            let x = xPos
+                            let y = yPos
+                            Circle().fill(Color(.systemBackground)).frame(width: 10, height: 10).position(x: x, y: y)
+                            Circle().fill(Color(red: 0.6, green: 0.6, blue: 0.9)).frame(width: 6, height: 6).position(x: x, y: y)
+                        }
+                    }
+
+                    // Selected point indicator
+                    if let sp = selectedPoint {
+                        if let xPos = proxy.position(forX: sp.date) {
+                            DashedLine()
+                                .stroke(Color.pink.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
+                                .frame(width: 1, height: plotFrame.height)
+                                .position(x: xPos, y: plotFrame.height / 2)
+                        }
+                        if hasE2,
+                           let xPos = proxy.position(forX: sp.date),
+                           let yPos = proxy.position(forY: sp.conc) {
+                            Circle().fill(Color(.systemBackground)).frame(width: 10, height: 10).position(x: xPos, y: yPos)
+                            Circle().fill(Color.pink).frame(width: 6, height: 6).position(x: xPos, y: yPos)
+                        }
+                        if let cpa = selectedCPAPoint {
+                            let scaledConc = cpa.conc * (maxE2 / maxCPA)
+                            if let xPos = proxy.position(forX: cpa.date),
+                               let yPos = proxy.position(forY: scaledConc) {
+                                Circle().fill(Color(.systemBackground)).frame(width: 10, height: 10).position(x: xPos, y: yPos)
+                                Circle().fill(Color.indigo).frame(width: 6, height: 6).position(x: xPos, y: yPos)
+                            }
                         }
                     }
                 }
+                .frame(width: plotFrame.width, height: plotFrame.height)
+                .clipped()
+                .position(x: plotFrame.midX, y: plotFrame.midY)
 
                 // Tooltip display
                 if let (date, e2, cpa) = tooltipData {
