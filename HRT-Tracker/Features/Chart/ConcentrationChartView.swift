@@ -231,10 +231,7 @@ struct ConcentrationChartView: View {
                         .frame(width: 16)
                 }
             }
-            .background(GeometryReader { geo in
-                Color.clear.onAppear { chartWidth = geo.size.width }
-                    .onChange(of: geo.size.width) { _, newValue in chartWidth = newValue }
-            })
+            .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { chartWidth = $0 }
             minimapView
         }
         .animation(.easeInOut, value: sim.concPGmL)

@@ -58,41 +58,6 @@ extension ConcentrationChartView {
             if !labResults.isEmpty {
                 CalibrationOverlay(labResults: labResults)
             }
-            // Selected point — dashed RuleMark + stacked PointMarks
-            if let sp = selectedPoint {
-                RuleMark(x: .value("Time", sp.date))
-                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 3]))
-                    .foregroundStyle(Color.pink.opacity(0.5))
-                if let cpa = selectedCPAPoint {
-                    let scaledConc = cpa.conc * (maxE2 / maxCPA)
-                    PointMark(x: .value("Time", cpa.date), y: .value("Conc", scaledConc))
-                        .symbolSize(80).foregroundStyle(Color.white)
-                    PointMark(x: .value("Time", cpa.date), y: .value("Conc", scaledConc))
-                        .symbolSize(30).foregroundStyle(Color.indigo)
-                }
-                if hasE2 {
-                    PointMark(x: .value("Time", sp.date), y: .value("Conc", sp.conc))
-                        .symbolSize(80).foregroundStyle(Color.white)
-                    PointMark(x: .value("Time", sp.date), y: .value("Conc", sp.conc))
-                        .symbolSize(30).foregroundStyle(Color.pink)
-                }
-            }
-            // Current time — always visible, stacked PointMarks with light color
-            if let cp = currentPoint {
-                if hasE2 {
-                    PointMark(x: .value("Time", cp.date), y: .value("Conc", cp.conc))
-                        .symbolSize(80).foregroundStyle(Color.white)
-                    PointMark(x: .value("Time", cp.date), y: .value("Conc", cp.conc))
-                        .symbolSize(30).foregroundStyle(Color(red: 1.0, green: 0.6, blue: 0.7))
-                }
-                if let cpa = currentCPAPoint {
-                    let scaledConc = cpa.conc * (maxE2 / maxCPA)
-                    PointMark(x: .value("Time", cpa.date), y: .value("Conc", scaledConc))
-                        .symbolSize(80).foregroundStyle(Color.white)
-                    PointMark(x: .value("Time", cpa.date), y: .value("Conc", scaledConc))
-                        .symbolSize(30).foregroundStyle(Color(red: 0.6, green: 0.6, blue: 0.9))
-                }
-            }
         }
         .chartXAxis {
             AxisMarks(values: .stride(by: visibleDomainLength <= 48 ? .hour : .day, count: visibleDomainLength <= 48 ? 6 : 1)) { value in
@@ -225,18 +190,67 @@ extension ConcentrationChartView {
                 .frame(width: plotFrame.width, height: plotFrame.height)
                 .position(x: plotFrame.midX, y: plotFrame.midY)
 
+                // Current time indicator (overlay, not in Chart)
+                if let cp = currentPoint, hasE2,
+                   let xPos = proxy.position(forX: cp.date),
+                   let yPos = proxy.position(forY: cp.conc) {
+                    let x = plotFrame.origin.x + xPos
+                    let y = plotFrame.origin.y + yPos
+                    Circle().fill(Color.white).frame(width: 10, height: 10).position(x: x, y: y)
+                    Circle().fill(Color(red: 1.0, green: 0.6, blue: 0.7)).frame(width: 6, height: 6).position(x: x, y: y)
+                }
+                if let cpa = currentCPAPoint {
+                    let scaledConc = cpa.conc * (maxE2 / maxCPA)
+                    if let xPos = proxy.position(forX: cpa.date),
+                       let yPos = proxy.position(forY: scaledConc) {
+                        let x = plotFrame.origin.x + xPos
+                        let y = plotFrame.origin.y + yPos
+                        Circle().fill(Color.white).frame(width: 10, height: 10).position(x: x, y: y)
+                        Circle().fill(Color(red: 0.6, green: 0.6, blue: 0.9)).frame(width: 6, height: 6).position(x: x, y: y)
+                    }
+                }
+
+                // Selected point indicator (overlay, not in Chart)
+                if let sp = selectedPoint {
+                    if let xPos = proxy.position(forX: sp.date) {
+                        let x = plotFrame.origin.x + xPos
+                        // Dashed vertical line
+                        DashedLine()
+                            .stroke(Color.pink.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
+                            .frame(width: 1, height: plotFrame.height)
+                            .position(x: x, y: plotFrame.midY)
+                    }
+                    // E2 selected dot
+                    if hasE2,
+                       let xPos = proxy.position(forX: sp.date),
+                       let yPos = proxy.position(forY: sp.conc) {
+                        let x = plotFrame.origin.x + xPos
+                        let y = plotFrame.origin.y + yPos
+                        Circle().fill(Color.white).frame(width: 10, height: 10).position(x: x, y: y)
+                        Circle().fill(Color.pink).frame(width: 6, height: 6).position(x: x, y: y)
+                    }
+                    // CPA selected dot
+                    if let cpa = selectedCPAPoint {
+                        let scaledConc = cpa.conc * (maxE2 / maxCPA)
+                        if let xPos = proxy.position(forX: cpa.date),
+                           let yPos = proxy.position(forY: scaledConc) {
+                            let x = plotFrame.origin.x + xPos
+                            let y = plotFrame.origin.y + yPos
+                            Circle().fill(Color.white).frame(width: 10, height: 10).position(x: x, y: y)
+                            Circle().fill(Color.indigo).frame(width: 6, height: 6).position(x: x, y: y)
+                        }
+                    }
+                }
+
                 // Tooltip display
                 if let (date, e2, cpa) = tooltipData {
                     tooltipView(date: date, e2: e2, cpa: cpa)
                         .fixedSize()
-                        .background(GeometryReader { tipGeo in
-                            Color.clear.preference(key: TooltipSizeKey.self, value: tipGeo.size)
-                        })
+                        .onGeometryChange(for: CGSize.self) { $0.size } action: { tooltipSize = $0 }
                         .position(tooltipPosition)
                 }
                 }
             }
-            .onPreferenceChange(TooltipSizeKey.self) { tooltipSize = $0 }
         }
         .frame(minHeight: 260)
     }
@@ -279,7 +293,12 @@ extension ConcentrationChartView {
     }
 }
 
-struct TooltipSizeKey: PreferenceKey {
-    static let defaultValue: CGSize = .zero
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) { value = nextValue() }
+/// Vertical line shape for selection indicator
+private struct DashedLine: Shape {
+    func path(in rect: CGRect) -> Path {
+        Path { p in
+            p.move(to: CGPoint(x: rect.midX, y: rect.minY))
+            p.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
+        }
+    }
 }
