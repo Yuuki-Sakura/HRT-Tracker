@@ -13,10 +13,7 @@ struct LabInputView: View {
         Form {
             DatePicker(String(localized: "lab.date"), selection: $date, displayedComponents: [.date, .hourAndMinute])
 
-            TextField(String(localized: "lab.value"), text: $valueText)
-                #if os(iOS) || os(watchOS)
-                .keyboardType(.decimalPad)
-                #endif
+            DecimalField(label: String(localized: "lab.value"), text: $valueText)
 
             Picker(String(localized: "lab.unit"), selection: $unit) {
                 ForEach(ConcentrationUnit.allCases) { u in
@@ -24,6 +21,9 @@ struct LabInputView: View {
                 }
             }
         }
+        #if os(iOS)
+        .scrollDismissesKeyboard(.interactively)
+        #endif
         .navigationTitle("lab.title")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {

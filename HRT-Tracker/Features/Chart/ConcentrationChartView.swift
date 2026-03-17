@@ -187,12 +187,13 @@ struct ConcentrationChartView: View {
         return (sp.date, sp.conc, selectedCPAPoint?.conc)
     }
 
-    /// Total time range of the data
+    /// Total time range of the data, capped to at most 30 days ago
     private var totalTimeRange: (start: TimeInterval, end: TimeInterval) {
         guard let first = sim.timestamps.first, let last = sim.timestamps.last else {
             return (0, 1)
         }
-        return (TimeInterval(first), TimeInterval(last))
+        let thirtyDaysAgo = Date().timeIntervalSince1970 - 30 * 24 * 3600
+        return (max(TimeInterval(first), thirtyDaysAgo), TimeInterval(last))
     }
 
     var body: some View {
@@ -227,7 +228,9 @@ struct ConcentrationChartView: View {
         .animation(.easeInOut, value: sim.concPGmL)
         .onAppear {
             visibleDomainLength = (sizeClass == .compact) ? 144 : 168
-            scrollPosition = now.addingTimeInterval(-visibleDomainLength * 3600 / 2)
+            let thirtyDaysAgo = now.addingTimeInterval(-30 * 24 * 3600)
+            let idealStart = now.addingTimeInterval(-visibleDomainLength * 3600 / 2)
+            scrollPosition = max(idealStart, thirtyDaysAgo)
         }
         .onReceive(timer) { now = $0 }
     }
@@ -460,9 +463,10 @@ struct ConcentrationChartView: View {
     // MARK: - Scroll Minimap
 
     private var minimapView: some View {
-        ChartMinimapView(
-            indexedPoints: rawIndexedPoints,
-            indexedCPAPoints: rawIndexedCPAPoints,
+        let cutoff = Date().addingTimeInterval(-30 * 24 * 3600)
+        return ChartMinimapView(
+            indexedPoints: rawIndexedPoints.filter { $0.date >= cutoff },
+            indexedCPAPoints: rawIndexedCPAPoints.filter { $0.date >= cutoff },
             hasE2: hasE2,
             hasCPA: sim.hasCPA,
             yAxisDomain: yAxisDomain,

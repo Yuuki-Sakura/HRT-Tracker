@@ -14,16 +14,10 @@ struct PatchFieldsView: View {
             .pickerStyle(.segmented)
 
             if draft.patchMode == .totalDose {
-                TextField(String(localized: "input.patchMode.totalDose.placeholder"), text: $draft.e2EquivalentDoseText)
-                    #if os(iOS) || os(watchOS)
-                    .keyboardType(.decimalPad)
-                    #endif
+                DecimalField(label: String(localized: "input.patchMode.totalDose.placeholder"), text: $draft.e2EquivalentDoseText)
                     .focused(focusedField, equals: .patchTotal)
             } else {
-                TextField(String(localized: "input.patchMode.releaseRate.placeholder"), text: $draft.releaseRateText)
-                    #if os(iOS) || os(watchOS)
-                    .keyboardType(.decimalPad)
-                    #endif
+                DecimalField(label: String(localized: "input.patchMode.releaseRate.placeholder"), text: $draft.releaseRateText)
                     .focused(focusedField, equals: .patchRelease)
             }
 

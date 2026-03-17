@@ -70,7 +70,7 @@ struct ServicesTests {
             func saveBodyMassKG(_ kg: Double) async throws {}
             func requestMedicationAuthorization() async throws {}
             func fetchMedications() async throws -> [MedicationInfo] { return [] }
-            func fetchDoseEvents(for medicationConceptID: String, since: Date) async throws -> [MedicationDoseEventInfo] { return [] }
+            func fetchDoseEventsForMedications(ids: Set<String>, since: Date) async throws -> [MedicationDoseEventInfo] { return [] }
             func observeBodyMassChanges(handler: @escaping @Sendable () -> Void) {}
             func observeMedicationDoseEvents(handler: @escaping @Sendable () -> Void) {}
         }

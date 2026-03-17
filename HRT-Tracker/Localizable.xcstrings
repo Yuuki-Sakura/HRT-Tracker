@@ -26,6 +26,19 @@
         }
       }
     },
+    "%@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
     "•" : {
 
     },
@@ -1644,6 +1657,9 @@
           }
         }
       }
+    },
+    "GAHT" : {
+
     },
     "HealthKit" : {
 
@@ -3294,34 +3310,6 @@
         }
       }
     },
-    "input.sublingual.thetaReference" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reference θ by hold duration:\n~2 min (quick): 0.01\n~5 min (casual): 0.04\n~10 min (standard): 0.11\n~15 min (strict): 0.18\nDefault (calibrated): 0.025"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保持時間別の参考θ値：\n約2分（クイック）：0.01\n約5分（カジュアル）：0.04\n約10分（標準）：0.11\n約15分（厳格）：0.18\nデフォルト（校正値）：0.025"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "各含服时长参考 θ 值：\n~2 分钟（快速）：0.01\n~5 分钟（随意）：0.04\n~10 分钟（标准）：0.11\n~15 分钟（严格）：0.18\n默认（校准值）：0.025"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "各含服時長參考 θ 值：\n~2 分鐘（快速）：0.01\n~5 分鐘（隨意）：0.04\n~10 分鐘（標準）：0.11\n~15 分鐘（嚴格）：0.18\n預設（校準值）：0.025"
-          }
-        }
-      }
-    },
     "input.sublingual.instructions" : {
       "localizations" : {
         "en" : {
@@ -3346,6 +3334,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "θ = 0.025（黏膜吸收比例）。校準自 Doll et al. (2021, PMID 34781041)：10 名跨性別女性舌下含服 1mg E2，LC-MS/MS 峰值 144 pg/mL。藥片約 2 分鐘內完全溶解；溶解後殘留於唾液中的藥物經吞嚥進入消化道，受肝臟首過效應代謝（F = 0.03）。開啟自訂 θ 可覆蓋。"
+          }
+        }
+      }
+    },
+    "input.sublingual.thetaReference" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reference θ by hold duration:\n~2 min (quick): 0.01\n~5 min (casual): 0.04\n~10 min (standard): 0.11\n~15 min (strict): 0.18\nDefault (calibrated): 0.025"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持時間別の参考θ値：\n約2分（クイック）：0.01\n約5分（カジュアル）：0.04\n約10分（標準）：0.11\n約15分（厳格）：0.18\nデフォルト（校正値）：0.025"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "各含服时长参考 θ 值：\n~2 分钟（快速）：0.01\n~5 分钟（随意）：0.04\n~10 分钟（标准）：0.11\n~15 分钟（严格）：0.18\n默认（校准值）：0.025"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "各含服時長參考 θ 值：\n~2 分鐘（快速）：0.01\n~5 分鐘（隨意）：0.04\n~10 分鐘（標準）：0.11\n~15 分鐘（嚴格）：0.18\n預設（校準值）：0.025"
           }
         }
       }
@@ -3832,6 +3848,9 @@
         }
       }
     },
+    "mg" : {
+
+    },
     "modal.estimate.p2" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3919,35 +3938,6 @@
         }
       }
     },
-    "modal.gaht.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GAHT Reference Range"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GAHT 参考範囲"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GAHT 参考范围"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GAHT 參考範圍"
-          }
-        }
-      }
-    },
     "modal.gaht.body" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4006,95 +3996,37 @@
         }
       }
     },
+    "modal.gaht.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GAHT Reference Range"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GAHT 参考範囲"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GAHT 参考范围"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GAHT 參考範圍"
+          }
+        }
+      }
+    },
     "ng/mL" : {
 
-    },
-    "notification.dose.body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "It's time for your next dose."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "次の服薬の時間です。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "该服用下一剂药物了。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "該服用下一劑藥物了。"
-          }
-        }
-      }
-    },
-    "notification.dose.body.template" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "It's time for your %@ dose."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ の服薬の時間です。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "该服用 %@ 了。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "該服用 %@ 了。"
-          }
-        }
-      }
-    },
-    "notification.dose.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dose Reminder"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "服薬リマインダー"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用药提醒"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用藥提醒"
-          }
-        }
-      }
     },
     "pg/mL" : {
 
@@ -5257,31 +5189,31 @@
         }
       }
     },
-    "settings.group.reminder" : {
+    "settings.group.template" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dose Reminder"
+            "value" : "Dose Templates"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "服薬リマインダー"
+            "value" : "投薬テンプレート"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用药提醒"
+            "value" : "用药模板"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用藥提醒"
+            "value" : "用藥模板"
           }
         }
       }
@@ -5460,6 +5392,180 @@
         }
       }
     },
+    "settings.healthkit.mapping.dose" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dose per Unit"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1回あたりの用量"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单次剂量"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "單次劑量"
+          }
+        }
+      }
+    },
+    "settings.healthkit.mapping.empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Medications"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "薬がありません"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无药物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫無藥物"
+          }
+        }
+      }
+    },
+    "settings.healthkit.mapping.empty.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add medications in the Health app first."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "まずヘルスケアアプリで薬を追加してください。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请先在「健康」App 中添加药物。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請先在「健康」App 中添加藥物。"
+          }
+        }
+      }
+    },
+    "settings.healthkit.mapping.ester" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "薬の種類"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "药物类型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藥物類型"
+          }
+        }
+      }
+    },
+    "settings.healthkit.mapping.route" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Route"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "投与経路"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "给药途径"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "給藥途徑"
+          }
+        }
+      }
+    },
+    "settings.healthkit.mapping.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure Medication"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "薬を設定"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置药物"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置藥物"
+          }
+        }
+      }
+    },
     "settings.healthkit.medication_sync" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5514,6 +5620,93 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "立即同步用藥記錄"
+          }
+        }
+      }
+    },
+    "settings.healthkit.notConfigured" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not configured"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未設定"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未配置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未配置"
+          }
+        }
+      }
+    },
+    "settings.healthkit.tap_to_configure" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to configure"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タップして設定"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击以配置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點擊以配置"
+          }
+        }
+      }
+    },
+    "settings.healthkit.unmapped_warning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Some medications need configuration"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一部の薬が未設定です"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "部分药物需要配置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "部分藥物需要配置"
           }
         }
       }
@@ -5634,208 +5827,6 @@
         }
       }
     },
-    "settings.reminder.empty" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Please create dose templates first"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "先に投薬テンプレートを作成してください"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请先创建剂量模板"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "請先建立劑量模板"
-          }
-        }
-      }
-    },
-    "settings.reminder.enable" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dose Reminder"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "服薬リマインダー"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用药提醒"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用藥提醒"
-          }
-        }
-      }
-    },
-    "settings.reminder.interval" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dosing Interval"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "服薬間隔"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用药间隔"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用藥間隔"
-          }
-        }
-      }
-    },
-    "settings.reminder.interval.2d" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every 2 Days"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "2日ごと"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 2 天"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 2 天"
-          }
-        }
-      }
-    },
-    "settings.reminder.interval.3d" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every 3 days"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "3日ごと"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 3 天"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 3 天"
-          }
-        }
-      }
-    },
-    "settings.reminder.interval.5d" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every 5 days"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "5日ごと"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 5 天"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 5 天"
-          }
-        }
-      }
-    },
-    "settings.reminder.interval.7d" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every 7 days"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "7日ごと"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 7 天"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 7 天"
-          }
-        }
-      }
-    },
     "settings.reminder.interval.8h" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5894,145 +5885,31 @@
         }
       }
     },
-    "settings.reminder.interval.14d" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every 14 Days"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "14日ごと"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 14 天"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 14 天"
-          }
-        }
-      }
-    },
-    "settings.reminder.interval.daily" : {
+    "settings.template.empty" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Daily"
+            "value" : "Please create dose templates first"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "毎日"
+            "value" : "先に投薬テンプレートを作成してください"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每天"
+            "value" : "请先创建剂量模板"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每天"
-          }
-        }
-      }
-    },
-    "settings.reminder.next" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next Reminder"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "次のリマインダー"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下次提醒"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下次提醒"
-          }
-        }
-      }
-    },
-    "settings.reminder.notification_hint" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Please enable notifications for this app in System Settings > Notifications."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "システム設定 > 通知 でこのアプリの通知を有効にしてください。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请在系统设置 > 通知中启用本应用的通知权限。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "請在系統設定 > 通知中啟用本應用的通知權限。"
-          }
-        }
-      }
-    },
-    "settings.reminder.time" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reminder Time"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "リマインダー時刻"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "提醒时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "提醒時間"
+            "value" : "請先建立劑量模板"
           }
         }
       }

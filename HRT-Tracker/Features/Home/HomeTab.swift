@@ -119,12 +119,6 @@ struct HomeTab: View {
                     showDisclaimer = true
                 }
             }
-            .onChange(of: vm.pendingTemplateFromNotification) { _, template in
-                if let template = template {
-                    vm.pendingTemplateFromNotification = nil
-                    activeSheet = .addFromTemplate(template)
-                }
-            }
         }
     }
 

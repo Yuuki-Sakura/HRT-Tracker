@@ -35,12 +35,7 @@ struct DraftDoseEvent {
     var applicationSite: ApplicationSite?
 
     var availableEsters: [Ester] {
-        switch route {
-        case .injection: return [.EB, .EV, .EC, .EN]
-        case .patchApply, .patchRemove, .gel: return [.E2]
-        case .oral: return [.E2, .EV, .CPA]
-        case .sublingual: return [.E2, .EV]
-        }
+        route.availableEsters
     }
 
     func parsedDouble(_ text: String) -> Double? {

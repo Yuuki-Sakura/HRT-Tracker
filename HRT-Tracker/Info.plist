@@ -2,13 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>This app reads your body weight and medication dose history from Health to track hormone levels.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>This app writes your medication dose records to Health for tracking.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>
-	<key>NSHealthShareUsageDescription</key>
-	<string>读取体重和用药记录，用于药代动力学计算</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>写入体重和用药记录至健康 App</string>
 </dict>
 </plist>

@@ -30,6 +30,31 @@ jobs:
           key: spm-${{ runner.os }}-${{ hashFiles('Packages/HRTShared/Package.resolved', 'Packages/HRTShared/Package.swift') }}
           restore-keys: spm-${{ runner.os }}-
 
+      - name: Import code-signing certificate
+        env:
+          P12_BASE64: ${{ secrets.DEVELOPER_ID_APPLICATION_P12 }}
+          P12_PASSWORD: ${{ secrets.DEVELOPER_ID_APPLICATION_PASSWORD }}
+        run: |
+          KEYCHAIN_PATH=$RUNNER_TEMP/signing.keychain-db
+          KEYCHAIN_PASSWORD=$(uuidgen)
+
+          echo "$P12_BASE64" | base64 --decode > $RUNNER_TEMP/certificate.p12
+
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+
+          security import $RUNNER_TEMP/certificate.p12 \
+            -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k "$KEYCHAIN_PATH"
+
+          security set-key-partition-list -S apple-tool:,apple:,codesign: \
+            -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+
+          security list-keychains -d user -s "$KEYCHAIN_PATH" \
+            $(security list-keychains -d user | tr -d '"')
+
+          echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >> "$GITHUB_ENV"
+
       - name: Archive iOS
         run: >
           xcodebuild archive
@@ -62,10 +87,40 @@ jobs:
           MARKETING_VERSION=$VERSION
           CURRENT_PROJECT_VERSION=$BUILD_NUMBER
 
+      - name: Sign macOS app
+        run: |
+          APP_PATH="build/HRT-Tracker-macOS.xcarchive/Products/Applications/HRT-Tracker.app"
+
+          IDENTITY=$(security find-identity -v -p codesigning "$KEYCHAIN_PATH" \
+            | grep "Developer ID Application" | head -1 | awk -F'"' '{print $2}')
+          echo "Signing with identity: $IDENTITY"
+
+          /usr/bin/codesign --force --deep --options runtime --timestamp \
+            --entitlements HRT-Tracker/HRT_Tracker_macOS_Distribution.entitlements \
+            --sign "$IDENTITY" \
+            "$APP_PATH"
+
+          codesign --verify --deep --strict --verbose=2 "$APP_PATH"
+
       - name: Create macOS DMG
         run: |
           cp -R build/HRT-Tracker-macOS.xcarchive/Products/Applications/HRT-Tracker.app build/
           hdiutil create -volname "HRT-Tracker" -srcfolder build/HRT-Tracker.app -ov -format UDZO build/HRT-Tracker.dmg
+
+      - name: Notarize macOS DMG
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          xcrun notarytool submit build/HRT-Tracker.dmg \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_ID_PASSWORD" \
+            --team-id "$APPLE_TEAM_ID" \
+            --wait --timeout 30m
+
+          xcrun stapler staple build/HRT-Tracker.dmg
+          xcrun stapler validate build/HRT-Tracker.dmg
 
       - name: Create GitHub Release
         env:
@@ -75,3 +130,11 @@ jobs:
           --generate-notes
           build/ios/HRT-Tracker.ipa
           build/HRT-Tracker.dmg
+
+      - name: Clean up keychain
+        if: always()
+        run: |
+          if [ -f "$KEYCHAIN_PATH" ]; then
+            security delete-keychain "$KEYCHAIN_PATH"
+          fi
+          rm -f $RUNNER_TEMP/certificate.p12

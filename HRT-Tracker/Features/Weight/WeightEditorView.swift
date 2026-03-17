@@ -80,10 +80,12 @@ struct WeightEditorView: View {
                 .disabled(!isDirty)
                 .buttonStyle(.borderedProminent).tint(.pink)
             }
+            #if os(iOS) || os(watchOS)
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
                 Button(String(localized: "common.done")) { fieldFocused = false }
             }
+            #endif
         }
         .onChange(of: tempWeight) { _, _ in
             if !fieldFocused { weightText = String(format: "%.1f", roundedTemp) }

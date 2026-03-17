@@ -12,7 +12,7 @@ final class WatchTimelineViewModel: ObservableObject {
     @Published var result: SimulationResult?
     @Published var bodyWeightKG: Double = 70.0
 
-    private var modelContext: ModelContext?
+    private let modelContext: ModelContext
     private var simulationTask: Task<Void, Never>?
 
     var currentConcentration: Double? {
@@ -26,14 +26,15 @@ final class WatchTimelineViewModel: ObservableObject {
         return conc
     }
 
-    func configure(modelContext: ModelContext) {
+    init(modelContext: ModelContext) {
         self.modelContext = modelContext
         loadFromStore()
         runSimulation()
     }
 
     static var preview: WatchTimelineViewModel {
-        let vm = WatchTimelineViewModel()
+        let container = try! HRTModelContainer.create(inMemory: true) // swiftlint:disable:this force_try
+        let vm = WatchTimelineViewModel(modelContext: container.mainContext)
         let now = Int64(Date().timeIntervalSince1970)
         let start = now - 14 * 24 * 3600
         var events = [DoseEvent]()
@@ -88,9 +89,8 @@ final class WatchTimelineViewModel: ObservableObject {
     }
 
     private func loadFromStore() {
-        guard let context = modelContext else { return }
         do {
-            let records = try context.fetch(FetchDescriptor<DoseEventRecord>())
+            let records = try modelContext.fetch(FetchDescriptor<DoseEventRecord>())
             events = records.compactMap { $0.toDoseEvent() }.sorted { $0.timestamp < $1.timestamp }
         } catch {
             print("Watch: Failed to load events: \(error)")
@@ -98,8 +98,7 @@ final class WatchTimelineViewModel: ObservableObject {
     }
 
     private func saveToStore(_ event: DoseEvent) {
-        guard let context = modelContext else { return }
-        context.insert(DoseEventRecord.from(event))
-        try? context.save()
+        modelContext.insert(DoseEventRecord.from(event))
+        try? modelContext.save()
     }
 }

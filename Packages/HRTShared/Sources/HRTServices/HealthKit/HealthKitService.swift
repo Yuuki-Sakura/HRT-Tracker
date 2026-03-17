@@ -1,4 +1,5 @@
 import Foundation
+import HRTModels
 
 #if canImport(HealthKit) && !os(macOS) && !OPENSOURCE
 import HealthKit
@@ -21,9 +22,8 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
 
         let bodyMass = HKQuantityType(.bodyMass)
         let typesToRead: Set<HKSampleType> = [bodyMass]
-        let typesToWrite: Set<HKSampleType> = [bodyMass]
 
-        try await store.requestAuthorization(toShare: typesToWrite, read: typesToRead)
+        try await store.requestAuthorization(toShare: [], read: typesToRead)
     }
 
     public func fetchLatestBodyMassKG() async throws -> Double {
@@ -80,59 +80,67 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
 
     public func fetchMedications() async throws -> [MedicationInfo] {
         if #available(iOS 26.0, watchOS 26.0, *) {
-            let predicate = NSPredicate(
-                format: "%K == NO",
-                HKUserAnnotatedMedicationPredicateKeyPathIsArchived
-            )
-            let descriptor = HKUserAnnotatedMedicationQueryDescriptor(predicate: predicate)
+            let descriptor = HKUserAnnotatedMedicationQueryDescriptor()
             let medications = try await descriptor.result(for: store)
-            return medications.map { med in
-                MedicationInfo(
-                    id: med.medication.identifier.description,
-                    displayName: med.nickname ?? med.medication.displayText
-                )
-            }
+            return medications
+                .filter { !$0.isArchived }
+                .map { med in
+                    let name = med.nickname ?? ""
+                    return MedicationInfo(
+                        id: String(med.medication.identifier.hashValue),
+                        displayName: name.isEmpty ? med.medication.displayText : name,
+                        route: Self.route(from: med.medication.generalForm)
+                    )
+                }
         } else {
             throw HealthKitError.notAvailable
         }
     }
 
-    public func fetchDoseEvents(for medicationConceptID: String, since: Date) async throws -> [MedicationDoseEventInfo] {
-        if #available(iOS 26.0, watchOS 26.0, *) {
-            let doseEventType = HKSampleType.medicationDoseEventType()
-            let datePredicate = HKQuery.predicateForSamples(withStart: since, end: Date(), options: .strictStartDate)
-            let medPredicate = NSPredicate(
-                format: "%K == %@",
-                HKPredicateKeyPathMedicationConceptIdentifier,
-                medicationConceptID
-            )
-            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [datePredicate, medPredicate])
+    @available(iOS 26.0, watchOS 26.0, *)
+    private static func route(from form: HKMedicationGeneralForm) -> Route? {
+        switch form {
+        case .tablet, .capsule:                                return .oral
+        case .injection:                                       return .injection
+        case .gel:                                             return .gel
+        case .patch:                                           return .patchApply
+        case .cream, .ointment, .lotion, .topical:             return .gel
+        default:                                               return nil
+        }
+    }
 
-            return try await withCheckedThrowingContinuation { continuation in
-                let query = HKSampleQuery(
-                    sampleType: doseEventType,
-                    predicate: compoundPredicate,
-                    limit: HKObjectQueryNoLimit,
-                    sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]
-                ) { _, samples, error in
-                    if let error = error {
-                        continuation.resume(throwing: error)
-                        return
-                    }
-                    let events = (samples as? [HKMedicationDoseEvent]) ?? []
-                    let infos = events.map { event in
-                        return MedicationDoseEventInfo(
-                            id: event.uuid.uuidString,
-                            medicationConceptID: medicationConceptID,
-                            date: event.startDate,
-                            doseQuantity: event.doseQuantity,
-                            logStatus: event.logStatus.rawValue
-                        )
-                    }
-                    continuation.resume(returning: infos)
+    public func fetchDoseEventsForMedications(ids: Set<String>, since: Date) async throws -> [MedicationDoseEventInfo] {
+        if #available(iOS 26.0, watchOS 26.0, *) {
+            let descriptor = HKUserAnnotatedMedicationQueryDescriptor()
+            let medications = try await descriptor.result(for: store)
+            let matched = medications.filter { ids.contains(String($0.medication.identifier.hashValue)) }
+
+            var allEvents: [MedicationDoseEventInfo] = []
+            for med in matched {
+                let medPredicate = HKQuery.predicateForMedicationDoseEvent(
+                    medicationConceptIdentifier: med.medication.identifier
+                )
+                let datePredicate = HKQuery.predicateForSamples(withStart: since, end: Date(), options: .strictStartDate)
+                let predicate = NSCompoundPredicate(type: .and, subpredicates: [medPredicate, datePredicate])
+                let samplePredicate = HKSamplePredicate.sample(type: .medicationDoseEventType(), predicate: predicate)
+                let queryDescriptor = HKSampleQueryDescriptor(
+                    predicates: [samplePredicate],
+                    sortDescriptors: [SortDescriptor(\HKSample.startDate, order: .reverse)]
+                )
+                let results = try await queryDescriptor.result(for: store)
+                let events = results.compactMap { $0 as? HKMedicationDoseEvent }
+                let conceptID = String(med.medication.identifier.hashValue)
+                allEvents += events.map { event in
+                    MedicationDoseEventInfo(
+                        id: event.uuid.uuidString,
+                        medicationConceptID: conceptID,
+                        date: event.startDate,
+                        doseQuantity: event.doseQuantity,
+                        logStatus: event.logStatus.rawValue
+                    )
                 }
-                self.store.execute(query)
             }
+            return allEvents
         } else {
             throw HealthKitError.notAvailable
         }
@@ -209,7 +217,7 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
         throw HealthKitError.notAvailable
     }
 
-    public func fetchDoseEvents(for medicationConceptID: String, since: Date) async throws -> [MedicationDoseEventInfo] {
+    public func fetchDoseEventsForMedications(ids: Set<String>, since: Date) async throws -> [MedicationDoseEventInfo] {
         throw HealthKitError.notAvailable
     }
 

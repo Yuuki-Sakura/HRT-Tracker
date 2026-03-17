@@ -15,10 +15,7 @@ struct SublingualFieldsView: View {
 
             Toggle(String(localized: "input.sublingual.customTheta"), isOn: $draft.useCustomTheta)
             if draft.useCustomTheta {
-                TextField(String(localized: "input.sublingual.customThetaPlaceholder"), text: $draft.customThetaText)
-                    #if os(iOS) || os(watchOS)
-                    .keyboardType(.decimalPad)
-                    #endif
+                DecimalField(label: String(localized: "input.sublingual.customThetaPlaceholder"), text: $draft.customThetaText)
                     .focused(focusedField, equals: .customTheta)
                 Text("input.sublingual.thetaReference")
                     .font(.footnote)

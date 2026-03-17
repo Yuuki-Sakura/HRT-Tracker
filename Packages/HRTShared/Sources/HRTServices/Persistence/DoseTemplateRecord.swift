@@ -4,17 +4,15 @@ import HRTModels
 
 @Model
 public final class DoseTemplateRecord {
-    @Attribute(.unique) public var templateID: UUID
-    public var name: String
-    public var routeRaw: String
-    public var esterRaw: String
-    public var doseMG: Double
+    @Attribute(.unique) public var templateID: UUID = UUID()
+    public var name: String = ""
+    public var routeRaw: String = ""
+    public var esterRaw: String = ""
+    public var doseMG: Double = 0
     public var extrasData: Data?
-    public var createdAt: Date
-    public var reminderIntervalHours: Double?
-    public var reminderTimeMinutesSinceMidnight: Int?
+    public var createdAt: Date = Date()
 
-    public init(templateID: UUID, name: String, routeRaw: String, esterRaw: String, doseMG: Double, extrasData: Data?, createdAt: Date, reminderIntervalHours: Double? = nil, reminderTimeMinutesSinceMidnight: Int? = nil) {
+    public init(templateID: UUID, name: String, routeRaw: String, esterRaw: String, doseMG: Double, extrasData: Data?, createdAt: Date) {
         self.templateID = templateID
         self.name = name
         self.routeRaw = routeRaw
@@ -22,8 +20,6 @@ public final class DoseTemplateRecord {
         self.doseMG = doseMG
         self.extrasData = extrasData
         self.createdAt = createdAt
-        self.reminderIntervalHours = reminderIntervalHours
-        self.reminderTimeMinutesSinceMidnight = reminderTimeMinutesSinceMidnight
     }
 
     public func toDoseTemplate() -> DoseTemplate? {
@@ -41,14 +37,6 @@ public final class DoseTemplateRecord {
             }
         }
 
-        var reminderTimeOfDay: Date?
-        if let minutes = reminderTimeMinutesSinceMidnight {
-            var components = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-            components.hour = minutes / 60
-            components.minute = minutes % 60
-            reminderTimeOfDay = Calendar.current.date(from: components)
-        }
-
         return DoseTemplate(
             id: templateID,
             name: name,
@@ -56,9 +44,7 @@ public final class DoseTemplateRecord {
             ester: ester,
             doseMG: doseMG,
             extras: extras,
-            createdAt: createdAt,
-            reminderIntervalHours: reminderIntervalHours,
-            reminderTimeOfDay: reminderTimeOfDay
+            createdAt: createdAt
         )
     }
 
@@ -69,12 +55,6 @@ public final class DoseTemplateRecord {
             extrasData = try? JSONEncoder().encode(stringDict)
         }
 
-        var reminderTimeMinutes: Int?
-        if let timeOfDay = template.reminderTimeOfDay {
-            let components = Calendar.current.dateComponents([.hour, .minute], from: timeOfDay)
-            reminderTimeMinutes = (components.hour ?? 0) * 60 + (components.minute ?? 0)
-        }
-
         return DoseTemplateRecord(
             templateID: template.id,
             name: template.name,
@@ -82,9 +62,7 @@ public final class DoseTemplateRecord {
             esterRaw: template.ester.rawValue,
             doseMG: template.doseMG,
             extrasData: extrasData,
-            createdAt: template.createdAt,
-            reminderIntervalHours: template.reminderIntervalHours,
-            reminderTimeMinutesSinceMidnight: reminderTimeMinutes
+            createdAt: template.createdAt
         )
     }
 }

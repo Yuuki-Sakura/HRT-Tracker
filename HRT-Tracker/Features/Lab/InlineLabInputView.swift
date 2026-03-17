@@ -5,6 +5,7 @@ struct InlineLabInputView: View {
     @State private var date: Date
     @State private var valueText: String
     @State private var unit: ConcentrationUnit
+    @FocusState private var isFieldFocused: Bool
 
     let editingResult: LabResult?
     var onSave: (LabResult) -> Void
@@ -33,10 +34,8 @@ struct InlineLabInputView: View {
                 Text(String(localized: "lab.value"))
                     .foregroundStyle(.secondary)
                 Spacer()
-                TextField(String(localized: "lab.value"), text: $valueText)
-                    #if os(iOS) || os(watchOS)
-                    .keyboardType(.decimalPad)
-                    #endif
+                DecimalField(label: String(localized: "lab.value"), text: $valueText)
+                    .focused($isFieldFocused)
                     .multilineTextAlignment(.trailing)
                     .frame(maxWidth: 120)
             }
@@ -86,6 +85,8 @@ struct InlineLabInputView: View {
             .padding(.top, 4)
         }
         .padding()
+        .contentShape(Rectangle())
+        .onTapGesture { isFieldFocused = false }
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(.background)

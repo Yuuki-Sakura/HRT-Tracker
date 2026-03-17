@@ -1,5 +1,7 @@
 import Foundation
 
+import HRTModels
+
 public protocol HealthKitServiceProtocol: Sendable {
     // MARK: - Body Mass
     func requestAuthorizationIfNeeded() async throws
@@ -9,7 +11,7 @@ public protocol HealthKitServiceProtocol: Sendable {
     // MARK: - Medications (iOS 26+)
     func requestMedicationAuthorization() async throws
     func fetchMedications() async throws -> [MedicationInfo]
-    func fetchDoseEvents(for medicationConceptID: String, since: Date) async throws -> [MedicationDoseEventInfo]
+    func fetchDoseEventsForMedications(ids: Set<String>, since: Date) async throws -> [MedicationDoseEventInfo]
 
     // MARK: - Observer Queries
     func observeBodyMassChanges(handler: @escaping @Sendable () -> Void)
@@ -17,13 +19,15 @@ public protocol HealthKitServiceProtocol: Sendable {
 }
 
 /// Platform-agnostic representation of a medication from HealthKit
-public struct MedicationInfo: Identifiable, Sendable {
+public struct MedicationInfo: Identifiable, Equatable, Sendable {
     public var id: String
     public var displayName: String
+    public var route: Route?
 
-    public init(id: String, displayName: String) {
+    public init(id: String, displayName: String, route: Route? = nil) {
         self.id = id
         self.displayName = displayName
+        self.route = route
     }
 }
 

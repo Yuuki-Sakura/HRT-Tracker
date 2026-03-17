@@ -8,8 +8,6 @@ public struct DoseTemplate: Identifiable, Codable, Equatable, Sendable {
     public var doseMG: Double
     public var extras: [ExtraKey: Double]
     public var createdAt: Date
-    public var reminderIntervalHours: Double?   // nil = 不提醒
-    public var reminderTimeOfDay: Date?         // nil = 使用默认 9:00
 
     public init(
         id: UUID = UUID(),
@@ -18,9 +16,7 @@ public struct DoseTemplate: Identifiable, Codable, Equatable, Sendable {
         ester: Ester,
         doseMG: Double,
         extras: [ExtraKey: Double] = [:],
-        createdAt: Date = Date(),
-        reminderIntervalHours: Double? = nil,
-        reminderTimeOfDay: Date? = nil
+        createdAt: Date = Date()
     ) {
         self.id = id
         self.name = name
@@ -29,7 +25,5 @@ public struct DoseTemplate: Identifiable, Codable, Equatable, Sendable {
         self.doseMG = doseMG
         self.extras = extras
         self.createdAt = createdAt
-        self.reminderIntervalHours = reminderIntervalHours
-        self.reminderTimeOfDay = reminderTimeOfDay
     }
 }

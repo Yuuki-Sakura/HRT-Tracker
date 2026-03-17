@@ -17,28 +17,12 @@ struct SettingsView: View {
     @State private var showPasswordPrompt = false
     @State private var encryptionPassword = ""
     @State private var showAbout = false
-    @State private var notificationPermissionDenied = false
     #if !OPENSOURCE && !os(macOS)
     @State private var showHealthKitError = false
+    @State private var showMedicationMapping = false
+    @State private var medicationToConfig: MedicationInfo?
     #endif
     @State private var showWeightEditor = false
-
-    // Reminder interval options in hours
-    private let intervalOptions: [(String, Double)] = [
-        (String(localized: "settings.reminder.interval.daily"), 24),
-        (String(localized: "settings.reminder.interval.2d"), 48),
-        (String(localized: "settings.reminder.interval.3d"), 72),
-        (String(localized: "settings.reminder.interval.5d"), 120),
-        (String(localized: "settings.reminder.interval.7d"), 168),
-        (String(localized: "settings.reminder.interval.14d"), 336),
-    ]
-
-    /// Default 9:00 AM date for new reminder time-of-day.
-    private var defaultReminderTime: Date {
-        var c = Calendar.current.dateComponents([.year, .month, .day], from: Date())
-        c.hour = 9; c.minute = 0
-        return Calendar.current.date(from: c) ?? Date()
-    }
 
     var body: some View {
         Form {
@@ -60,77 +44,73 @@ struct SettingsView: View {
             #if !OPENSOURCE && !os(macOS)
             // MARK: - HealthKit
             Section(String(localized: "settings.group.healthkit")) {
-                // Authorization / Import weight
-                if vm.isHealthKitAuthorized {
-                    Button {
-                        Task { await vm.importWeightFromHealthKit() }
-                    } label: {
-                        Label(String(localized: "settings.healthkit.import_weight"), systemImage: "arrow.down.heart")
-                    }
-                } else {
-                    Button {
-                        Task { await vm.requestHealthKitAuthorization() }
-                    } label: {
-                        Label(String(localized: "settings.healthkit.enable"), systemImage: "heart.fill")
-                    }
-                }
-
-                // Sync status
-                if let lastSync = vm.lastHealthKitSync {
-                    Text(String(localized: "settings.healthkit.last_sync") + " " + lastSync.formatted(date: .abbreviated, time: .shortened))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-
-                // Medication sync toggle
                 Toggle(isOn: Binding(
-                    get: { vm.isMedicationSyncEnabled },
+                    get: { vm.isHealthKitAuthorized },
                     set: { newValue in
-                        vm.isMedicationSyncEnabled = newValue
                         if newValue {
                             Task {
-                                await vm.requestMedicationAuthorization()
-                                await vm.fetchMedicationsFromHealthKit()
+                                await vm.requestHealthKitAuthorization()
+                                if vm.isHealthKitAuthorized {
+                                    await vm.requestMedicationAuthorization()
+                                    await vm.fetchMedicationsFromHealthKit()
+                                    await vm.importDoseEventsFromHealthKit()
+                                    vm.startObservingHealthKit()
+                                    if let first = vm.unmappedMedications.first {
+                                        medicationToConfig = first
+                                    }
+                                }
                             }
+                        } else {
+                            vm.isHealthKitAuthorized = false
                         }
                     }
                 )) {
-                    Label(String(localized: "settings.healthkit.medication_sync"), systemImage: "pills")
+                    Label(String(localized: "settings.healthkit.enable"), systemImage: "heart.fill")
                 }
 
-                // Medication list
-                if vm.isMedicationSyncEnabled && !vm.medications.isEmpty {
-                    ForEach(vm.medications) { med in
+                if vm.isHealthKitAuthorized {
+                    if let lastSync = vm.lastHealthKitSync {
+                        Text(String(localized: "settings.healthkit.last_sync") + " " + lastSync.formatted(date: .abbreviated, time: .shortened))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Button {
+                        showMedicationMapping = true
+                    } label: {
                         HStack {
-                            Image(systemName: "pill")
-                                .foregroundStyle(.secondary)
-                            Text(med.displayName)
+                            Label(String(localized: "settings.healthkit.mapping.title"), systemImage: "pills")
+                            Spacer()
+                            if !vm.unmappedMedications.isEmpty {
+                                Text("\(vm.unmappedMedications.count)")
+                                    .font(.caption2).bold()
+                                    .padding(.horizontal, 6).padding(.vertical, 2)
+                                    .background(.orange).clipShape(Capsule())
+                                    .foregroundStyle(.white)
+                            }
+                            Image(systemName: "chevron.right")
+                                .font(.caption).foregroundStyle(.secondary)
                         }
                     }
+                    .tint(.primary)
                 }
             }
             #endif
 
-            // MARK: - Dose Reminder
-            Section(String(localized: "settings.group.reminder")) {
+            // MARK: - Dose Templates
+            Section(String(localized: "settings.group.template")) {
                 if vm.templates.isEmpty {
-                    Text(String(localized: "settings.reminder.empty"))
+                    Text(String(localized: "settings.template.empty"))
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(vm.templates) { template in
-                        templateReminderRow(template)
+                        Label(template.name, systemImage: "syringe")
                     }
                     .onDelete { offsets in
                         for index in offsets {
                             vm.removeTemplate(vm.templates[index])
                         }
                     }
-                }
-
-                if notificationPermissionDenied {
-                    Text(String(localized: "settings.reminder.notification_hint"))
-                        .font(.caption)
-                        .foregroundStyle(.orange)
                 }
             }
 
@@ -257,6 +237,33 @@ struct SettingsView: View {
         } message: {
             Text(vm.healthKitError ?? "")
         }
+        .sheet(isPresented: $showMedicationMapping) {
+            NavigationStack {
+                MedicationMappingListView(vm: vm)
+            }
+        }
+        .sheet(item: $medicationToConfig) { med in
+            NavigationStack {
+                MedicationMappingDetailView(vm: vm, medication: med)
+                    .id(med.id)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button(String(localized: "btn.cancel")) {
+                            medicationToConfig = nil
+                        }
+                    }
+                }
+            }
+        }
+        .onChange(of: medicationToConfig) { oldValue, newValue in
+            // After a sheet dismisses (newValue == nil) and there was a previous item,
+            // check if there are more unmapped medications to configure
+            if newValue == nil, oldValue != nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    medicationToConfig = vm.unmappedMedications.first
+                }
+            }
+        }
         #endif
         .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) { result in
             switch result {
@@ -304,84 +311,6 @@ struct SettingsView: View {
             }
         } message: {
             Text(String(localized: "export.password.message"))
-        }
-    }
-
-    // MARK: - Template Reminder Row
-
-    @ViewBuilder
-    private func templateReminderRow(_ template: DoseTemplate) -> some View {
-        let isEnabled = template.reminderIntervalHours != nil
-        Toggle(isOn: Binding(
-            get: { isEnabled },
-            set: { newValue in
-                var updated = template
-                if newValue {
-                    updated.reminderIntervalHours = 24.0
-                    updated.reminderTimeOfDay = defaultReminderTime
-                    vm.saveTemplate(updated)
-                    vm.scheduleAllReminders()
-                    Task {
-                        let granted = await NotificationService.shared.requestPermission()
-                        if !granted {
-                            notificationPermissionDenied = true
-                        } else {
-                            notificationPermissionDenied = false
-                        }
-                    }
-                } else {
-                    updated.reminderIntervalHours = nil
-                    updated.reminderTimeOfDay = nil
-                    vm.saveTemplate(updated)
-                }
-            }
-        )) {
-            Label(template.name, systemImage: isEnabled ? "bell.fill" : "bell.slash")
-        }
-        .deleteDisabled(isEnabled)
-
-        if isEnabled {
-            // Interval picker
-            Picker(String(localized: "settings.reminder.interval"), selection: Binding(
-                get: { template.reminderIntervalHours ?? 24.0 },
-                set: { newValue in
-                    var updated = template
-                    updated.reminderIntervalHours = newValue
-                    vm.saveTemplate(updated)
-                }
-            )) {
-                ForEach(intervalOptions, id: \.1) { option in
-                    Text(option.0).tag(option.1)
-                }
-            }
-            .deleteDisabled(true)
-
-            // Time of day picker
-            DatePicker(
-                String(localized: "settings.reminder.time"),
-                selection: Binding(
-                    get: { template.reminderTimeOfDay ?? defaultReminderTime },
-                    set: { newValue in
-                        var updated = template
-                        updated.reminderTimeOfDay = newValue
-                        vm.saveTemplate(updated)
-                    }
-                ),
-                displayedComponents: .hourAndMinute
-            )
-            .deleteDisabled(true)
-
-            // Next reminder display
-            if let nextDate = vm.nextReminderDate(for: template) {
-                HStack {
-                    Text(String(localized: "settings.reminder.next"))
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    Text(nextDate.formatted(date: .abbreviated, time: .shortened))
-                        .foregroundStyle(.secondary)
-                }
-                .deleteDisabled(true)
-            }
         }
     }
 

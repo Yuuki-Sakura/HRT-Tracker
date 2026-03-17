@@ -5,21 +5,25 @@ import HRTServices
 
 @main
 struct HRTTrackerWatchApp: App {
-    @StateObject private var vm = WatchTimelineViewModel()
+    @StateObject private var vm: WatchTimelineViewModel
 
-    var sharedModelContainer: ModelContainer = {
+    let sharedModelContainer: ModelContainer
+
+    init() {
+        let container: ModelContainer
         do {
-            return try HRTModelContainer.create()
+            container = try HRTModelContainer.create()
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
-    }()
+        self.sharedModelContainer = container
+        _vm = StateObject(wrappedValue: WatchTimelineViewModel(modelContext: container.mainContext))
+    }
 
     var body: some Scene {
         WindowGroup {
             WatchContentView(vm: vm)
                 .onAppear {
-                    vm.configure(modelContext: sharedModelContainer.mainContext)
                     WatchConnectivityService.shared.start()
                 }
         }

@@ -35,23 +35,26 @@ final class TimelineViewModel: ObservableObject {
         didSet { UserDefaults.standard.set(isMedicationSyncEnabled, forKey: "hk.medicationSync") }
     }
     @Published var medications: [MedicationInfo] = []
+    @Published var medicationMappings: [MedicationMapping] = []
+    @Published var unmappedMedications: [MedicationInfo] = []
     #else
     let isHealthKitAuthorized = false
     let lastHealthKitSync: Date? = nil
     var healthKitError: String?
     let isMedicationSyncEnabled = false
     let medications: [MedicationInfo] = []
+    let medicationMappings: [MedicationMapping] = []
+    let unmappedMedications: [MedicationInfo] = []
     #endif
 
-    // MARK: - Reminder Properties
+    // MARK: - Template Properties
 
     @Published var templates: [DoseTemplate] = []
-    @Published var pendingTemplateFromNotification: DoseTemplate?
 
     private let weightKey = "user.weightKg"
     private var cancellables = Set<AnyCancellable>()
     private var simulationTask: Task<Void, Never>?
-    private var modelContext: ModelContext?
+    private let modelContext: ModelContext
 
     #if !OPENSOURCE
     private let healthKitService: HealthKitServiceProtocol = HealthKitService.shared
@@ -102,11 +105,6 @@ final class TimelineViewModel: ObservableObject {
         return first.ratio
     }
 
-    /// Get templates that have reminders configured.
-    var templatesWithReminders: [DoseTemplate] {
-        templates.filter { $0.reminderIntervalHours != nil }
-    }
-
     /// Find the most recent DoseEvent matching a template (by ester + route).
     func lastDose(for template: DoseTemplate) -> DoseEvent? {
         events
@@ -114,39 +112,9 @@ final class TimelineViewModel: ObservableObject {
             .max(by: { $0.timestamp < $1.timestamp })
     }
 
-    /// Compute the next reminder date for a specific template.
-    func nextReminderDate(for template: DoseTemplate) -> Date? {
-        guard let intervalHours = template.reminderIntervalHours, intervalHours > 0 else { return nil }
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
 
-        let calendar = Calendar.current
-        let timeSource = template.reminderTimeOfDay ?? {
-            var c = calendar.dateComponents([.year, .month, .day], from: Date())
-            c.hour = 9; c.minute = 0
-            return calendar.date(from: c) ?? Date()
-        }()
-        let timeComponents = calendar.dateComponents([.hour, .minute], from: timeSource)
-
-        let baseDate: Date
-        if let lastDose = lastDose(for: template) {
-            baseDate = lastDose.date.addingTimeInterval(intervalHours * 3600)
-        } else {
-            baseDate = Date()
-        }
-
-        var nextComponents = calendar.dateComponents([.year, .month, .day], from: baseDate)
-        nextComponents.hour = timeComponents.hour
-        nextComponents.minute = timeComponents.minute
-
-        guard let candidate = calendar.date(from: nextComponents) else { return baseDate }
-        var result = candidate
-        while result <= Date() {
-            guard let next = calendar.date(byAdding: .day, value: 1, to: result) else { break }
-            result = next
-        }
-        return result
-    }
-
-    init() {
         let saved = UserDefaults.standard.double(forKey: weightKey)
         self.bodyWeightKG = saved > 0 ? saved : 70.0
 
@@ -160,16 +128,13 @@ final class TimelineViewModel: ObservableObject {
         #endif
 
         setupSubscriptions()
-    }
-
-    func configure(modelContext: ModelContext) {
-        self.modelContext = modelContext
         loadFromStore()
         runSimulation()
     }
 
     static var preview: TimelineViewModel {
-        let vm = TimelineViewModel()
+        let container = try! HRTModelContainer.create(inMemory: true) // swiftlint:disable:this force_try
+        let vm = TimelineViewModel(modelContext: container.mainContext)
         let now = Int64(Date().timeIntervalSince1970)
         let start = now - 14 * 24 * 3600
         var events = [DoseEvent]()
@@ -221,9 +186,6 @@ final class TimelineViewModel: ObservableObject {
         }
         saveToStore(event)
         runSimulation()
-
-        // Reschedule reminder for matching template after new dose
-        updateRemindersAfterDose(event)
     }
 
     func remove(_ event: DoseEvent) {
@@ -357,11 +319,9 @@ final class TimelineViewModel: ObservableObject {
                 await self?.refreshWeightSilently()
             }
         }
-        if isMedicationSyncEnabled {
-            healthKitService.observeMedicationDoseEvents { [weak self] in
-                Task { @MainActor in
-                    await self?.importDoseEventsFromHealthKit()
-                }
+        healthKitService.observeMedicationDoseEvents { [weak self] in
+            Task { @MainActor in
+                await self?.importDoseEventsFromHealthKit()
             }
         }
     }
@@ -389,26 +349,68 @@ final class TimelineViewModel: ObservableObject {
     func importDoseEventsFromHealthKit() async {
         do {
             let since = Calendar.current.date(byAdding: .month, value: -6, to: Date()) ?? Date()
+
+            // Build mappings and collect mapped medication IDs
+            var mappingsByID: [String: MedicationMapping] = [:]
             for medication in medications {
-                let doseEvents = try await healthKitService.fetchDoseEvents(
-                    for: medication.id,
-                    since: since
-                )
-                for info in doseEvents {
-                    // Skip if we already have this event
-                    if let existingID = UUID(uuidString: info.id),
-                       events.contains(where: { $0.id == existingID }) {
-                        continue
+                var mapping = medicationMappings.first(where: { $0.id == medication.id })
+
+                if mapping == nil {
+                    if let recognized = MedicationRecognizer.recognize(medication.displayName) {
+                        let strengthMG = MedicationRecognizer.parseStrengthMG(medication.displayName)
+                        if recognized.ester == .CPA, let mg = strengthMG {
+                            // CPA always oral + strength parsed → auto-map
+                            let newMapping = MedicationMapping(
+                                id: medication.id,
+                                displayName: medication.displayName,
+                                route: .oral,
+                                ester: .CPA,
+                                doseMG: mg
+                            )
+                            saveMedicationMapping(newMapping)
+                            mapping = newMapping
+                        } else if let route = medication.route, let mg = strengthMG {
+                            // Ester recognized + route from HealthKit + strength parsed → auto-map
+                            let newMapping = MedicationMapping(
+                                id: medication.id,
+                                displayName: medication.displayName,
+                                route: route,
+                                ester: recognized.ester,
+                                doseMG: mg
+                            )
+                            saveMedicationMapping(newMapping)
+                            mapping = newMapping
+                        }
+                        // else: can't fully resolve → fall through to unmapped
                     }
-                    // Default to injection/EV for imported events — user can edit later
-                    if let event = MedicationDoseEventMapper.fromHealthKit(
-                        info,
-                        route: .injection,
-                        ester: .EV
-                    ) {
-                        events.append(event)
-                        saveToStore(event)
-                    }
+                }
+
+                if let mapping {
+                    mappingsByID[medication.id] = mapping
+                } else if !unmappedMedications.contains(where: { $0.id == medication.id }) {
+                    unmappedMedications.append(medication)
+                }
+            }
+
+            let allDoseEvents = try await healthKitService.fetchDoseEventsForMedications(
+                ids: Set(mappingsByID.keys),
+                since: since
+            )
+            for info in allDoseEvents {
+                if let existingID = UUID(uuidString: info.id),
+                   events.contains(where: { $0.id == existingID }) {
+                    continue
+                }
+                guard let mapping = mappingsByID[info.medicationConceptID] else { continue }
+                if let event = MedicationDoseEventMapper.fromHealthKit(
+                    info,
+                    route: mapping.route,
+                    ester: mapping.ester,
+                    doseMG: mapping.doseMG,
+                    extras: mapping.extras
+                ) {
+                    events.append(event)
+                    saveToStore(event)
                 }
             }
             events.sort { $0.timestamp < $1.timestamp }
@@ -420,42 +422,6 @@ final class TimelineViewModel: ObservableObject {
     }
     #endif
 
-    // MARK: - Dose Reminders
-
-    func scheduleAllReminders() {
-        // Cancel all existing reminders first
-        NotificationService.shared.cancelAllDoseReminders()
-
-        for template in templatesWithReminders {
-            scheduleReminder(for: template)
-        }
-    }
-
-    func cancelAllReminders() {
-        NotificationService.shared.cancelAllDoseReminders()
-    }
-
-    func updateRemindersAfterDose(_ event: DoseEvent) {
-        // Find matching template and reschedule its reminder
-        for template in templatesWithReminders {
-            if event.ester == template.ester && event.route == template.route {
-                scheduleReminder(for: template)
-            }
-        }
-    }
-
-    private func scheduleReminder(for template: DoseTemplate) {
-        guard let nextDate = nextReminderDate(for: template) else { return }
-        let title = String(localized: "notification.dose.title")
-        let body = String(format: String(localized: "notification.dose.body.template"), template.name)
-        NotificationService.shared.scheduleDoseReminder(
-            id: template.id.uuidString,
-            at: nextDate,
-            title: title,
-            body: body
-        )
-    }
-
     // MARK: - Template CRUD
 
     func saveTemplate(_ template: DoseTemplate) {
@@ -465,46 +431,58 @@ final class TimelineViewModel: ObservableObject {
             templates.append(template)
         }
         saveTemplateToStore(template)
-
-        // Update reminder for this template
-        if template.reminderIntervalHours != nil {
-            scheduleReminder(for: template)
-        } else {
-            NotificationService.shared.cancelDoseReminder(id: template.id.uuidString)
-        }
     }
 
     func removeTemplate(_ template: DoseTemplate) {
         templates.removeAll { $0.id == template.id }
         removeTemplateFromStore(template)
-        NotificationService.shared.cancelDoseReminder(id: template.id.uuidString)
+    }
+
+    // MARK: - Medication Mapping CRUD
+
+    func saveMedicationMapping(_ mapping: MedicationMapping) {
+        if let index = medicationMappings.firstIndex(where: { $0.id == mapping.id }) {
+            medicationMappings[index] = mapping
+        } else {
+            medicationMappings.append(mapping)
+        }
+        // Remove from unmapped list
+        unmappedMedications.removeAll { $0.id == mapping.id }
+        saveMappingToStore(mapping)
+    }
+
+    func removeMedicationMapping(_ mapping: MedicationMapping) {
+        medicationMappings.removeAll { $0.id == mapping.id }
+        removeMappingFromStore(mapping)
     }
 
     // MARK: - SwiftData persistence
 
     private func loadFromStore() {
-        guard let context = modelContext else { return }
         do {
-            let eventRecords = try context.fetch(FetchDescriptor<DoseEventRecord>())
+            let eventRecords = try modelContext.fetch(FetchDescriptor<DoseEventRecord>())
             events = eventRecords.compactMap { $0.toDoseEvent() }.sorted { $0.timestamp < $1.timestamp }
 
-            let labRecords = try context.fetch(FetchDescriptor<LabResultRecord>())
+            let labRecords = try modelContext.fetch(FetchDescriptor<LabResultRecord>())
             labResults = labRecords.compactMap { $0.toLabResult() }.sorted { $0.timestamp < $1.timestamp }
 
-            let templateRecords = try context.fetch(FetchDescriptor<DoseTemplateRecord>())
+            let templateRecords = try modelContext.fetch(FetchDescriptor<DoseTemplateRecord>())
             templates = templateRecords.compactMap { $0.toDoseTemplate() }.sorted { $0.createdAt < $1.createdAt }
+
+            let mappingRecords = try modelContext.fetch(FetchDescriptor<MedicationMappingRecord>())
+            medicationMappings = mappingRecords.compactMap { $0.toMedicationMapping() }
         } catch {
             print("Failed to load from store: \(error)")
         }
     }
 
     private func saveToStore(_ event: DoseEvent) {
-        guard let context = modelContext else { return }
+
         let descriptor = FetchDescriptor<DoseEventRecord>(
             predicate: #Predicate { $0.eventID == event.id }
         )
         do {
-            let existing = try context.fetch(descriptor)
+            let existing = try modelContext.fetch(descriptor)
             if let record = existing.first {
                 record.routeRaw = event.route.rawValue
                 record.timestamp = event.timestamp
@@ -517,71 +495,64 @@ final class TimelineViewModel: ObservableObject {
                     record.extrasData = nil
                 }
             } else {
-                context.insert(DoseEventRecord.from(event))
+                modelContext.insert(DoseEventRecord.from(event))
             }
-            try context.save()
+            try modelContext.save()
         } catch {
             print("Failed to save event: \(error)")
         }
     }
 
     private func removeFromStore(_ event: DoseEvent) {
-        guard let context = modelContext else { return }
+
         let descriptor = FetchDescriptor<DoseEventRecord>(
             predicate: #Predicate { $0.eventID == event.id }
         )
         do {
-            let existing = try context.fetch(descriptor)
+            let existing = try modelContext.fetch(descriptor)
             for record in existing {
-                context.delete(record)
+                modelContext.delete(record)
             }
-            try context.save()
+            try modelContext.save()
         } catch {
             print("Failed to delete event: \(error)")
         }
     }
 
     private func saveLabResultToStore(_ result: LabResult) {
-        guard let context = modelContext else { return }
-        context.insert(LabResultRecord.from(result))
-        try? context.save()
+
+        modelContext.insert(LabResultRecord.from(result))
+        try? modelContext.save()
     }
 
     private func removeLabResultFromStore(_ result: LabResult) {
-        guard let context = modelContext else { return }
+
         let descriptor = FetchDescriptor<LabResultRecord>(
             predicate: #Predicate { $0.resultID == result.id }
         )
         do {
-            let existing = try context.fetch(descriptor)
+            let existing = try modelContext.fetch(descriptor)
             for record in existing {
-                context.delete(record)
+                modelContext.delete(record)
             }
-            try context.save()
+            try modelContext.save()
         } catch {
             print("Failed to delete lab result: \(error)")
         }
     }
 
     private func saveTemplateToStore(_ template: DoseTemplate) {
-        guard let context = modelContext else { return }
+
         let descriptor = FetchDescriptor<DoseTemplateRecord>(
             predicate: #Predicate { $0.templateID == template.id }
         )
         do {
-            let existing = try context.fetch(descriptor)
+            let existing = try modelContext.fetch(descriptor)
             if let record = existing.first {
                 record.name = template.name
                 record.routeRaw = template.route.rawValue
                 record.esterRaw = template.ester.rawValue
                 record.doseMG = template.doseMG
-                record.reminderIntervalHours = template.reminderIntervalHours
-                if let timeOfDay = template.reminderTimeOfDay {
-                    let components = Calendar.current.dateComponents([.hour, .minute], from: timeOfDay)
-                    record.reminderTimeMinutesSinceMidnight = (components.hour ?? 0) * 60 + (components.minute ?? 0)
-                } else {
-                    record.reminderTimeMinutesSinceMidnight = nil
-                }
                 if !template.extras.isEmpty {
                     let stringDict = Dictionary(uniqueKeysWithValues: template.extras.map { ($0.key.rawValue, $0.value) })
                     record.extrasData = try? JSONEncoder().encode(stringDict)
@@ -589,27 +560,72 @@ final class TimelineViewModel: ObservableObject {
                     record.extrasData = nil
                 }
             } else {
-                context.insert(DoseTemplateRecord.from(template))
+                modelContext.insert(DoseTemplateRecord.from(template))
             }
-            try context.save()
+            try modelContext.save()
         } catch {
             print("Failed to save template: \(error)")
         }
     }
 
     private func removeTemplateFromStore(_ template: DoseTemplate) {
-        guard let context = modelContext else { return }
+
         let descriptor = FetchDescriptor<DoseTemplateRecord>(
             predicate: #Predicate { $0.templateID == template.id }
         )
         do {
-            let existing = try context.fetch(descriptor)
+            let existing = try modelContext.fetch(descriptor)
             for record in existing {
-                context.delete(record)
+                modelContext.delete(record)
             }
-            try context.save()
+            try modelContext.save()
         } catch {
             print("Failed to delete template: \(error)")
+        }
+    }
+
+    private func saveMappingToStore(_ mapping: MedicationMapping) {
+
+        let conceptID = mapping.id
+        let descriptor = FetchDescriptor<MedicationMappingRecord>(
+            predicate: #Predicate { $0.medicationConceptID == conceptID }
+        )
+        do {
+            let existing = try modelContext.fetch(descriptor)
+            if let record = existing.first {
+                record.displayName = mapping.displayName
+                record.routeRaw = mapping.route.rawValue
+                record.esterRaw = mapping.ester.rawValue
+                record.doseMG = mapping.doseMG
+                if !mapping.extras.isEmpty {
+                    let stringDict = Dictionary(uniqueKeysWithValues: mapping.extras.map { ($0.key.rawValue, $0.value) })
+                    record.extrasData = try? JSONEncoder().encode(stringDict)
+                } else {
+                    record.extrasData = nil
+                }
+            } else {
+                modelContext.insert(MedicationMappingRecord.from(mapping))
+            }
+            try modelContext.save()
+        } catch {
+            print("Failed to save mapping: \(error)")
+        }
+    }
+
+    private func removeMappingFromStore(_ mapping: MedicationMapping) {
+
+        let conceptID = mapping.id
+        let descriptor = FetchDescriptor<MedicationMappingRecord>(
+            predicate: #Predicate { $0.medicationConceptID == conceptID }
+        )
+        do {
+            let existing = try modelContext.fetch(descriptor)
+            for record in existing {
+                modelContext.delete(record)
+            }
+            try modelContext.save()
+        } catch {
+            print("Failed to delete mapping: \(error)")
         }
     }
 

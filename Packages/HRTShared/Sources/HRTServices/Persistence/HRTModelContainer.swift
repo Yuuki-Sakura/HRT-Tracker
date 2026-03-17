@@ -7,6 +7,7 @@ public enum HRTModelContainer {
             DoseEventRecord.self,
             LabResultRecord.self,
             DoseTemplateRecord.self,
+            MedicationMappingRecord.self,
         ])
 
         #if !OPENSOURCE

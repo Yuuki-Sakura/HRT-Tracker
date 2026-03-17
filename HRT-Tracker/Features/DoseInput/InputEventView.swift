@@ -67,41 +67,21 @@ struct InputEventView: View {
                 }
 
                 if draft.ester == .CPA {
-                    TextField(
-                        String(localized: "input.dose.cpa"),
-                        text: $draft.rawEsterDoseText
-                    )
-                    #if os(iOS) || os(watchOS)
-                    .keyboardType(.decimalPad)
-                    #endif
-                    .focused($focusedField, equals: .raw)
-                    .onChange(of: draft.rawEsterDoseText) { _, _ in
-                        filterNumericInput(&draft.rawEsterDoseText)
-                    }
+                    DecimalField(label: String(localized: "input.dose.cpa"), text: $draft.rawEsterDoseText)
+                        .focused($focusedField, equals: .raw)
                 } else {
                     if draft.ester != .E2 {
-                        TextField(
-                            String(localized: "input.dose.raw \(draft.ester.rawValue)"),
-                            text: $draft.rawEsterDoseText
-                        )
-                        #if os(iOS) || os(watchOS)
-                        .keyboardType(.decimalPad)
-                        #endif
-                        .focused($focusedField, equals: .raw)
-                        .onChange(of: draft.rawEsterDoseText) { _, _ in
-                            filterNumericInput(&draft.rawEsterDoseText)
-                            guard focusedField == .raw else { return }
-                            convertToE2Equivalent()
-                        }
+                        DecimalField(label: String(localized: "input.dose.raw \(draft.ester.rawValue)"), text: $draft.rawEsterDoseText)
+                            .focused($focusedField, equals: .raw)
+                            .onChange(of: draft.rawEsterDoseText) { _, _ in
+                                guard focusedField == .raw else { return }
+                                convertToE2Equivalent()
+                            }
                     }
 
-                    TextField(String(localized: "input.dose.e2"), text: $draft.e2EquivalentDoseText)
-                        #if os(iOS) || os(watchOS)
-                        .keyboardType(.decimalPad)
-                        #endif
+                    DecimalField(label: String(localized: "input.dose.e2"), text: $draft.e2EquivalentDoseText)
                         .focused($focusedField, equals: .e2)
                         .onChange(of: draft.e2EquivalentDoseText) { _, _ in
-                            filterNumericInput(&draft.e2EquivalentDoseText)
                             guard focusedField == .e2 else { return }
                             if draft.route == .patchApply && draft.patchMode == .releaseRate {
                                 convertE2ToRate()
@@ -140,6 +120,9 @@ struct InputEventView: View {
         }
         .formStyle(.grouped)
         .buttonStyle(.borderless)
+        #if os(iOS)
+        .scrollDismissesKeyboard(.interactively)
+        #endif
         .onChange(of: draft.releaseRateText) { _, _ in
             guard draft.route == .patchApply, draft.patchMode == .releaseRate,
                   focusedField == .patchRelease else { return }
@@ -173,12 +156,6 @@ struct InputEventView: View {
                     }
                 }
             }
-            #if os(iOS) || os(watchOS)
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button(String(localized: "common.done")) { focusedField = nil }
-            }
-            #endif
         }
         .alert(String(localized: "input.saveAsTemplate"), isPresented: $showTemplateName) {
             TextField(String(localized: "input.templateName"), text: $templateName)
@@ -229,21 +206,6 @@ struct InputEventView: View {
         guard let mg = draft.parsedDouble(draft.e2EquivalentDoseText), draft.patchWearDays > 0 else { return }
         let rate = mg * 1000.0 / Double(draft.patchWearDays)
         draft.releaseRateText = String(format: "%.0f", rate)
-    }
-
-    private func filterNumericInput(_ text: inout String) {
-        let filtered = text.filter { $0.isNumber || $0 == "." || $0 == "," }
-        if filtered != text { text = filtered }
-        // Keep only the first decimal separator
-        var hasDot = false
-        text = String(text.compactMap { c -> Character? in
-            if c == "." || c == "," {
-                if hasDot { return nil }
-                hasDot = true
-                return c
-            }
-            return c
-        })
     }
 
     private func syncDoseTextsAfterEsterChange() {

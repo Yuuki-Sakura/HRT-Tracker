@@ -98,7 +98,6 @@ Based on the original engine, this project introduces the following improvements
 **系统集成 System Integration**
 
 - HealthKit 集成（体重同步、药物记录导入）
-- 用药提醒通知（按模板设置间隔）
 - Apple Watch 配套应用（快速记录给药、迷你浓度图、与主应用同步）
 
 **其他 Others**
