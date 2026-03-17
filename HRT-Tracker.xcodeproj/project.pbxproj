@@ -409,6 +409,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "HRT-Tracker/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "HRT Tracker";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "读取体重和用药记录，用于药代动力学计算";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "写入体重和用药记录至健康 App";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -457,6 +458,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "HRT-Tracker/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "HRT Tracker";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "读取体重和用药记录，用于药代动力学计算";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "写入体重和用药记录至健康 App";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
