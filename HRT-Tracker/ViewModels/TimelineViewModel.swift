@@ -133,7 +133,7 @@ final class TimelineViewModel: ObservableObject {
     }
 
     static var preview: TimelineViewModel {
-        let container = try! HRTModelContainer.create(inMemory: true) // swiftlint:disable:this force_try
+        let container = try! HRTModelContainer.create()
         let vm = TimelineViewModel(modelContext: container.mainContext)
         let now = Int64(Date().timeIntervalSince1970)
         let start = now - 14 * 24 * 3600

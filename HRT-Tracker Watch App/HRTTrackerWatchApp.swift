@@ -10,12 +10,7 @@ struct HRTTrackerWatchApp: App {
     let sharedModelContainer: ModelContainer
 
     init() {
-        let container: ModelContainer
-        do {
-            container = try HRTModelContainer.create()
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
+        let container = try! HRTModelContainer.create()
         self.sharedModelContainer = container
         _vm = StateObject(wrappedValue: WatchTimelineViewModel(modelContext: container.mainContext))
     }

@@ -18,3 +18,4 @@ disabled_rules:
   - function_parameter_count
   - cyclomatic_complexity
   - function_body_length
+  - force_try

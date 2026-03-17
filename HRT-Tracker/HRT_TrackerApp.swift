@@ -12,13 +12,7 @@ struct HRT_TrackerApp: App {
     let sharedModelContainer: ModelContainer
 
     init() {
-        let container: ModelContainer
-        do {
-            container = try HRTModelContainer.create(deleteStoreOnFailure: true)
-        } catch {
-            print("CRITICAL: ModelContainer creation failed: \(error)")
-            container = try! HRTModelContainer.create(inMemory: true) // swiftlint:disable:this force_try
-        }
+        let container = try! HRTModelContainer.create()
         self.sharedModelContainer = container
         _vm = StateObject(wrappedValue: TimelineViewModel(modelContext: container.mainContext))
     }
