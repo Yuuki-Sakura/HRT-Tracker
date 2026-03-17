@@ -192,7 +192,7 @@ struct ConcentrationChartView: View {
         guard let first = sim.timestamps.first, let last = sim.timestamps.last else {
             return (0, 1)
         }
-        let thirtyDaysAgo = Date().timeIntervalSince1970 - 30 * 24 * 3600
+        let thirtyDaysAgo = now.timeIntervalSince1970 - 30 * 24 * 3600
         return (max(TimeInterval(first), thirtyDaysAgo), TimeInterval(last))
     }
 
@@ -223,14 +223,16 @@ struct ConcentrationChartView: View {
                     .onChange(of: geo.size.width) { _, newValue in chartWidth = newValue }
             })
             minimapView
-                .padding(.horizontal, 4)
         }
         .animation(.easeInOut, value: sim.concPGmL)
         .onAppear {
             visibleDomainLength = (sizeClass == .compact) ? 144 : 168
-            let thirtyDaysAgo = now.addingTimeInterval(-30 * 24 * 3600)
-            let idealStart = now.addingTimeInterval(-visibleDomainLength * 3600 / 2)
-            scrollPosition = max(idealStart, thirtyDaysAgo)
+            let visibleSeconds = visibleDomainLength * 3600
+            let dataStart = Date(timeIntervalSince1970: totalTimeRange.start)
+
+            // Center on now, but don't scroll before data start
+            let idealStart = now.addingTimeInterval(-visibleSeconds / 2)
+            scrollPosition = max(idealStart, dataStart)
         }
         .onReceive(timer) { now = $0 }
     }
@@ -342,15 +344,17 @@ struct ConcentrationChartView: View {
             }
         }
         .chartYAxis {
-            AxisMarks(position: .leading, values: .automatic(desiredCount: 6)) { value in
-                AxisGridLine()
-                AxisValueLabel {
-                    if let conc = value.as(Double.self) {
-                        Text(conc >= 10 ? String(format: "%.0f", conc) : String(format: "%.1f", conc))
-                            .foregroundStyle(.pink)
-                            .rotationEffect(.degrees(yAxisValueRotation))
-                            .fixedSize()
-                            .frame(width: yAxisValueWidth)
+            if hasE2 {
+                AxisMarks(position: .leading, values: .automatic(desiredCount: 6)) { value in
+                    AxisGridLine()
+                    AxisValueLabel {
+                        if let conc = value.as(Double.self) {
+                            Text(conc >= 10 ? String(format: "%.0f", conc) : String(format: "%.1f", conc))
+                                .foregroundStyle(.pink)
+                                .rotationEffect(.degrees(yAxisValueRotation))
+                                .fixedSize()
+                                .frame(width: yAxisValueWidth)
+                        }
                     }
                 }
             }
@@ -463,7 +467,7 @@ struct ConcentrationChartView: View {
     // MARK: - Scroll Minimap
 
     private var minimapView: some View {
-        let cutoff = Date().addingTimeInterval(-30 * 24 * 3600)
+        let cutoff = now.addingTimeInterval(-30 * 24 * 3600)
         return ChartMinimapView(
             indexedPoints: rawIndexedPoints.filter { $0.date >= cutoff },
             indexedCPAPoints: rawIndexedCPAPoints.filter { $0.date >= cutoff },
@@ -524,19 +528,21 @@ private struct MinimapChartContent: View, Equatable {
     let hasE2: Bool
     let hasCPA: Bool
     let yAxisDomain: ClosedRange<Double>
+    let xAxisDomain: ClosedRange<Date>
 
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.points == rhs.points &&
         lhs.cpaPoints == rhs.cpaPoints &&
         lhs.hasE2 == rhs.hasE2 &&
         lhs.hasCPA == rhs.hasCPA &&
-        lhs.yAxisDomain == rhs.yAxisDomain
+        lhs.yAxisDomain == rhs.yAxisDomain &&
+        lhs.xAxisDomain == rhs.xAxisDomain
     }
 
     var body: some View {
         Chart {
             if hasE2 {
-                ForEach(points) { pt in
+                ForEach(points.filter { $0.conc > 0 }) { pt in
                     LineMark(
                         x: .value("Time", pt.date),
                         y: .value("Conc", pt.conc),
@@ -548,7 +554,7 @@ private struct MinimapChartContent: View, Equatable {
                 }
             }
             if hasCPA {
-                ForEach(cpaPoints) { pt in
+                ForEach(cpaPoints.filter { $0.conc > 0 }) { pt in
                     LineMark(
                         x: .value("Time", pt.date),
                         y: .value("Conc", pt.conc),
@@ -562,6 +568,7 @@ private struct MinimapChartContent: View, Equatable {
         }
         .chartXAxis(.hidden)
         .chartYAxis(.hidden)
+        .chartXScale(domain: xAxisDomain)
         .chartYScale(domain: yAxisDomain)
         .frame(height: 40)
         .drawingGroup()
@@ -581,12 +588,14 @@ private struct ChartMinimapView: View {
     @State private var dragStartScrollTime: TimeInterval?
 
     var body: some View {
+        let xDomain = Date(timeIntervalSince1970: totalTimeRange.start)...Date(timeIntervalSince1970: totalTimeRange.end)
         MinimapChartContent(
             points: indexedPoints,
             cpaPoints: indexedCPAPoints,
             hasE2: hasE2,
             hasCPA: hasCPA,
-            yAxisDomain: yAxisDomain
+            yAxisDomain: yAxisDomain,
+            xAxisDomain: xDomain
         )
         .equatable()
         .overlay { thumbOverlay }

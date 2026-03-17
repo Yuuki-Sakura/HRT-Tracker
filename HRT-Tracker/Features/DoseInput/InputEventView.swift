@@ -133,9 +133,7 @@ struct InputEventView: View {
             convertRateToE2()
         }
         .navigationTitle(draft.id == nil ? String(localized: "input.title.add") : String(localized: "input.title.edit"))
-        #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
-        #endif
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button(String(localized: "common.cancel")) { dismiss() }

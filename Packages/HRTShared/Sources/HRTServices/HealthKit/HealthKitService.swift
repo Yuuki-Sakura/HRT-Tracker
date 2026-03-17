@@ -1,7 +1,7 @@
 import Foundation
 import HRTModels
 
-#if canImport(HealthKit) && !os(macOS) && !OPENSOURCE
+#if canImport(HealthKit) && !OPENSOURCE
 import HealthKit
 
 public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendable {

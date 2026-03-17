@@ -7,9 +7,7 @@ struct AboutView: View {
         NavigationStack {
             MarkdownWebView()
                 .navigationTitle(String(localized: "settings.model_title"))
-                #if !os(macOS)
                 .navigationBarTitleDisplayMode(.inline)
-                #endif
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button(String(localized: "common.ok")) {

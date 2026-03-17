@@ -64,11 +64,7 @@ struct LabTab: View {
                     }
                 }
             }
-            #if os(macOS)
-            .listStyle(.inset)
-            #else
             .listStyle(.automatic)
-            #endif
             .navigationTitle(String(localized: "lab.title"))
             .toolbarTitleDisplayMode(.inlineLarge)
             .toolbar {

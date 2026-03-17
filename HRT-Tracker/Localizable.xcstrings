@@ -2,19 +2,19 @@
   "sourceLanguage" : "en",
   "strings" : {
     "" : {
-
+      "shouldTranslate" : false
     },
     " %@" : {
-
+      "shouldTranslate" : false
     },
     " ng/mL" : {
-
+      "shouldTranslate" : false
     },
     " pg/mL" : {
-
+      "shouldTranslate" : false
     },
     "--" : {
-
+      "shouldTranslate" : false
     },
     "%@ - %@" : {
       "localizations" : {
@@ -24,7 +24,8 @@
             "value" : "%1$@ - %2$@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@ · %@" : {
       "localizations" : {
@@ -34,22 +35,23 @@
             "value" : "%1$@ · %2$@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%lld" : {
-
+      "shouldTranslate" : false
     },
     "•" : {
-
+      "shouldTranslate" : false
     },
     "×%@" : {
-
+      "shouldTranslate" : false
     },
     "×1.00" : {
-
+      "shouldTranslate" : false
     },
     "0" : {
-
+      "shouldTranslate" : false
     },
     "about.model" : {
       "extractionState" : "manual",
@@ -76,35 +78,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "模型說明"
-          }
-        }
-      }
-    },
-    "about.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "About"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "情報"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "关于"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "關於"
           }
         }
       }
@@ -219,93 +192,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "好的"
-          }
-        }
-      }
-    },
-    "chart.cpa.title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CPA Concentration"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CPA 濃度"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CPA 浓度"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CPA 濃度"
-          }
-        }
-      }
-    },
-    "chart.currentConc.cpa %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Now: %@ ng/mL"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "現在: %@ ng/mL"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当前: %@ ng/mL"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "目前: %@ ng/mL"
-          }
-        }
-      }
-    },
-    "chart.currentConc.value %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Now: %@ pg/mL"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "現在: %@ pg/mL"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当前: %@ pg/mL"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "目前: %@ pg/mL"
           }
         }
       }
@@ -536,10 +422,10 @@
       }
     },
     "Conc" : {
-
+      "shouldTranslate" : false
     },
     "CPA" : {
-
+      "shouldTranslate" : false
     },
     "disclaimer.body.1" : {
       "localizations" : {
@@ -649,209 +535,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重要提示"
-          }
-        }
-      }
-    },
-    "disclaimer.limitation.1" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Individual variability is not modeled: liver function, SHBG, age, body fat, and concurrent medications may alter bioavailability and rate constants."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "個人差はモデル化されていません：肝機能、SHBG、年齢、体脂肪、併用薬がバイオアベイラビリティと速度定数を変える可能性があります。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未建模个体差异：肝功能、SHBG、年龄、体脂、合用药物等可能改变生物利用度和速率常数。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未建模個體差異：肝功能、SHBG、年齡、體脂、合用藥物等可能改變生物利用度和速率常數。"
-          }
-        }
-      }
-    },
-    "disclaimer.limitation.2" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gel area/loading nonlinearity is not reflected in the current model."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ジェルの面積/負荷の非線形性は現在のモデルに反映されていません。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "凝胶的涂抹面积/负荷非线性未在当前模型中体现。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "凝膠的塗抹面積/負荷非線性未在當前模型中體現。"
-          }
-        }
-      }
-    },
-    "disclaimer.limitation.3" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Injection solvent/volume effects on depot absorption rate are not explicitly parameterized."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "注射溶媒/容量がデポー吸収速度に与える影響は明示的にパラメータ化されていません。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "注射溶剂/体积对库室吸收速率的影响未显式参数化。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "注射溶劑/體積對庫室吸收速率的影響未顯式參數化。"
-          }
-        }
-      }
-    },
-    "disclaimer.limitation.4" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oral/sublingual models only simulate free E2; estrone and its sulfate reservoir effects are not included."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "経口/舌下モデルは遊離E2のみをシミュレートします。エストロンとその硫酸エステルの貯蔵効果は含まれていません。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "口服/舌下模型仅模拟游离 E2；雌酮及其硫酸酯的储库效应未纳入。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "口服/舌下模型僅模擬游離 E2；雌酮及其硫酸酯的儲庫效應未納入。"
-          }
-        }
-      }
-    },
-    "disclaimer.limitation.5" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cross-route AUC comparisons have limited validity; AUC is best used for within-route relative comparisons."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "経路間のAUC比較は限定的な有効性です。AUCは同一経路内の相対的な比較に最適です。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "跨路由 AUC 比较有效性有限；AUC 更适合同一给药途径内的相对比较。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "跨路由 AUC 比較有效性有限；AUC 更適合同一給藥途徑內的相對比較。"
-          }
-        }
-      }
-    },
-    "disclaimer.limitations.header" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Known Limitations"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "既知の制限事項"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已知局限"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已知限制"
-          }
-        }
-      }
-    },
-    "disclaimer.title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disclaimer"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免責事項"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免责声明"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免責聲明"
           }
         }
       }
@@ -1659,10 +1342,10 @@
       }
     },
     "GAHT" : {
-
+      "shouldTranslate" : false
     },
     "HealthKit" : {
-
+      "shouldTranslate" : false
     },
     "import.json" : {
       "localizations" : {
@@ -2296,35 +1979,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用方式與用量"
-          }
-        }
-      }
-    },
-    "input.cpa.hint" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WPATH SOC8 recommends ≤10 mg/day. 10 mg/day with estrogen fully suppresses testosterone."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WPATH SOC8では≤10 mg/日を推奨。エストロゲン併用で10 mg/日でテストステロンを完全に抑制。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WPATH SOC8 建议 ≤10 mg/天。与雌激素联用 10 mg/天即可完全抑制睾酮。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WPATH SOC8 建議 ≤10 mg/天。與雌激素聯用 10 mg/天即可完全抑制睪酮。"
           }
         }
       }
@@ -3113,35 +2767,6 @@
         }
       }
     },
-    "input.route.patchRemove" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove Patch"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "パッチ除去"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "贴片移除 (Beta)"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "貼片（撕下）"
-          }
-        }
-      }
-    },
     "input.route.sublingual" : {
       "localizations" : {
         "en" : {
@@ -3820,36 +3445,8 @@
         }
       }
     },
-    "menu.newEvent" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Event"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新規イベント"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新建事件"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新建事件"
-          }
-        }
-      }
-    },
     "mg" : {
-
+      "shouldTranslate" : false
     },
     "modal.estimate.p2" : {
       "extractionState" : "manual",
@@ -4026,10 +3623,10 @@
       }
     },
     "ng/mL" : {
-
+      "shouldTranslate" : false
     },
     "pg/mL" : {
-
+      "shouldTranslate" : false
     },
     "phase.follicular" : {
       "extractionState" : "manual",
@@ -4176,615 +3773,6 @@
         }
       }
     },
-    "references.algorithm.description" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The pharmacokinetic algorithms, mathematical models, and parameters used in this simulation are derived directly from the HRT-Recorder-PKcomponent-Test repository. We strictly adhere to the PKcore.swift and PKparameter.swift logic provided by @LaoZhong-Mihari, ensuring accuracy of the 3-compartment models, two-part depot kinetics, and sublingual absorption tiers."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本シミュレーションで使用される薬物動態アルゴリズム、数学モデル、パラメータは、HRT-Recorder-PKcomponent-Testリポジトリから直接派生しています。@LaoZhong-Mihariが提供するPKcore.swiftおよびPKparameter.swiftのロジックに厳密に従い、3コンパートメントモデル、二相性デポ動態、舌下吸収ティアの精度を確保しています。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本模拟中使用的药代动力学算法、数学模型与相关参数，直接来源于 HRT-Recorder-PKcomponent-Test 仓库。我们严格遵循 @LaoZhong-Mihari 提供的 PKcore.swift 与 PKparameter.swift 中的逻辑，确保三室模型、双相肌注库房动力学以及舌下吸收分层等的精度。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本模擬中使用的藥代動力學演算法、數學模型與相關參數，直接來源於 HRT-Recorder-PKcomponent-Test 倉庫。我們嚴格遵循 @LaoZhong-Mihari 提供的 PKcore.swift 與 PKparameter.swift 中的邏輯，確保三室模型、雙相肌注庫房動力學以及舌下吸收分層等的精度。"
-          }
-        }
-      }
-    },
-    "references.climara.detail" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prescribing information (FDA label, patch removal half-life)"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "処方情報（FDAラベル、パッチ除去後半減期）"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "处方信息（FDA 标签，贴片移除后半衰期）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "處方資訊（FDA 標籤，貼片移除後半衰期）"
-          }
-        }
-      }
-    },
-    "references.community" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Community & Technical Documentation"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "コミュニティ＆技術文献"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "社区与技术文档"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "社群與技術文件"
-          }
-        }
-      }
-    },
-    "references.cpa" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CPA (Cyproterone Acetate)"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CPA（酢酸シプロテロン）"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CPA（醋酸环丙孕酮）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CPA（醋酸環丙孕酮）"
-          }
-        }
-      }
-    },
-    "references.databases" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Databases"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "データベース"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "数据库"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "資料庫"
-          }
-        }
-      }
-    },
-    "references.estrannaise.detail" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Three-compartment model and patch algorithm reference"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "三室モデルとパッチアルゴリズムのリファレンス"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "三室模型与贴片算法参考"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "三室模型與貼片演算法參考"
-          }
-        }
-      }
-    },
-    "references.fda.detail" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clinical pharmacology review (transdermal bioavailability)"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "臨床薬理レビュー（経皮バイオアベイラビリティ）"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "临床药理学综述（透皮生物利用度）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "臨床藥理學綜述（透皮生物利用度）"
-          }
-        }
-      }
-    },
-    "references.footer" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The implementation also references additional brand labeling, review documents, and data handbooks not listed exhaustively here."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "実装はここに網羅されていない追加のブランドラベル、レビュー文書、データハンドブックも参照しています。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "实现中还参考了多份品牌说明书、审评文档与数据手册，此处不一一列举。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "實現中還參考了多份品牌說明書、審評文件與資料手冊，此處不逐一列舉。"
-          }
-        }
-      }
-    },
-    "references.journals" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Journal Articles & Reviews"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "学術論文＆レビュー"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "期刊文献与综述"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "期刊文獻與綜述"
-          }
-        }
-      }
-    },
-    "references.mtfwiki.detail" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estradiol gel (transdermal half-life, practical notes)"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "エストラジオールジェル（経皮半減期、実用メモ）"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "雌二醇凝胶（经皮半衰期、实用注意事项）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "雌二醇凝膠（經皮半衰期、實用注意事項）"
-          }
-        }
-      }
-    },
-    "references.origin" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Algorithm Origin"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アルゴリズムの出典"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "算法来源"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "演算法來源"
-          }
-        }
-      }
-    },
-    "references.origin.article" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estrogen PK Model Summary"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "エストロゲンPKモデル概要"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "雌激素 PK 模型总结"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "雌激素 PK 模型總結"
-          }
-        }
-      }
-    },
-    "references.origin.article.detail" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mathematical models and parameter documentation"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "数学モデルとパラメータのドキュメント"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "数学模型与参数文档"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "數學模型與參數文件"
-          }
-        }
-      }
-    },
-    "references.origin.detail" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The PK engine, model parameters, and simulation algorithms in this app are derived from the HRT-Recorder-PKcomponent-Test project."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本アプリのPKエンジン、モデルパラメータ、シミュレーションアルゴリズムはHRT-Recorder-PKcomponent-Testプロジェクトに由来します。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本应用的 PK 引擎、模型参数与模拟算法源自 HRT-Recorder-PKcomponent-Test 项目。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本應用程式的 PK 引擎、模型參數與模擬演算法源自 HRT-Recorder-PKcomponent-Test 專案。"
-          }
-        }
-      }
-    },
-    "references.regulatory" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Official Labeling & Regulatory Documents"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "公式ラベル＆規制文書"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "官方说明书与监管资料"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "官方說明書與監管資料"
-          }
-        }
-      }
-    },
-    "references.title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "References"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参考文献"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参考引用"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "參考引用"
-          }
-        }
-      }
-    },
-    "references.transfem.doses" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Approximate comparable doses across routes"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "経路間のおおよその等価用量"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不同途径的近似等效剂量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不同途徑的近似等效劑量"
-          }
-        }
-      }
-    },
-    "references.transfem.injectable" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Injectable E2 meta-analysis (injection curve summary)"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "注射E2メタアナリシス（注射曲線まとめ）"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "注射 E2 荟萃分析（注射曲线汇总）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "注射 E2 薈萃分析（注射曲線彙總）"
-          }
-        }
-      }
-    },
-    "references.transfem.sublingual" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sublingual estradiol overview"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "舌下エストラジオール概要"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "舌下雌二醇综述"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "舌下雌二醇綜述"
-          }
-        }
-      }
-    },
-    "references.warzywoda.detail" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "How low can you go? Titrating the lowest effective dose of CPA for transgender people. Int J Transgender Health. 2024"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "トランスジェンダーのためのCPA最低有効用量の漸減。Int J Transgender Health. 2024"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CPA 最低有效剂量滴定研究。Int J Transgender Health. 2024"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CPA 最低有效劑量滴定研究。Int J Transgender Health. 2024"
-          }
-        }
-      }
-    },
-    "references.wpath.detail" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Standards of Care Version 8 — CPA dosage recommendations"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ケア基準第8版 — CPA投与量の推奨"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "护理标准第8版 — CPA 剂量建议"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "照護標準第8版 — CPA 劑量建議"
-          }
-        }
-      }
-    },
     "route.gel" : {
       "localizations" : {
         "en" : {
@@ -4897,35 +3885,6 @@
         }
       }
     },
-    "route.patchRemove" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Patch (Remove)"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "パッチ除去"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "贴片撕下"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "貼片（撕下）"
-          }
-        }
-      }
-    },
     "route.sublingual" : {
       "localizations" : {
         "en" : {
@@ -4955,36 +3914,7 @@
       }
     },
     "Series" : {
-
-    },
-    "settings.about" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "About"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "情報"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "关于"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "關於"
-          }
-        }
-      }
+      "shouldTranslate" : false
     },
     "settings.clear_all" : {
       "extractionState" : "manual",
@@ -5040,35 +3970,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "刪除所有記錄？此操作不可撤銷。"
-          }
-        }
-      }
-    },
-    "settings.disclaimer" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disclaimer"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免責事項"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免责声明"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免責聲明"
           }
         }
       }
@@ -5131,35 +4032,6 @@
         }
       }
     },
-    "settings.group.general" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "General"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一般"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "常规设置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "常規設定"
-          }
-        }
-      }
-    },
     "settings.group.healthkit" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5195,7 +4067,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dose Templates"
+            "value" : "Medication Templates"
           }
         },
         "ja" : {
@@ -5272,93 +4144,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "啟用 HealthKit"
-          }
-        }
-      }
-    },
-    "settings.healthkit.enabled" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "HealthKit Enabled"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "HealthKit 有効"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "HealthKit 已启用"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "HealthKit 已啟用"
-          }
-        }
-      }
-    },
-    "settings.healthkit.export_weight" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Write Weight to Health"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "体重をヘルスケアに書き込む"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "写入体重至健康"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "寫入體重至健康"
-          }
-        }
-      }
-    },
-    "settings.healthkit.import_weight" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sync Weight from Health"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ヘルスケアから体重を同期"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "从健康同步体重"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "從健康同步體重"
           }
         }
       }
@@ -5566,64 +4351,6 @@
         }
       }
     },
-    "settings.healthkit.medication_sync" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medication Sync"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "服薬記録の同期"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用药记录同步"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用藥記錄同步"
-          }
-        }
-      }
-    },
-    "settings.healthkit.sync_now" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sync Now"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今すぐ同期"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "立即同步用药记录"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "立即同步用藥記錄"
-          }
-        }
-      }
-    },
     "settings.healthkit.notConfigured" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5649,122 +4376,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未配置"
-          }
-        }
-      }
-    },
-    "settings.healthkit.tap_to_configure" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap to configure"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "タップして設定"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "点击以配置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "點擊以配置"
-          }
-        }
-      }
-    },
-    "settings.healthkit.unmapped_warning" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Some medications need configuration"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一部の薬が未設定です"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "部分药物需要配置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "部分藥物需要配置"
-          }
-        }
-      }
-    },
-    "settings.lab" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lab Results"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "検査結果"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "血检"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "血檢"
-          }
-        }
-      }
-    },
-    "settings.lab.add" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add Lab Result"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "検査結果を追加"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "检查记录"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "檢查記錄"
           }
         }
       }
@@ -5798,100 +4409,13 @@
         }
       }
     },
-    "settings.references" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "References & Sources"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参考文献と出典"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参考引用"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "參考引用"
-          }
-        }
-      }
-    },
-    "settings.reminder.interval.8h" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every 8 hours"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "8時間ごと"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 8 小时"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 8 小時"
-          }
-        }
-      }
-    },
-    "settings.reminder.interval.12h" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every 12 hours"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "12時間ごと"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 12 小时"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每 12 小時"
-          }
-        }
-      }
-    },
     "settings.template.empty" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Please create dose templates first"
+            "value" : "Please create medication templates first"
           }
         },
         "ja" : {
@@ -5903,13 +4427,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "请先创建剂量模板"
+            "value" : "请先创建用药模板"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "請先建立劑量模板"
+            "value" : "請先建立用藥模板"
           }
         }
       }
@@ -5942,64 +4466,6 @@
         }
       }
     },
-    "settings.version" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Version"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バージョン"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "版本"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "版本"
-          }
-        }
-      }
-    },
-    "settings.weight" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Body Weight"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "体重"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "体重"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "體重"
-          }
-        }
-      }
-    },
     "settings.weight.current" : {
       "localizations" : {
         "en" : {
@@ -6028,37 +4494,8 @@
         }
       }
     },
-    "settings.weight.edit" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit Weight"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "体重を編集"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "编辑体重"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "編輯體重"
-          }
-        }
-      }
-    },
     "site.abdomen" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6087,7 +4524,7 @@
       }
     },
     "site.leftButtock" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6116,7 +4553,7 @@
       }
     },
     "site.leftDeltoid" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6145,7 +4582,7 @@
       }
     },
     "site.leftDorsogluteal" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6174,7 +4611,7 @@
       }
     },
     "site.leftInnerThigh" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6203,7 +4640,7 @@
       }
     },
     "site.leftShoulder" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6232,7 +4669,7 @@
       }
     },
     "site.leftUpperArm" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6261,7 +4698,7 @@
       }
     },
     "site.leftVastusLateralis" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6290,7 +4727,7 @@
       }
     },
     "site.leftVentrogluteal" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6319,7 +4756,7 @@
       }
     },
     "site.rightButtock" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6348,7 +4785,7 @@
       }
     },
     "site.rightDeltoid" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6377,7 +4814,7 @@
       }
     },
     "site.rightDorsogluteal" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6406,7 +4843,7 @@
       }
     },
     "site.rightInnerThigh" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6435,7 +4872,7 @@
       }
     },
     "site.rightShoulder" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6464,7 +4901,7 @@
       }
     },
     "site.rightUpperArm" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6493,7 +4930,7 @@
       }
     },
     "site.rightVastusLateralis" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6522,7 +4959,7 @@
       }
     },
     "site.rightVentrogluteal" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6551,7 +4988,7 @@
       }
     },
     "site.scrotum" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6604,93 +5041,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "當前估算血藥濃度"
-          }
-        }
-      }
-    },
-    "status.readMe" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Important"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重要"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重要提示"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重要提示"
-          }
-        }
-      }
-    },
-    "tab.add" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "追加"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "添加"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "添加"
-          }
-        }
-      }
-    },
-    "tab.history" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "History"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "記録"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "记录"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "記錄"
           }
         }
       }
@@ -6753,35 +5103,6 @@
         }
       }
     },
-    "tab.overview" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Overview"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "概要"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "概览"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "概覽"
-          }
-        }
-      }
-    },
     "tab.settings" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6807,35 +5128,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定"
-          }
-        }
-      }
-    },
-    "template.delete.menu" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete Template"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "テンプレートを削除"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除模板"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "刪除模板"
           }
         }
       }
@@ -6873,7 +5165,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save dose templates for quick entry."
+            "value" : "Save medication templates for quick entry."
           }
         },
         "ja" : {
@@ -6885,13 +5177,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "保存剂量模板以便快速添加。"
+            "value" : "保存用药模板以便快速添加。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "儲存劑量模板以便快速新增。"
+            "value" : "儲存用藥模板以便快速新增。"
           }
         }
       }
@@ -6901,7 +5193,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dose Templates"
+            "value" : "Medication Templates"
           }
         },
         "ja" : {
@@ -6913,19 +5205,19 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "剂量模板"
+            "value" : "用药模板"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "劑量模板"
+            "value" : "用藥模板"
           }
         }
       }
     },
     "Time" : {
-
+      "shouldTranslate" : false
     },
     "timeline.empty" : {
       "localizations" : {
@@ -6955,122 +5247,6 @@
         }
       }
     },
-    "timeline.records.title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medication Records"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "投薬記録"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用药记录"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用藥記錄"
-          }
-        }
-      }
-    },
-    "timeline.row.dose.mg %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ mg"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ mg"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ mg"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ mg"
-          }
-        }
-      }
-    },
-    "timeline.row.dose.mg.cpa %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ mg"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ mg"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ mg"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ mg"
-          }
-        }
-      }
-    },
-    "timeline.row.dose.releaseRate %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ µg/d"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ µg/日"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ µg/天"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ µg/天"
-          }
-        }
-      }
-    },
     "timeline.row.e2eq %@" : {
       "localizations" : {
         "en" : {
@@ -7095,122 +5271,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "(E2 eq: %@ mg)"
-          }
-        }
-      }
-    },
-    "timeline.row.gel" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gel"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ジェル"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "凝胶"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "凝膠"
-          }
-        }
-      }
-    },
-    "timeline.row.injection %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Injection (%@)"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "注射 (%@)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "注射 (%@)"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "注射 (%@)"
-          }
-        }
-      }
-    },
-    "timeline.row.oral %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oral (%@)"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "経口 (%@)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "口服 (%@)"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "口服 (%@)"
-          }
-        }
-      }
-    },
-    "timeline.row.oral.cpa" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oral CPA"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "経口 CPA"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "口服 CPA"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "口服 CPA"
           }
         }
       }
@@ -7273,93 +5333,6 @@
         }
       }
     },
-    "timeline.row.patchApply" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apply Patch"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "パッチ貼付"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "贴片（贴上）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "貼片（貼上）"
-          }
-        }
-      }
-    },
-    "timeline.row.patchRemove" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove Patch"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "パッチ除去"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "贴片（撕下）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "貼片（撕下）"
-          }
-        }
-      }
-    },
-    "timeline.row.sublingual %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sublingual (%@)"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "舌下 (%@)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "舌下含服 (%@)"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "舌下含服 (%@)"
-          }
-        }
-      }
-    },
     "timeline.title" : {
       "localizations" : {
         "en" : {
@@ -7384,35 +5357,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "用藥記錄"
-          }
-        }
-      }
-    },
-    "timeline.toolbar.settings" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "設定"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "设置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "設定"
           }
         }
       }
@@ -7503,7 +5447,7 @@
       }
     },
     "Yuuki-Sakura/HRT-Tracker" : {
-
+      "shouldTranslate" : false
     }
   },
   "version" : "1.0"

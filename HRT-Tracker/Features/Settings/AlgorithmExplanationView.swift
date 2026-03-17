@@ -1,16 +1,6 @@
 import SwiftUI
 import WebKit
 
-#if os(macOS)
-struct MarkdownWebView: NSViewRepresentable {
-
-    func makeNSView(context: Context) -> WKWebView {
-        makeWebView()
-    }
-
-    func updateNSView(_ webView: WKWebView, context: Context) {}
-}
-#else
 struct MarkdownWebView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> WKWebView {
@@ -19,19 +9,14 @@ struct MarkdownWebView: UIViewRepresentable {
 
     func updateUIView(_ webView: WKWebView, context: Context) {}
 }
-#endif
 
 extension MarkdownWebView {
     func makeWebView() -> WKWebView {
         let config = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: config)
-        #if os(macOS)
-        webView.setValue(false, forKey: "drawsBackground")
-        #else
         webView.isOpaque = false
         webView.backgroundColor = .clear
         webView.scrollView.backgroundColor = .clear
-        #endif
 
         // 读取 markdown 文件
         var mdContent = ""
@@ -88,9 +73,7 @@ struct AlgorithmExplanationView: View {
     var body: some View {
         MarkdownWebView()
             .navigationTitle(String(localized: "settings.model_title"))
-            #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
-            #endif
     }
 }
 

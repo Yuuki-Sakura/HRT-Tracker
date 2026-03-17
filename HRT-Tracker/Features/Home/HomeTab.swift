@@ -19,9 +19,6 @@ struct HomeTab: View {
                         concentrationCard
                         chartCard
                     }
-                    #if os(macOS)
-                    .fixedSize(horizontal: false, vertical: true)
-                    #endif
                 }
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)
@@ -51,11 +48,7 @@ struct HomeTab: View {
                     }
                 }
             }
-            #if os(macOS)
-            .listStyle(.inset)
-            #else
             .listStyle(.automatic)
-            #endif
             .navigationTitle(String(localized: "tab.home"))
             .toolbarTitleDisplayMode(.inlineLarge)
             .toolbar {

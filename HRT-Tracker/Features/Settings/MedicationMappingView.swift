@@ -29,9 +29,7 @@ struct MedicationMappingListView: View {
         }
         .id(vm.medicationMappings.count)
         .navigationTitle(String(localized: "settings.healthkit.mapping.title"))
-        #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
-        #endif
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button(String(localized: "btn.cancel")) { dismiss() }
@@ -202,9 +200,7 @@ struct MedicationMappingDetailView: View {
         .scrollDismissesKeyboard(.interactively)
         #endif
         .navigationTitle(medication.displayName)
-        #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
-        #endif
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button(String(localized: "common.save")) {

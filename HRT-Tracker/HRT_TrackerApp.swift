@@ -26,7 +26,7 @@ struct HRT_TrackerApp: App {
                     WatchConnectivityService.shared.start()
                     #endif
 
-                    #if !OPENSOURCE && !os(macOS)
+                    #if !OPENSOURCE
                     // Auto-sync HealthKit weight + medications
                     if vm.isHealthKitAuthorized {
                         Task { await vm.refreshWeightSilently() }
@@ -39,7 +39,7 @@ struct HRT_TrackerApp: App {
                     #endif
                 }
                 .onChange(of: scenePhase) { _, newPhase in
-                    #if !OPENSOURCE && !os(macOS)
+                    #if !OPENSOURCE
                     if newPhase == .active && vm.isHealthKitAuthorized {
                         Task {
                             await vm.refreshWeightSilently()
@@ -51,15 +51,5 @@ struct HRT_TrackerApp: App {
                 }
         }
         .modelContainer(sharedModelContainer)
-        #if os(macOS)
-        .commands {
-            CommandGroup(replacing: .newItem) {
-                Button(String(localized: "menu.newEvent")) {
-                    // Keyboard shortcut handled
-                }
-                .keyboardShortcut("n")
-            }
-        }
-        #endif
     }
 }

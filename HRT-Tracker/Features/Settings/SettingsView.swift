@@ -17,7 +17,7 @@ struct SettingsView: View {
     @State private var showPasswordPrompt = false
     @State private var encryptionPassword = ""
     @State private var showAbout = false
-    #if !OPENSOURCE && !os(macOS)
+    #if !OPENSOURCE
     @State private var showHealthKitError = false
     @State private var showMedicationMapping = false
     @State private var medicationToConfig: MedicationInfo?
@@ -41,7 +41,7 @@ struct SettingsView: View {
                 .tint(.primary)
             }
 
-            #if !OPENSOURCE && !os(macOS)
+            #if !OPENSOURCE
             // MARK: - HealthKit
             Section(String(localized: "settings.group.healthkit")) {
                 Toggle(isOn: Binding(
@@ -228,7 +228,7 @@ struct SettingsView: View {
         } message: {
             Text(exportMessage ?? "")
         }
-        #if !OPENSOURCE && !os(macOS)
+        #if !OPENSOURCE
         .alert("HealthKit", isPresented: Binding(
             get: { vm.healthKitError != nil },
             set: { if !$0 { vm.healthKitError = nil } }
