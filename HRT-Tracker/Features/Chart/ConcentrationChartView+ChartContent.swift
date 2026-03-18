@@ -54,10 +54,6 @@ extension ConcentrationChartView {
                         .symbolSize(18).foregroundStyle(Color.indigo)
                 }
             }
-            // Lab result markers (green diamonds)
-            if !labResults.isEmpty {
-                CalibrationOverlay(labResults: labResults)
-            }
         }
         .chartXAxis {
             AxisMarks(values: .stride(by: visibleDomainLength <= 48 ? .hour : .day, count: visibleDomainLength <= 48 ? 6 : 1)) { value in
@@ -192,6 +188,20 @@ extension ConcentrationChartView {
 
                 // Point indicators clipped to plot area
                 ZStack {
+                    // Lab result flask markers
+                    ForEach(labResults) { lab in
+                        let date = Date(timeIntervalSince1970: TimeInterval(lab.timestamp))
+                        let conc = lab.concInPgPerML
+                        if let xPos = proxy.position(forX: date),
+                           let yPos = proxy.position(forY: conc) {
+                            Image(systemName: "flask.fill")
+                                .font(.system(size: 10))
+                                .foregroundStyle(.pink)
+                                .sfSymbolStroke("flask.fill", color: Color(.systemBackground), lineWidth: 3)
+                                .position(x: xPos, y: yPos)
+                        }
+                    }
+
                     // Current time indicator
                     if let cp = currentPoint, hasE2,
                        let xPos = proxy.position(forX: cp.date),
@@ -199,7 +209,7 @@ extension ConcentrationChartView {
                         let x = xPos
                         let y = yPos
                         Circle().fill(Color(.systemBackground)).frame(width: 10, height: 10).position(x: x, y: y)
-                        Circle().fill(Color(red: 1.0, green: 0.6, blue: 0.7)).frame(width: 6, height: 6).position(x: x, y: y)
+                        Circle().fill(Color.pink).frame(width: 6, height: 6).position(x: x, y: y)
                     }
                     if let cpa = currentCPAPoint {
                         let scaledConc = cpa.conc * (maxE2 / maxCPA)
@@ -208,7 +218,7 @@ extension ConcentrationChartView {
                             let x = xPos
                             let y = yPos
                             Circle().fill(Color(.systemBackground)).frame(width: 10, height: 10).position(x: x, y: y)
-                            Circle().fill(Color(red: 0.6, green: 0.6, blue: 0.9)).frame(width: 6, height: 6).position(x: x, y: y)
+                            Circle().fill(Color.indigo).frame(width: 6, height: 6).position(x: x, y: y)
                         }
                     }
 

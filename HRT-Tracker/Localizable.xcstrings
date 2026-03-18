@@ -16,17 +16,6 @@
     "--" : {
       "shouldTranslate" : false
     },
-    "%@ - %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ - %2$@"
-          }
-        }
-      },
-      "shouldTranslate" : false
-    },
     "%@ · %@" : {
       "localizations" : {
         "en" : {
@@ -83,6 +72,7 @@
       }
     },
     "banner.currentLevel" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -111,6 +101,7 @@
       }
     },
     "banner.noData" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1230,6 +1221,7 @@
       }
     },
     "export.section" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1314,6 +1306,7 @@
       }
     },
     "exportImport.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1348,6 +1341,7 @@
       "shouldTranslate" : false
     },
     "import.json" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1376,6 +1370,7 @@
       }
     },
     "import.section" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3247,6 +3242,7 @@
       }
     },
     "lab.results.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5133,6 +5129,7 @@
       }
     },
     "templates.empty" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5161,6 +5158,7 @@
       }
     },
     "templates.empty.description" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5189,6 +5187,7 @@
       }
     },
     "templates.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

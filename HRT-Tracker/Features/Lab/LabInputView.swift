@@ -3,11 +3,20 @@ import HRTModels
 
 struct LabInputView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var date = Date()
-    @State private var valueText = ""
-    @State private var unit: ConcentrationUnit = .pgPerML
+    @State private var date: Date
+    @State private var valueText: String
+    @State private var unit: ConcentrationUnit
 
+    private let editingResult: LabResult?
     var onSave: (LabResult) -> Void
+
+    init(editing result: LabResult? = nil, onSave: @escaping (LabResult) -> Void) {
+        self.editingResult = result
+        self.onSave = onSave
+        _date = State(initialValue: result?.date ?? Date())
+        _valueText = State(initialValue: result.map { String(format: "%.1f", $0.concValue) } ?? "")
+        _unit = State(initialValue: result?.unit ?? .pgPerML)
+    }
 
     var body: some View {
         Form {
@@ -34,6 +43,7 @@ struct LabInputView: View {
                     let sanitized = valueText.replacingOccurrences(of: ",", with: ".")
                     guard let value = Double(sanitized), value > 0 else { return }
                     let result = LabResult(
+                        id: editingResult?.id ?? UUID(),
                         timestamp: Int64(date.timeIntervalSince1970),
                         concValue: value,
                         unit: unit

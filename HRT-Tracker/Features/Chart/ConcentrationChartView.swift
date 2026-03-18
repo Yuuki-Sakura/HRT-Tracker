@@ -80,7 +80,8 @@ struct ConcentrationChartView: View {
         self.rawIndexedPoints = rawE2.enumerated().map { IndexedPoint(id: $0.offset, date: $0.element.0, conc: $0.element.1) }
         self.datedPoints = Self.trimLeadingZeros(rawE2)
 
-        let mE2 = max(sim.concPGmL.max() ?? 0, 50)
+        let labMax = labResults.map(\.concInPgPerML).max() ?? 0
+        let mE2 = max(e2Conc.max() ?? 0, labMax, 50)
         self.maxE2 = mE2
         self.hasE2 = (sim.concPGmL.max() ?? 0) > 0
 
@@ -265,7 +266,7 @@ struct ConcentrationChartView: View {
 
 // MARK: - Preview
 
-private func makePreviewData() -> (SimulationResult, [DoseEvent]) {
+private func makePreviewData() -> (SimulationResult, [DoseEvent], [LabResult]) {
     let now = Int64(Date().timeIntervalSince1970)
     let start = now - 14 * 24 * 3600
     var events = [DoseEvent]()
@@ -275,16 +276,21 @@ private func makePreviewData() -> (SimulationResult, [DoseEvent]) {
     for i in stride(from: 0, to: 14, by: 3) {
         events.append(DoseEvent(route: .oral, timestamp: start + Int64(i) * 24 * 3600, doseMG: 12.5, ester: .CPA))
     }
+    let labResults = [
+        LabResult(timestamp: start + 3 * 24 * 3600, concValue: 80, unit: .pgPerML),
+        LabResult(timestamp: start + 7 * 24 * 3600, concValue: 120, unit: .pgPerML),
+        LabResult(timestamp: start + 12 * 24 * 3600, concValue: 95, unit: .pgPerML),
+    ]
     let engine = SimulationEngine(
         events: events, bodyWeightKG: 60,
         startTimestamp: start, endTimestamp: now + 3 * 24 * 3600, numberOfSteps: 500
     )
-    return (engine.run(), events)
+    return (engine.run(), events, labResults)
 }
 
 #Preview {
-    let (sim, events) = makePreviewData()
-    ConcentrationChartView(sim: sim, events: events)
+    let (sim, events, labResults) = makePreviewData()
+    ConcentrationChartView(sim: sim, events: events, labResults: labResults)
         .frame(height: 500)
         .padding()
 }

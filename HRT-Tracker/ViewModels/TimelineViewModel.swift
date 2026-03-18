@@ -146,6 +146,11 @@ final class TimelineViewModel: ObservableObject {
             events.append(DoseEvent(route: .oral, timestamp: start + Int64(i) * 24 * 3600, doseMG: 12.5, ester: .CPA))
         }
         vm.events = events
+        vm.labResults = [
+            LabResult(timestamp: start + 3 * 24 * 3600, concValue: 80, unit: .pgPerML),
+            LabResult(timestamp: start + 7 * 24 * 3600, concValue: 120, unit: .pgPerML),
+            LabResult(timestamp: start + 12 * 24 * 3600, concValue: 95, unit: .pgPerML),
+        ]
         vm.templates = [
             DoseTemplate(name: "Gel", route: .gel, ester: .E2, doseMG: 1.5, extras: [.applicationSite: scrotalSite]),
             DoseTemplate(name: "CPA", route: .oral, ester: .CPA, doseMG: 12.5),

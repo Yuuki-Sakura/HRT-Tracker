@@ -7,6 +7,7 @@ struct LabTab: View {
 
     @State private var showAddLab = false
     @State private var showClearConfirm = false
+    @State private var editingLab: LabResult?
 
     var body: some View {
         NavigationStack {
@@ -55,6 +56,8 @@ struct LabTab: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
+                        .contentShape(Rectangle())
+                        .onTapGesture { editingLab = lab }
                     }
                     .onDelete { indexSet in
                         let sorted = vm.labResults.sorted(by: { $0.timestamp > $1.timestamp })
@@ -88,6 +91,13 @@ struct LabTab: View {
                 NavigationStack {
                     LabInputView { result in
                         vm.addLabResult(result)
+                    }
+                }
+            }
+            .sheet(item: $editingLab) { lab in
+                NavigationStack {
+                    LabInputView(editing: lab) { result in
+                        vm.updateLabResult(result)
                     }
                 }
             }
