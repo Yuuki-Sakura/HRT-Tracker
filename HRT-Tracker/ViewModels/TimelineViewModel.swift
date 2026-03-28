@@ -38,13 +38,13 @@ final class TimelineViewModel: ObservableObject {
     @Published var medicationMappings: [MedicationMapping] = []
     @Published var unmappedMedications: [MedicationInfo] = []
     #else
-    let isHealthKitAuthorized = false
-    let lastHealthKitSync: Date? = nil
+    var isHealthKitAuthorized = false
+    var lastHealthKitSync: Date?
     var healthKitError: String?
-    let isMedicationSyncEnabled = false
-    let medications: [MedicationInfo] = []
-    let medicationMappings: [MedicationMapping] = []
-    let unmappedMedications: [MedicationInfo] = []
+    var isMedicationSyncEnabled = false
+    var medications: [MedicationInfo] = []
+    var medicationMappings: [MedicationMapping] = []
+    var unmappedMedications: [MedicationInfo] = []
     #endif
 
     // MARK: - Template Properties
@@ -425,6 +425,12 @@ final class TimelineViewModel: ObservableObject {
             healthKitError = error.localizedDescription
         }
     }
+    #else
+    func requestHealthKitAuthorization() async {}
+    func requestMedicationAuthorization() async {}
+    func fetchMedicationsFromHealthKit() async {}
+    func importDoseEventsFromHealthKit() async {}
+    func syncWeightFromHealthKit() async {}
     #endif
 
     // MARK: - Template CRUD

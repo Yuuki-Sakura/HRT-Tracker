@@ -70,7 +70,7 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
             throw HealthKitError.notAvailable
         }
 
-        if #available(iOS 26.0, watchOS 26.0, *) {
+        if #available(iOS 26.0, watchOS 26.0, macOS 26.0, *) {
             let medicationType = HKObjectType.userAnnotatedMedicationType()
             try await store.requestPerObjectReadAuthorization(for: medicationType, predicate: nil)
         } else {
@@ -79,7 +79,7 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
     }
 
     public func fetchMedications() async throws -> [MedicationInfo] {
-        if #available(iOS 26.0, watchOS 26.0, *) {
+        if #available(iOS 26.0, watchOS 26.0, macOS 26.0, *) {
             let descriptor = HKUserAnnotatedMedicationQueryDescriptor()
             let medications = try await descriptor.result(for: store)
             return medications
@@ -97,7 +97,7 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
         }
     }
 
-    @available(iOS 26.0, watchOS 26.0, *)
+    @available(iOS 26.0, watchOS 26.0, macOS 26.0, *)
     private static func route(from form: HKMedicationGeneralForm) -> Route? {
         switch form {
         case .tablet, .capsule:                                return .oral
@@ -110,7 +110,7 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
     }
 
     public func fetchDoseEventsForMedications(ids: Set<String>, since: Date) async throws -> [MedicationDoseEventInfo] {
-        if #available(iOS 26.0, watchOS 26.0, *) {
+        if #available(iOS 26.0, watchOS 26.0, macOS 26.0, *) {
             let descriptor = HKUserAnnotatedMedicationQueryDescriptor()
             let medications = try await descriptor.result(for: store)
             let matched = medications.filter { ids.contains(String($0.medication.identifier.hashValue)) }
@@ -167,7 +167,7 @@ public final class HealthKitService: HealthKitServiceProtocol, @unchecked Sendab
         if let existing = medicationObserverQuery {
             store.stop(existing)
         }
-        if #available(iOS 26.0, watchOS 26.0, *) {
+        if #available(iOS 26.0, watchOS 26.0, macOS 26.0, *) {
             let doseEventType = HKSampleType.medicationDoseEventType()
             let query = HKObserverQuery(sampleType: doseEventType, predicate: nil) { _, completionHandler, error in
                 if error == nil {
