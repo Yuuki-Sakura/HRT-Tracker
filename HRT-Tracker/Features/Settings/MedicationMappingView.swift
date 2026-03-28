@@ -32,7 +32,7 @@ struct MedicationMappingListView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button(String(localized: "btn.cancel")) { dismiss() }
+                Button(String(localized: "common.cancel")) { dismiss() }
             }
         }
         .task {
@@ -67,10 +67,7 @@ struct MedicationMappingDetailView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var draft: DraftDoseEvent
-    @State private var doseMGText: String
     @FocusState private var focusedField: FocusedDoseField?
-
-    private static let mappableRoutes: [Route] = [.injection, .patchApply, .gel, .oral, .sublingual]
 
     init(vm: TimelineViewModel, medication: MedicationInfo) {
         self.vm = vm
@@ -80,53 +77,31 @@ struct MedicationMappingDetailView: View {
         let parsedMG = MedicationRecognizer.parseStrengthMG(medication.displayName)
 
         if let mapping = existingMapping {
-            var d = DraftDoseEvent()
-            d.route = mapping.route
-            d.ester = mapping.ester
-            // Restore extras from mapping
-            if mapping.route == .patchApply {
-                if let rate = mapping.extras[.releaseRateUGPerDay] {
-                    d.patchMode = .releaseRate
-                    d.releaseRateText = String(format: "%.0f", rate)
-                }
-                if let days = mapping.extras[.patchWearDays] {
-                    d.patchWearDays = Int(days)
-                }
-            }
-            if mapping.route == .sublingual {
-                if let theta = mapping.extras[.sublingualTheta] {
-                    d.useCustomTheta = true
-                    d.customThetaText = String(format: "%.2f", theta)
-                }
-            }
-            if let siteCode = mapping.extras[.applicationSite] {
-                d.applicationSite = ApplicationSite(rawValue: Int(siteCode))
-            }
-            _draft = State(initialValue: d)
-            _doseMGText = State(initialValue: Self.formatMG(mapping.doseMG))
+            _draft = State(initialValue: DraftDoseEvent.from(mapping))
         } else if let recognized = MedicationRecognizer.recognize(medication.displayName) {
             let route = recognized.ester == .CPA ? .oral : (medication.route ?? .injection)
-            var d = DraftDoseEvent()
-            d.route = route
-            d.ester = recognized.ester
+            var d = DraftDoseEvent(route: route, ester: recognized.ester)
+            if let mg = parsedMG {
+                if recognized.ester == .CPA {
+                    d.rawEsterDoseText = Self.formatMG(mg)
+                } else {
+                    d.e2EquivalentDoseText = Self.formatMG(mg)
+                }
+            }
             _draft = State(initialValue: d)
-            _doseMGText = State(initialValue: parsedMG.map { Self.formatMG($0) } ?? "")
         } else {
-            var d = DraftDoseEvent()
-            d.route = medication.route ?? .injection
-            d.ester = (medication.route ?? .injection).availableEsters.first ?? .EV
+            let route = medication.route ?? .injection
+            var d = DraftDoseEvent(route: route, ester: route.availableEsters.first ?? .EV)
+            if let mg = parsedMG {
+                d.e2EquivalentDoseText = Self.formatMG(mg)
+            }
             _draft = State(initialValue: d)
-            _doseMGText = State(initialValue: parsedMG.map { Self.formatMG($0) } ?? "")
         }
     }
 
     private static func formatMG(_ mg: Double) -> String {
         if mg == mg.rounded() { return "\(Int(mg))" }
         return "\(mg)"
-    }
-
-    private var parsedDoseMG: Double? {
-        DecimalField.parse(doseMGText)
     }
 
     var body: some View {
@@ -140,61 +115,7 @@ struct MedicationMappingDetailView: View {
                 }
             }
 
-            Section(String(localized: "settings.healthkit.mapping.route")) {
-                Picker(String(localized: "settings.healthkit.mapping.route"), selection: $draft.route) {
-                    ForEach(Self.mappableRoutes) { route in
-                        Text(route.localizedName).tag(route)
-                    }
-                }
-                .pickerStyle(.menu)
-                .onChange(of: draft.route) { _, _ in
-                    // Reset ester to first available for new route
-                    if let first = draft.availableEsters.first {
-                        draft.ester = first
-                    }
-                    // Reset route-specific fields
-                    draft.patchMode = .totalDose
-                    draft.releaseRateText = ""
-                    draft.useCustomTheta = false
-                    draft.customThetaText = ""
-                    draft.applicationSite = nil
-                }
-            }
-
-            Section(String(localized: "settings.healthkit.mapping.ester")) {
-                if draft.availableEsters.count > 1 {
-                    Picker(String(localized: "settings.healthkit.mapping.ester"), selection: $draft.ester) {
-                        ForEach(draft.availableEsters) { ester in
-                            Text(ester.localizedName).tag(ester)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                } else {
-                    HStack {
-                        Text(String(localized: "settings.healthkit.mapping.ester"))
-                        Spacer()
-                        Text(draft.ester.localizedName)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-            }
-
-            Section(String(localized: "settings.healthkit.mapping.dose")) {
-                    DecimalField(label: "mg", text: $doseMGText, suffix: "mg")
-            }
-
-            // Route-specific fields
-            if draft.route == .patchApply {
-                PatchFieldsView(draft: $draft, focusedField: $focusedField)
-            }
-
-            if draft.route == .gel {
-                GelFieldsView(draft: $draft)
-            }
-
-            if draft.route == .sublingual {
-                SublingualFieldsView(draft: $draft, focusedField: $focusedField)
-            }
+            DoseConfigurationFields(draft: $draft, focusedField: $focusedField)
         }
         #if os(iOS)
         .scrollDismissesKeyboard(.interactively)
@@ -202,16 +123,27 @@ struct MedicationMappingDetailView: View {
         .navigationTitle(medication.displayName)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            #if os(iOS) || os(watchOS)
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button(String(localized: "common.done")) { focusedField = nil }
+            }
+            #endif
             ToolbarItem(placement: .confirmationAction) {
                 Button(String(localized: "common.save")) {
-                    guard let mg = parsedDoseMG, mg > 0 else { return }
-                    let extras = buildExtras()
+                    let doseMG: Double
+                    if draft.ester == .CPA {
+                        doseMG = draft.parsedDouble(draft.rawEsterDoseText) ?? 0
+                    } else {
+                        doseMG = draft.parsedDouble(draft.e2EquivalentDoseText) ?? 0
+                    }
+                    let extras = draft.buildExtras()
                     let mapping = MedicationMapping(
                         id: medication.id,
                         displayName: medication.displayName,
                         route: draft.route,
                         ester: draft.ester,
-                        doseMG: mg,
+                        doseMG: doseMG,
                         extras: extras
                     )
                     vm.saveMedicationMapping(mapping)
@@ -220,33 +152,8 @@ struct MedicationMappingDetailView: View {
                         await vm.importDoseEventsFromHealthKit()
                     }
                 }
-                .disabled(parsedDoseMG == nil || (parsedDoseMG ?? 0) <= 0)
+                .disabled(!draft.isValid)
             }
         }
-    }
-
-    /// Build extras dict from draft state, matching DraftDoseEvent.toDoseEvent() logic.
-    private func buildExtras() -> [ExtraKey: Double] {
-        var extras: [ExtraKey: Double] = [:]
-
-        if draft.route == .patchApply {
-            extras[.patchWearDays] = Double(draft.patchWearDays)
-            if draft.patchMode == .releaseRate,
-               let rate = draft.parsedDouble(draft.releaseRateText) {
-                extras[.releaseRateUGPerDay] = rate
-            }
-        }
-
-        if draft.route == .sublingual {
-            if draft.useCustomTheta, let th = draft.parsedDouble(draft.customThetaText) {
-                extras[.sublingualTheta] = max(0.0, min(1.0, th))
-            }
-        }
-
-        if let site = draft.applicationSite {
-            extras[.applicationSite] = Double(site.rawValue)
-        }
-
-        return extras
     }
 }

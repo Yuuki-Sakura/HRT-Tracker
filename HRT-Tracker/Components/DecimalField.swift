@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Unified decimal input field with decimalPad keyboard, input sanitization, optional suffix, and Done button.
+/// Decimal input field: label on the left, right-aligned number input, optional unit suffix.
 struct DecimalField: View {
     let label: String
     @Binding var text: String
@@ -10,29 +10,25 @@ struct DecimalField: View {
 
     var body: some View {
         HStack {
-            TextField(label, text: $text)
+            Text(label)
+            Spacer()
+            TextField("0", text: $text)
                 #if os(iOS) || os(watchOS)
                 .keyboardType(.decimalPad)
                 #endif
+                .multilineTextAlignment(.trailing)
+                .fixedSize()
                 .focused($isFocused)
                 .onChange(of: text) { _, _ in
                     sanitize()
                 }
-                #if os(iOS) || os(watchOS)
-                .toolbar {
-                    ToolbarItemGroup(placement: .keyboard) {
-                        Spacer()
-                        Button(String(localized: "common.done")) {
-                            isFocused = false
-                        }
-                    }
-                }
-                #endif
             if let suffix {
                 Text(suffix)
                     .foregroundStyle(.secondary)
             }
         }
+        .contentShape(Rectangle())
+        .onTapGesture { isFocused = true }
     }
 
     private func sanitize() {

@@ -7,7 +7,7 @@ struct DoseGuideView: View {
     let doseText: String
 
     private var parsedDose: Double? {
-        Double(doseText.replacingOccurrences(of: ",", with: "."))
+        DecimalField.parse(doseText)
     }
 
     var body: some View {

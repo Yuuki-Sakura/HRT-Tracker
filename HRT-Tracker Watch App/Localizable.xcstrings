@@ -249,25 +249,25 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dose (mg)"
+            "value" : "Dose"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用量 (mg)"
+            "value" : "用量"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "剂量 (mg)"
+            "value" : "剂量"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "劑量 (mg)"
+            "value" : "劑量"
           }
         }
       }
@@ -277,25 +277,25 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "E2 equivalent dose (mg)"
+            "value" : "E2 equivalent dose"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "E2換算用量 (mg)"
+            "value" : "E2換算用量"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "E2 等效剂量 (mg)"
+            "value" : "E2 等效剂量"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "E2 等效劑量 (mg)"
+            "value" : "E2 等效劑量"
           }
         }
       }

@@ -7,6 +7,8 @@ struct LabInputView: View {
     @State private var valueText: String
     @State private var unit: ConcentrationUnit
 
+    @FocusState private var fieldFocused: Bool
+
     private let editingResult: LabResult?
     var onSave: (LabResult) -> Void
 
@@ -22,7 +24,8 @@ struct LabInputView: View {
         Form {
             DatePicker(String(localized: "lab.date"), selection: $date, displayedComponents: [.date, .hourAndMinute])
 
-            DecimalField(label: String(localized: "lab.value"), text: $valueText)
+            DecimalField(label: String(localized: "lab.value"), text: $valueText, suffix: unit.rawValue)
+                .focused($fieldFocused)
 
             Picker(String(localized: "lab.unit"), selection: $unit) {
                 ForEach(ConcentrationUnit.allCases) { u in
@@ -38,6 +41,12 @@ struct LabInputView: View {
             ToolbarItem(placement: .cancellationAction) {
                 Button(String(localized: "common.cancel")) { dismiss() }
             }
+            #if os(iOS) || os(watchOS)
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button(String(localized: "common.done")) { fieldFocused = false }
+            }
+            #endif
             ToolbarItem(placement: .confirmationAction) {
                 Button(String(localized: "common.save")) {
                     let sanitized = valueText.replacingOccurrences(of: ",", with: ".")

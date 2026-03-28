@@ -14,10 +14,10 @@ struct PatchFieldsView: View {
             .pickerStyle(.segmented)
 
             if draft.patchMode == .totalDose {
-                DecimalField(label: String(localized: "input.patchMode.totalDose.placeholder"), text: $draft.e2EquivalentDoseText)
+                DecimalField(label: String(localized: "input.patchMode.totalDose"), text: $draft.e2EquivalentDoseText, suffix: "mg")
                     .focused(focusedField, equals: .patchTotal)
             } else {
-                DecimalField(label: String(localized: "input.patchMode.releaseRate.placeholder"), text: $draft.releaseRateText)
+                DecimalField(label: String(localized: "input.patchMode.releaseRate"), text: $draft.releaseRateText, suffix: String(localized: "unit.ug_per_day"))
                     .focused(focusedField, equals: .patchRelease)
             }
 
